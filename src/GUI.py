@@ -6,6 +6,7 @@ from logic_processing import union
 from logic_processing import inter
 from logic_processing import occurence
 from csv_manipulate import load_csv
+# from csv_manipulate import sauv_csv
 
 
 def import_csv(file_number):
@@ -253,7 +254,7 @@ separator_options = [",", ";", ":"]
 
 # Menu déroulant pour sélectionner le séparateur
 separator_var = tk.StringVar(window)
-separator_var.set(separator_options[0])  # Séparateur par défaut
+separator_var.set(separator_options[1])  # Séparateur par défaut
 
 separator_label = tk.Label(window,
                            text="Séparateur :")
