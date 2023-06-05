@@ -1,10 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-import pandas as pd
+# import pandas as pd
 from logic_processing import union
 from logic_processing import inter
-from csv_manipulate import 
+from logic_processing import occurence
+from csv_manipulate import load_csv
 
 
 def import_csv(file_number):
@@ -20,6 +21,12 @@ def import_csv(file_number):
             file_path_2.set(file_path)
 
 
+def insert_data(data, dictio):
+    for valeur, compte in dictio.items():
+        texte = f"{valeur} : {compte} occurrence(s)"
+        data.insert(0, texte)
+
+
 def inter_csv():
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
@@ -33,17 +40,9 @@ def inter_csv():
     column = int(column_entry.get()) - 1
 
     # Lit les fichiers CSV et traite les données selon nos paramètres
-    csv_reader_1 = pd.read_csv(path_1,
-                               sep=separator,
-                               header=None,
-                               usecols=[column])
-    BN_ID_csv_1 = csv_reader_1[column].tolist()
+    BN_ID_csv_1 = load_csv(path_1, separator, column)
 
-    csv_reader_2 = pd.read_csv(path_2,
-                               sep=separator,
-                               header=None,
-                               usecols=[column])
-    BN_ID_csv_2 = csv_reader_2[column].tolist()
+    BN_ID_csv_2 = load_csv(path_2, separator, column)
 
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator is not None:
@@ -74,7 +73,7 @@ def inter_csv():
                        fill=tk.Y)
 
         # Appel de la fonction pour remplir les résultats
-        inter(BN_ID_inter, BN_ID_csv_1, BN_ID_csv_2)
+        insert_data(BN_ID_inter, (occurence(inter(BN_ID_csv_1, BN_ID_csv_2))))
 
 
 def union_csv():
@@ -90,13 +89,9 @@ def union_csv():
     column = int(column_entry.get()) - 1
 
     # Lit les fichiers CSV et traite les données selon nos paramètres
-    csv_reader_1 = pd.read_csv(path_1,
-                               sep=separator)
-    csv_reader_1 = csv_reader_1.iloc[:, column]
+    BN_ID_csv_1 = load_csv(path_1, separator, column)
 
-    csv_reader_2 = pd.read_csv(path_2,
-                               sep=separator)
-    csv_reader_2 = csv_reader_2.iloc[:, column]
+    BN_ID_csv_2 = load_csv(path_1, separator, column)
 
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator and column is not None:
@@ -126,7 +121,7 @@ def union_csv():
                        fill=tk.Y)
 
         # Appel de la fonction pour remplir les résultats
-        union(BN_ID_union, csv_reader_1, csv_reader_2)
+        insert_data(BN_ID_union, (occurence(union(BN_ID_csv_1, BN_ID_csv_2))))
 
 
 def process_csv():
@@ -161,13 +156,9 @@ def process_csv():
         canvas_3.geometry("300x100+650+50")
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
-        csv_reader_1 = pd.read_csv(path_1,
-                                   sep=separator)
-        csv_reader_1 = csv_reader_1.iloc[:, column]
+        BN_ID_csv_1 = load_csv(path_1, separator, column)
 
-        csv_reader_2 = pd.read_csv(path_2,
-                                   sep=separator)
-        csv_reader_2 = csv_reader_2.iloc[:, column]
+        BN_ID_csv_2 = load_csv(path_2, separator, column)
 
         # Création d'un widget Frame pour contenir la liste des résultats
         frame_1 = ttk.Frame(canvas_1)
@@ -191,7 +182,7 @@ def process_csv():
                        fill=tk.Y)
 
         # Appel de la fonction pour remplir les résultats
-        BN_ID_data(BN_ID_1, csv_reader_1, column)
+        occurence(BN_ID_csv_1)
 
         # Création d'un widget Frame pour contenir la liste des résultats
         frame_2 = ttk.Frame(canvas_2)
@@ -213,7 +204,7 @@ def process_csv():
         scrollbar.pack(side=tk.RIGHT,
                        fill=tk.Y)
 
-        BN_ID_data(BN_ID_2, csv_reader_2, column)
+        occurence(BN_ID_csv_2)
 
         process_button = tk.Button(canvas_3,
                                    text="Intersection des 2 csv",
