@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import pandas as pd
-from GUI_calcul import union
-from GUI_calcul import inter
-from GUI_calcul import BN_ID_data
+from logic_processing import union
+from logic_processing import inter
+from csv_manipulate import 
 
-# coucou
+
 def import_csv(file_number):
     # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
     file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
