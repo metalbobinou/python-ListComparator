@@ -182,7 +182,7 @@ def process_csv():
                        fill=tk.Y)
 
         # Appel de la fonction pour remplir les résultats
-        occurence(BN_ID_csv_1)
+        insert_data(BN_ID_1, occurence(BN_ID_csv_1))
 
         # Création d'un widget Frame pour contenir la liste des résultats
         frame_2 = ttk.Frame(canvas_2)
@@ -204,7 +204,7 @@ def process_csv():
         scrollbar.pack(side=tk.RIGHT,
                        fill=tk.Y)
 
-        occurence(BN_ID_csv_2)
+        insert_data(BN_ID_2, occurence(BN_ID_csv_2))
 
         process_button = tk.Button(canvas_3,
                                    text="Intersection des 2 csv",
