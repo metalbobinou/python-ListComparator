@@ -1,27 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
 # import pandas as pd
 from logic_processing import union
 from logic_processing import inter
 from logic_processing import occurence
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
+from csv_manipulate import import_csv
 
-gui_windows = []
-
-
-def import_csv(file_number):
-    # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
-    file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
-
-    # Vérifie si un fichier a été sélectionné
-    if file_path:
-        # Stocke le chemin du fichier
-        if file_number == 1:
-            file_path_1.set(file_path)
-        elif file_number == 2:
-            file_path_2.set(file_path)
+gui_windows = [None, None, None, None]
+gui_liste = [None, None, None]
 
 
 def insert_data(data, dictio):
@@ -30,8 +18,26 @@ def insert_data(data, dictio):
         data.insert(0, texte)
 
 
+def win_generator():
+    canevas = tk.Tk()
+
+    charge_button = tk.Button(canevas,
+                              text="Charger",
+                              state=tk.DISABLED)
+                              # command=charger)
+    charge_button.pack()
+
+    save_button = tk.Button(canevas,
+                            text="Sauvegarder",
+                            state=tk.DISABLED)
+                            # command=sauvegarder)
+    save_button.pack()
+
+    return canevas
+
+
 def inter_csv():
-    global gui_windows
+    global gui_windows, gui_liste
 
     if gui_windows[3] is not None:
         gui_windows[3].withdraw()
@@ -39,7 +45,7 @@ def inter_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = tk.Tk()
+    gui_windows[3] = win_generator()
     gui_windows[3].title("Intersection des BN_ID des deux CSV")
     gui_windows[3].geometry("300x400+650+300")
 
@@ -64,16 +70,12 @@ def inter_csv():
                    fill=tk.Y)
 
     # Appel de la fonction pour remplir les résultats
-    insert_data(BN_ID_inter, (occurence(inter(gui_windows[1],
-                                              gui_windows[2]))))
-
-    # occu_union = occurence(inter(BN_ID_csv_1, BN_ID_csv_2))
-
-    # return occu_inter
+    insert_data(BN_ID_inter, (occurence(inter(gui_liste[0],
+                                              gui_liste[1]))))
 
 
 def union_csv():
-    global gui_windows
+    global gui_windows, gui_liste
 
     if gui_windows[3] is not None:
         gui_windows[3].withdraw()
@@ -81,7 +83,7 @@ def union_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = tk.Tk()
+    gui_windows[3] = win_generator()
     gui_windows[3].title("Union des BN_ID des deux CSV")
     gui_windows[3].geometry("300x400+650+300")
 
@@ -106,15 +108,11 @@ def union_csv():
                    fill=tk.Y)
 
     # Appel de la fonction pour remplir les résultats
-    insert_data(BN_ID_union, (occurence(union(gui_windows[1],
-                                              gui_windows[2]))))
-
-    # occu_union = occurence(union(BN_ID_csv_1, BN_ID_csv_2))
-
-    # return occu_union
+    insert_data(BN_ID_union, (occurence(union(gui_liste[0],
+                                              gui_liste[1]))))
 
 
-def save_dictionary_as_csv(dictionary):
+# def save_dictionary_as_csv(dictionary):
     # Créer la fenêtre principale
     canevas_save = tk.Tk()
     canevas_save.title("Sauvegarder le dictionnaire en CSV")
@@ -149,10 +147,25 @@ def save_dictionary_as_csv(dictionary):
     separator_button.pack()
 
 
-# def choix_union_inter():
-
-
 def process_csv():
+    global gui_windows, gui_liste
+
+    # Crée un nouveau canevas pour les différentes actions
+    gui_windows[0].withdraw()
+    gui_windows[0] = tk.Tk()
+    gui_windows[0].title("Action possible")
+    gui_windows[0].geometry("300x100+650+50")
+
+    process_button = tk.Button(gui_windows[0],
+                               text="Intersection des 2 csv",
+                               command=inter_csv)
+    process_button.pack()
+
+    process_button = tk.Button(gui_windows[0],
+                               text="Union des 2 csv",
+                               command=union_csv)
+    process_button.pack()
+
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
     path_2 = file_path_2.get()
@@ -166,34 +179,24 @@ def process_csv():
 
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator and column is not None:
-        # On fait disparaître le canva ouverture
-        window.withdraw()
-
         # Crée un nouveau canevas pour chaque fichier CSV
-        canvas_1 = tk.Tk()
-        canvas_1.title("BN_ID du premier csv")
-        canvas_1.geometry("300x400+200+150")
+        gui_windows[1] = win_generator()
+        gui_windows[1].title("BN_ID du premier csv")
+        gui_windows[1].geometry("300x400+200+150")
 
-        canvas_2 = tk.Tk()
-        canvas_2.title("BN_ID du deuxième csv")
-        canvas_2.geometry("300x400+1100+150")
-
-        # Crée un nouveau canevas pour les différentes actions
-        canvas_3 = tk.Tk()
-        canvas_3.title("Action possible")
-        canvas_3.geometry("300x100+650+50")
-
-        gui_windows.append(canvas_3)
+        gui_windows[2] = win_generator()
+        gui_windows[2].title("BN_ID du deuxième csv")
+        gui_windows[2].geometry("300x400+1100+150")
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator, column)
-        gui_windows.append(BN_ID_csv_1)
+        gui_liste[0] = BN_ID_csv_1
 
         BN_ID_csv_2 = load_csv(path_2, separator, column)
-        gui_windows.append(BN_ID_csv_2)
+        gui_liste[1] = BN_ID_csv_2
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        frame_1 = ttk.Frame(canvas_1)
+        frame_1 = ttk.Frame(gui_windows[1])
         frame_1.pack(fill=tk.BOTH,
                      expand=True)
 
@@ -217,7 +220,7 @@ def process_csv():
         insert_data(BN_ID_1, occurence(BN_ID_csv_1))
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        frame_2 = ttk.Frame(canvas_2)
+        frame_2 = ttk.Frame(gui_windows[2])
         frame_2.pack(fill=tk.BOTH,
                      expand=True)
 
@@ -237,23 +240,6 @@ def process_csv():
                        fill=tk.Y)
 
         insert_data(BN_ID_2, occurence(BN_ID_csv_2))
-
-        gui_windows.append(None)
-
-        process_button = tk.Button(canvas_3,
-                                   text="Intersection des 2 csv",
-                                   command=inter_csv)
-        process_button.pack()
-
-        process_button = tk.Button(canvas_3,
-                                   text="Union des 2 csv",
-                                   command=union_csv)
-        process_button.pack()
-
-        process_button = tk.Button(canvas_3,
-                                   text="Sauvegarder le résultat",
-                                   command=save_dictionary_as_csv)
-        process_button.pack()
 
     else:
         print("Sélectionnez tous les fichiers et paramètres souhaités.")
@@ -279,18 +265,18 @@ label_2.pack()
 # Boutons pour importer les fichiers
 button_1 = tk.Button(window,
                      text="Importer CSV 1",
-                     command=lambda: import_csv(1))
+                     command=lambda: import_csv(1, file_path_1, file_path_2))
 button_1.pack()
 
 button_2 = tk.Button(window,
                      text="Importer CSV 2",
-                     command=lambda: import_csv(2))
+                     command=lambda: import_csv(2, file_path_1, file_path_2))
 button_2.pack()
 
 # Liste des séparateurs
 separator_options = [",", ";", ":"]
 
-# Menu déroulant pour sélectionner le séparateur
+# Menu déroulant pour sélectionner le séparateur du csv 1
 separator_var = tk.StringVar(window)
 separator_var.set(separator_options[1])  # Séparateur par défaut
 
@@ -303,13 +289,38 @@ separator_menu = tk.OptionMenu(window,
                                *separator_options)
 separator_menu.pack()
 
-# Saisie du numéro de colonne
+# Saisie du numéro de colonne du csv 1
 column_label = tk.Label(window,
-                        text="Numéro de colonne :")
+                        text="Numéro de colonne csv 1 :")
 column_label.pack()
 
 column_entry = tk.Entry(window)
 column_entry.pack()
+
+gui_windows[0] = window
+
+# Menu déroulant pour sélectionner le séparateur du csv 2
+separator_var = tk.StringVar(window)
+separator_var.set(separator_options[1])  # Séparateur par défaut
+
+separator_label = tk.Label(window,
+                           text="Séparateur :")
+separator_label.pack()
+
+separator_menu = tk.OptionMenu(window,
+                               separator_var,
+                               *separator_options)
+separator_menu.pack()
+
+# Saisie du numéro de colonne du csv 2
+column_label = tk.Label(window,
+                        text="Numéro de colonne csv 2 :")
+column_label.pack()
+
+column_entry = tk.Entry(window)
+column_entry.pack()
+
+gui_windows[0] = window
 
 # Bouton pour traiter les fichiers CSV
 process_button = tk.Button(window,
