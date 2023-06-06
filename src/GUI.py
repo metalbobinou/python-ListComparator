@@ -8,6 +8,8 @@ from logic_processing import occurence
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
 
+gui_windows = []
+
 
 def import_csv(file_number):
     # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
@@ -29,114 +31,87 @@ def insert_data(data, dictio):
 
 
 def inter_csv():
-    # Ferme le canevas union_csv s'il existe
-    close_union()
+    global gui_windows
 
-    # Obtient les chemins des fichiers sélectionnés
-    path_1 = file_path_1.get()
-    path_2 = file_path_2.get()
+    if gui_windows[3] is not None:
+        gui_windows[3].withdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
 
-    # Obtient le séparateur choisi
-    separator = separator_var.get()
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = tk.Tk()
+    gui_windows[3].title("Intersection des BN_ID des deux CSV")
+    gui_windows[3].geometry("300x400+650+300")
 
-    # Obtient le numéro de colonne saisi
-    # Convertit en entier et ajuste pour l'index de la colonne
-    column = int(column_entry.get()) - 1
+    # Création d'un widget Frame pour contenir la liste des résultats
+    frame = ttk.Frame(gui_windows[3])
+    frame.pack(fill=tk.BOTH,
+               expand=True)
 
-    # Lit les fichiers CSV et traite les données selon nos paramètres
-    BN_ID_csv_1 = load_csv(path_1, separator, column)
+    # Création d'un widget Scrollbar
+    scrollbar = ttk.Scrollbar(frame,
+                              orient=tk.VERTICAL)
 
-    BN_ID_csv_2 = load_csv(path_2, separator, column)
+    # Création d'un widget Listbox pour afficher les résultats
+    BN_ID_inter = tk.Listbox(frame,
+                             yscrollcommand=scrollbar.set)
+    BN_ID_inter.pack(side=tk.LEFT,
+                     fill=tk.BOTH, expand=True)
 
-    # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if path_1 and path_2 and separator is not None:
-        # Crée un canevas pour afficher les résultats
-        inter_2_csv = tk.Tk()
-        inter_2_csv.title("Intersection des BN_ID des deux CSV")
-        inter_2_csv.geometry("300x400+650+300")
+    # Configuration de la Scrollbar pour se déplacer avec la Listbox
+    scrollbar.config(command=BN_ID_inter.yview)
+    scrollbar.pack(side=tk.RIGHT,
+                   fill=tk.Y)
 
-        # Création d'un widget Frame pour contenir la liste des résultats
-        frame = ttk.Frame(inter_2_csv)
-        frame.pack(fill=tk.BOTH,
-                   expand=True)
+    # Appel de la fonction pour remplir les résultats
+    insert_data(BN_ID_inter, (occurence(inter(gui_windows[1],
+                                              gui_windows[2]))))
 
-        # Création d'un widget Scrollbar
-        scrollbar = ttk.Scrollbar(frame,
-                                  orient=tk.VERTICAL)
+    # occu_union = occurence(inter(BN_ID_csv_1, BN_ID_csv_2))
 
-        # Création d'un widget Listbox pour afficher les résultats
-        BN_ID_inter = tk.Listbox(frame,
-                                 yscrollcommand=scrollbar.set)
-        BN_ID_inter.pack(side=tk.LEFT,
-                         fill=tk.BOTH,
-                         expand=True)
-
-        # Configuration de la Scrollbar pour se déplacer avec la Listbox
-        scrollbar.config(command=BN_ID_inter.yview)
-        scrollbar.pack(side=tk.RIGHT,
-                       fill=tk.Y)
-
-        # Appel de la fonction pour remplir les résultats
-        insert_data(BN_ID_inter, (occurence(inter(BN_ID_csv_1, BN_ID_csv_2))))
-
-        # occu_inter = occurence(inter(BN_ID_csv_1, BN_ID_csv_2))
-
-        # return occu_inter
+    # return occu_inter
 
 
 def union_csv():
-    # Ferme le canevas inter_csv s'il existe
-    close_inter()
+    global gui_windows
 
-    # Obtient les chemins des fichiers sélectionnés
-    path_1 = file_path_1.get()
-    path_2 = file_path_2.get()
+    if gui_windows[3] is not None:
+        gui_windows[3].withdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
 
-    # Obtient le séparateur choisi
-    separator = separator_var.get()
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = tk.Tk()
+    gui_windows[3].title("Union des BN_ID des deux CSV")
+    gui_windows[3].geometry("300x400+650+300")
 
-    # Obtient le numéro de colonne saisi
-    # Convertit en entier et ajuste pour l'index de la colonne
-    column = int(column_entry.get()) - 1
+    # Création d'un widget Frame pour contenir la liste des résultats
+    frame = ttk.Frame(gui_windows[3])
+    frame.pack(fill=tk.BOTH,
+               expand=True)
 
-    # Lit les fichiers CSV et traite les données selon nos paramètres
-    BN_ID_csv_1 = load_csv(path_1, separator, column)
+    # Création d'un widget Scrollbar
+    scrollbar = ttk.Scrollbar(frame,
+                              orient=tk.VERTICAL)
 
-    BN_ID_csv_2 = load_csv(path_1, separator, column)
+    # Création d'un widget Listbox pour afficher les résultats
+    BN_ID_union = tk.Listbox(frame,
+                             yscrollcommand=scrollbar.set)
+    BN_ID_union.pack(side=tk.LEFT,
+                     fill=tk.BOTH, expand=True)
 
-    # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if path_1 and path_2 and separator and column is not None:
-        # Crée un canevas pour afficher les résultats
-        union_2_csv = tk.Tk()
-        union_2_csv.title("Union des BN_ID des deux CSV")
-        union_2_csv.geometry("300x400+650+300")
+    # Configuration de la Scrollbar pour se déplacer avec la Listbox
+    scrollbar.config(command=BN_ID_union.yview)
+    scrollbar.pack(side=tk.RIGHT,
+                   fill=tk.Y)
 
-        # Création d'un widget Frame pour contenir la liste des résultats
-        frame = ttk.Frame(union_2_csv)
-        frame.pack(fill=tk.BOTH,
-                   expand=True)
+    # Appel de la fonction pour remplir les résultats
+    insert_data(BN_ID_union, (occurence(union(gui_windows[1],
+                                              gui_windows[2]))))
 
-        # Création d'un widget Scrollbar
-        scrollbar = ttk.Scrollbar(frame,
-                                  orient=tk.VERTICAL)
+    # occu_union = occurence(union(BN_ID_csv_1, BN_ID_csv_2))
 
-        # Création d'un widget Listbox pour afficher les résultats
-        BN_ID_union = tk.Listbox(frame,
-                                 yscrollcommand=scrollbar.set)
-        BN_ID_union.pack(side=tk.LEFT,
-                         fill=tk.BOTH, expand=True)
-
-        # Configuration de la Scrollbar pour se déplacer avec la Listbox
-        scrollbar.config(command=BN_ID_union.yview)
-        scrollbar.pack(side=tk.RIGHT,
-                       fill=tk.Y)
-
-        # Appel de la fonction pour remplir les résultats
-        insert_data(BN_ID_union, (occurence(union(BN_ID_csv_1, BN_ID_csv_2))))
-
-        # occu_union = occurence(union(BN_ID_csv_1, BN_ID_csv_2))
-
-        # return occu_union
+    # return occu_union
 
 
 def save_dictionary_as_csv(dictionary):
@@ -177,22 +152,6 @@ def save_dictionary_as_csv(dictionary):
 # def choix_union_inter():
 
 
-def close_inter():
-    global inter_2_csv
-
-    # Masquer le canevas 2 s'il est ouvert
-    if inter_2_csv.winfo_exists():
-        inter_2_csv.destroy
-
-
-def close_union():
-    global union_2_csv
-
-    # Masquer le canevas 1 s'il est ouvert
-    if union_2_csv.winfo_exists():
-        union_2_csv.detroy
-
-
 def process_csv():
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
@@ -224,10 +183,14 @@ def process_csv():
         canvas_3.title("Action possible")
         canvas_3.geometry("300x100+650+50")
 
+        gui_windows.append(canvas_3)
+
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator, column)
+        gui_windows.append(BN_ID_csv_1)
 
         BN_ID_csv_2 = load_csv(path_2, separator, column)
+        gui_windows.append(BN_ID_csv_2)
 
         # Création d'un widget Frame pour contenir la liste des résultats
         frame_1 = ttk.Frame(canvas_1)
@@ -274,6 +237,8 @@ def process_csv():
                        fill=tk.Y)
 
         insert_data(BN_ID_2, occurence(BN_ID_csv_2))
+
+        gui_windows.append(None)
 
         process_button = tk.Button(canvas_3,
                                    text="Intersection des 2 csv",
