@@ -6,7 +6,7 @@ from logic_processing import union
 from logic_processing import inter
 from logic_processing import occurence
 from csv_manipulate import load_csv
-# from csv_manipulate import sauv_csv
+from csv_manipulate import save_csv
 
 
 def import_csv(file_number):
@@ -29,6 +29,9 @@ def insert_data(data, dictio):
 
 
 def inter_csv():
+    # Ferme le canevas union_csv s'il existe
+    close_union()
+
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
     path_2 = file_path_2.get()
@@ -76,8 +79,15 @@ def inter_csv():
         # Appel de la fonction pour remplir les résultats
         insert_data(BN_ID_inter, (occurence(inter(BN_ID_csv_1, BN_ID_csv_2))))
 
+        # occu_inter = occurence(inter(BN_ID_csv_1, BN_ID_csv_2))
+
+        # return occu_inter
+
 
 def union_csv():
+    # Ferme le canevas inter_csv s'il existe
+    close_inter()
+
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
     path_2 = file_path_2.get()
@@ -124,6 +134,64 @@ def union_csv():
         # Appel de la fonction pour remplir les résultats
         insert_data(BN_ID_union, (occurence(union(BN_ID_csv_1, BN_ID_csv_2))))
 
+        # occu_union = occurence(union(BN_ID_csv_1, BN_ID_csv_2))
+
+        # return occu_union
+
+
+def save_dictionary_as_csv(dictionary):
+    # Créer la fenêtre principale
+    canevas_save = tk.Tk()
+    canevas_save.title("Sauvegarder le dictionnaire en CSV")
+
+    # Définir la fonction pour sauvegarder le dictionnaire en CSV
+    def command_save(dictionary, separator):
+        save_csv(dictionary, separator)
+
+    # Définir la fonction pour choisir le séparateur
+
+    def choose_separator():
+        separator = separator_entry.get()
+        save_csv(separator)
+
+    # Créer le canevas
+    canvas = tk.Canvas(canevas_save, width=300, height=200)
+    canvas.pack()
+
+    # Ajouter un champ de saisie pour le séparateur
+    separator_label = tk.Label(canevas_save, text="Séparateur:")
+    separator_label.pack()
+    separator_entry = tk.Entry(canevas_save)
+    separator_entry.pack()
+
+    # Ajouter un bouton pour choisir le séparateur
+    separator_button = tk.Button(canevas_save, text="Choisir séparateur",
+                                 command=choose_separator)
+    separator_button.pack()
+
+    separator_button = tk.Button(canevas_save, text="Sauvegarder",
+                                 command=command_save)
+    separator_button.pack()
+
+
+# def choix_union_inter():
+
+
+def close_inter():
+    global inter_2_csv
+
+    # Masquer le canevas 2 s'il est ouvert
+    if inter_2_csv.winfo_exists():
+        inter_2_csv.destroy
+
+
+def close_union():
+    global union_2_csv
+
+    # Masquer le canevas 1 s'il est ouvert
+    if union_2_csv.winfo_exists():
+        union_2_csv.detroy
+
 
 def process_csv():
     # Obtient les chemins des fichiers sélectionnés
@@ -145,11 +213,11 @@ def process_csv():
         # Crée un nouveau canevas pour chaque fichier CSV
         canvas_1 = tk.Tk()
         canvas_1.title("BN_ID du premier csv")
-        canvas_1.geometry("300x400+200+200")
+        canvas_1.geometry("300x400+200+150")
 
         canvas_2 = tk.Tk()
         canvas_2.title("BN_ID du deuxième csv")
-        canvas_2.geometry("300x400+1100+200")
+        canvas_2.geometry("300x400+1100+150")
 
         # Crée un nouveau canevas pour les différentes actions
         canvas_3 = tk.Tk()
@@ -215,6 +283,11 @@ def process_csv():
         process_button = tk.Button(canvas_3,
                                    text="Union des 2 csv",
                                    command=union_csv)
+        process_button.pack()
+
+        process_button = tk.Button(canvas_3,
+                                   text="Sauvegarder le résultat",
+                                   command=save_dictionary_as_csv)
         process_button.pack()
 
     else:

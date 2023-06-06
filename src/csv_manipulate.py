@@ -1,3 +1,4 @@
+from tkinter import filedialog
 import pandas as pd
 
 
@@ -10,7 +11,14 @@ def load_csv(path, separator, column):
     return csv_list
 
 
-def sauv_csv(data, separator):
-    rslt_csv = pd.DataFrame(data)
-    rslt_csv.to_csv('csv_rslt.csv',
-                    sep=separator)
+def save_csv(dictio, separator):
+    # Demander à l'utilisateur de choisir l'emplacement de sauvegarde
+    file_path = filedialog.asksaveasfilename(defaultextension=".csv",
+                                             filetypes=[("Fichier CSV",
+                                                         "*.csv")])
+    if file_path:
+        # Convertir le dictionnaire en DataFrame
+        df = pd.DataFrame.from_dict(dictio, orient='index')
+
+        # Sauvegarder le DataFrame en tant que fichier CSV
+        df.to_csv(file_path, sep=separator, header=False, index=False)
