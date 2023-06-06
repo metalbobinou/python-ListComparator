@@ -23,17 +23,29 @@ def win_generator():
 
     charge_button = tk.Button(canevas,
                               text="Charger",
-                              state=tk.DISABLED)
-                              # command=charger)
+                              state=tk.DISABLED,
+                              command=charger)
     charge_button.pack()
 
     save_button = tk.Button(canevas,
                             text="Sauvegarder",
-                            state=tk.DISABLED)
-                            # command=sauvegarder)
+                            state=tk.DISABLED,
+                            command=sauvegarder)
     save_button.pack()
 
     return canevas
+
+
+def charger():
+    canevas_charger = tk.Tk()
+    canevas_charger.title("Charger un nouveau csv")
+    canevas_charger.geometry("300x400+650+300")
+
+
+def sauvegarder():
+    canevas_sauvegarder = tk.Tk()
+    canevas_sauvegarder.title("Sauvegarder le résultat obtenu")
+    canevas_sauvegarder.geometry("300x400+650+300")
 
 
 def inter_csv():
@@ -171,14 +183,16 @@ def process_csv():
     path_2 = file_path_2.get()
 
     # Obtient le séparateur choisi
-    separator = separator_var.get()
+    separator1 = separator_var1.get()
+    separator2 = separator_var2.get()
 
     # Obtient le numéro de colonne saisi
     # Convertit en entier et ajuste pour l'index de la colonne
-    column = int(column_entry.get()) - 1
+    column1 = int(column_entry1.get()) - 1
+    column2 = int(column_entry2.get()) - 1
 
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if path_1 and path_2 and separator and column is not None:
+    if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
         # Crée un nouveau canevas pour chaque fichier CSV
         gui_windows[1] = win_generator()
         gui_windows[1].title("BN_ID du premier csv")
@@ -189,10 +203,10 @@ def process_csv():
         gui_windows[2].geometry("300x400+1100+150")
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
-        BN_ID_csv_1 = load_csv(path_1, separator, column)
+        BN_ID_csv_1 = load_csv(path_1, separator1, column2)
         gui_liste[0] = BN_ID_csv_1
 
-        BN_ID_csv_2 = load_csv(path_2, separator, column)
+        BN_ID_csv_2 = load_csv(path_2, separator1, column2)
         gui_liste[1] = BN_ID_csv_2
 
         # Création d'un widget Frame pour contenir la liste des résultats
@@ -249,7 +263,7 @@ def process_csv():
 
 window = tk.Tk()
 window.title("Importer CSV")
-window.geometry("500x300+500+300")
+window.geometry("500x350+500+300")
 
 # Variables pour stocker les chemins des fichiers
 file_path_1 = tk.StringVar()
@@ -277,48 +291,48 @@ button_2.pack()
 separator_options = [",", ";", ":"]
 
 # Menu déroulant pour sélectionner le séparateur du csv 1
-separator_var = tk.StringVar(window)
-separator_var.set(separator_options[1])  # Séparateur par défaut
+separator_var1 = tk.StringVar(window)
+separator_var1.set(separator_options[1])  # Séparateur par défaut
 
-separator_label = tk.Label(window,
-                           text="Séparateur :")
-separator_label.pack()
+separator_label1 = tk.Label(window,
+                            text="Séparateur csv 1 :")
+separator_label1.pack()
 
-separator_menu = tk.OptionMenu(window,
-                               separator_var,
-                               *separator_options)
-separator_menu.pack()
+separator_menu1 = tk.OptionMenu(window,
+                                separator_var1,
+                                *separator_options)
+separator_menu1.pack()
 
 # Saisie du numéro de colonne du csv 1
-column_label = tk.Label(window,
-                        text="Numéro de colonne csv 1 :")
-column_label.pack()
+column_label1 = tk.Label(window,
+                         text="Numéro de colonne csv 1 :")
+column_label1.pack()
 
-column_entry = tk.Entry(window)
-column_entry.pack()
+column_entry1 = tk.Entry(window)
+column_entry1.pack()
 
 gui_windows[0] = window
 
 # Menu déroulant pour sélectionner le séparateur du csv 2
-separator_var = tk.StringVar(window)
-separator_var.set(separator_options[1])  # Séparateur par défaut
+separator_var2 = tk.StringVar(window)
+separator_var2.set(separator_options[1])  # Séparateur par défaut
 
-separator_label = tk.Label(window,
-                           text="Séparateur :")
-separator_label.pack()
+separator_label2 = tk.Label(window,
+                            text="Séparateur csv 2 :")
+separator_label2.pack()
 
-separator_menu = tk.OptionMenu(window,
-                               separator_var,
-                               *separator_options)
-separator_menu.pack()
+separator_menu2 = tk.OptionMenu(window,
+                                separator_var2,
+                                *separator_options)
+separator_menu2.pack()
 
 # Saisie du numéro de colonne du csv 2
-column_label = tk.Label(window,
-                        text="Numéro de colonne csv 2 :")
-column_label.pack()
+column_label2 = tk.Label(window,
+                         text="Numéro de colonne csv 2 :")
+column_label2.pack()
 
-column_entry = tk.Entry(window)
-column_entry.pack()
+column_entry2 = tk.Entry(window)
+column_entry2.pack()
 
 gui_windows[0] = window
 
