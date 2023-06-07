@@ -23,7 +23,7 @@ class WindowList:
     y = 0
     Title = "My window"
     MainCanevas = tk.Tk()
-    LoadButton = tk.Button(self.MainCanevas,
+    LoadButton = tk.Button(MainCanevas,
                            text="Charger",
                            state=tk.DISABLED,
                            command=lambda: LoadFile(self))
