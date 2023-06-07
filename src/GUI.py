@@ -226,7 +226,7 @@ def process_csv():
         gui_liste[1] = BN_ID_csv_2
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        #frame_1 = ttk.Frame(gui_windows[1])
+        # frame_1 = ttk.Frame(gui_windows[1])
         frame_1 = ttk.Frame(gui_windows[1].GetCanevas())
         frame_1.pack(fill=tk.BOTH,
                      expand=True)
@@ -248,10 +248,10 @@ def process_csv():
                        fill=tk.Y)
 
         # Appel de la fonction pour remplir les résultats
-        insert_data(BN_ID_1, occurence(BN_ID_csv_1))
+        insert_data(BN_ID_1, occurence(gui_liste[0]))
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        #frame_2 = ttk.Frame(gui_windows[2])
+        # frame_2 = ttk.Frame(gui_windows[2])
         frame_2 = ttk.Frame(gui_windows[2].GetCanevas())
         frame_2.pack(fill=tk.BOTH,
                      expand=True)
@@ -271,7 +271,7 @@ def process_csv():
         scrollbar.pack(side=tk.RIGHT,
                        fill=tk.Y)
 
-        insert_data(BN_ID_2, occurence(BN_ID_csv_2))
+        insert_data(BN_ID_2, occurence(gui_liste[1]))
 
     else:
         print("Sélectionnez tous les fichiers et paramètres souhaités.")
