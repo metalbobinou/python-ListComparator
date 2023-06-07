@@ -69,9 +69,6 @@ class WindowList:
 
 
 def LoadFile(TheWindowList):
-    # canevas_sauvegarder = tk.Tk()
-    # canevas_charger.title("Charger un nouveau csv")
-    # canevas_charger.geometry("300x400+650+300")
     TheWindowList.SetTitle("Charger un nouveau CSV")
     TheWindowList.SetGeometry("300x400+650+300")
 
@@ -79,9 +76,6 @@ def LoadFile(TheWindowList):
 
 
 def SaveFile(TheWindowList):
-    # canevas_sauvegarder = tk.Tk()
-    # canevas_sauvegarder.title("Sauvegarder le résultat obtenu")
-    # canevas_sauvegarder.geometry("300x400+650+300")
     TheWindowList.SetTitle("Sauvegarder le résultat")
     TheWindowList.SetGeometry("300x400+650+300")
 
