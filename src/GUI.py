@@ -97,12 +97,9 @@ def inter_csv():
 
     # Crée un canevas pour afficher les résultats
     gui_windows[3] = WindowList(0, 0)
-    # gui_windows[3].WindowListOutputGenerator()
-    # gui_windows[3].title("Intersection des BN_ID des deux CSV")
-    # gui_windows[3].geometry("300x400+650+300")
     gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
     gui_windows[3].SetGeometry("300x400+650+300")
-    gui_windows[3].SpecializedAsOutputList
+    gui_windows[3].SpecializedAsOutputList()
 
     # Création d'un widget Frame pour contenir la liste des résultats
     # frame = ttk.Frame(gui_windows[3])
@@ -141,12 +138,9 @@ def union_csv():
 
     # Crée un canevas pour afficher les résultats
     gui_windows[3] = WindowList(0, 0)
-    # gui_windows[3].WindowListOutputGenerator()
-    # gui_windows[3].title("Union des BN_ID des deux CSV")
-    # gui_windows[3].geometry("300x400+650+300")
     gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
     gui_windows[3].SetGeometry("300x400+650+300")
-    gui_windows[3].SpecializedAsOutputList
+    gui_windows[3].SpecializedAsOutputList()
 
     # Création d'un widget Frame pour contenir la liste des résultats
     # frame = ttk.Frame(gui_windows[3])
@@ -210,20 +204,14 @@ def process_csv():
     if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
         # Crée un nouveau canevas pour chaque fichier CSV
         gui_windows[1] = WindowList(0, 0)
-        # gui_windows[1].WindowListInputGenerator()
-        # gui_windows[1].title("BN_ID du premier csv")
-        # gui_windows[1].geometry("300x400+200+150")
         gui_windows[1].SetTitle("BN_ID du premier csv")
         gui_windows[1].SetGeometry("300x400+200+150")
-        gui_windows[1].SpecializedAsInputList
+        gui_windows[1].SpecializedAsInputList()
 
         gui_windows[2] = WindowList(0, 0)
-        # gui_windows[2].WindowListInputGenerator()
-        # gui_windows[2].title("BN_ID du deuxième csv")
-        # gui_windows[2].geometry("300x400+1100+150")
         gui_windows[2].SetTitle("BN_ID du deuxième csv")
         gui_windows[2].SetGeometry("300x400+1100+150")
-        gui_windows[2].SpecializedAsInputList
+        gui_windows[2].SpecializedAsInputList()
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator1, column2)
