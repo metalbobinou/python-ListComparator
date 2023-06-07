@@ -362,5 +362,16 @@ process_button = tk.Button(window,
                            command=process_csv)
 process_button.pack()
 
+# Canevas pour fermer toutes les fenêtres
+close = tk.Tk()
+close.title("Femer")
+close.geometry("300x50+1200+100")
+
+process_button = tk.Button(close,
+                           text="Fermer les fenêtres",
+                           command=window.destroy)
+process_button.pack()
+
+
 # Lance la boucle principale Tkinter
 window.mainloop()
