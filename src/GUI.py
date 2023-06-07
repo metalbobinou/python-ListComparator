@@ -18,22 +18,55 @@ def insert_data(data, dictio):
         data.insert(0, texte)
 
 
-def win_generator():
-    canevas = tk.Tk()
+class WindowList:
+    x = 0
+    y = 0
+    title = "My window"
+    Main_window = tk.Tk()
 
     charge_button = tk.Button(canevas,
                               text="Charger",
                               state=tk.DISABLED,
                               command=charger)
-    charge_button.pack()
-
+    
     save_button = tk.Button(canevas,
                             text="Sauvegarder",
                             state=tk.DISABLED,
                             command=sauvegarder)
-    save_button.pack()
 
-    return canevas
+    def __init__(self, x, y, charge_button, save_button):
+        self.x = x
+        self.y = y
+        charge_button.pack()
+        save_button.pack()
+
+    def WindowListGenerator(self):
+        canevas = tk.Tk()
+
+        charge_button = tk.Button(canevas,
+                                  text="Charger",
+                                  state=tk.DISABLED,
+                                  command=charger)
+        
+
+        save_button = tk.Button(canevas,
+                                text="Sauvegarder",
+                                state=tk.DISABLED,
+                                command=sauvegarder)
+        
+
+        return canevas
+
+    def WindowListInputGenerator(self):
+        self.WindowListGenerator()
+        self.change_button_state(self.charge_button)
+
+    def WindowListOutputGenerator(self):
+        self.WindowListGenerator()
+        self.change_button_state(self.save_button)
+
+    def change_button_state(self, button):
+        button.config(state=tk.DISABLED)
 
 
 def charger():
@@ -57,7 +90,8 @@ def inter_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = win_generator()
+    gui_windows[3] = WindowList(0, 0)
+    gui_windows[3].WindowListOutputGenerator()
     gui_windows[3].title("Intersection des BN_ID des deux CSV")
     gui_windows[3].geometry("300x400+650+300")
 
@@ -95,7 +129,8 @@ def union_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = win_generator()
+    gui_windows[3] = WindowList(0, 0)
+    gui_windows[3].WindowListOutputGenerator()
     gui_windows[3].title("Union des BN_ID des deux CSV")
     gui_windows[3].geometry("300x400+650+300")
 
@@ -122,41 +157,6 @@ def union_csv():
     # Appel de la fonction pour remplir les résultats
     insert_data(BN_ID_union, (occurence(union(gui_liste[0],
                                               gui_liste[1]))))
-
-
-# def save_dictionary_as_csv(dictionary):
-    # Créer la fenêtre principale
-    canevas_save = tk.Tk()
-    canevas_save.title("Sauvegarder le dictionnaire en CSV")
-
-    # Définir la fonction pour sauvegarder le dictionnaire en CSV
-    def command_save(dictionary, separator):
-        save_csv(dictionary, separator)
-
-    # Définir la fonction pour choisir le séparateur
-
-    def choose_separator():
-        separator = separator_entry.get()
-        save_csv(separator)
-
-    # Créer le canevas
-    canvas = tk.Canvas(canevas_save, width=300, height=200)
-    canvas.pack()
-
-    # Ajouter un champ de saisie pour le séparateur
-    separator_label = tk.Label(canevas_save, text="Séparateur:")
-    separator_label.pack()
-    separator_entry = tk.Entry(canevas_save)
-    separator_entry.pack()
-
-    # Ajouter un bouton pour choisir le séparateur
-    separator_button = tk.Button(canevas_save, text="Choisir séparateur",
-                                 command=choose_separator)
-    separator_button.pack()
-
-    separator_button = tk.Button(canevas_save, text="Sauvegarder",
-                                 command=command_save)
-    separator_button.pack()
 
 
 def process_csv():
@@ -194,11 +194,13 @@ def process_csv():
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
         # Crée un nouveau canevas pour chaque fichier CSV
-        gui_windows[1] = win_generator()
+        gui_windows[1] = WindowList(0, 0)
+        gui_windows[1].WindowListInputGenerator()
         gui_windows[1].title("BN_ID du premier csv")
         gui_windows[1].geometry("300x400+200+150")
 
-        gui_windows[2] = win_generator()
+        gui_windows[2] = WindowList(0, 0)
+        gui_windows[2].WindowListInputGenerator()
         gui_windows[2].title("BN_ID du deuxième csv")
         gui_windows[2].geometry("300x400+1100+150")
 
