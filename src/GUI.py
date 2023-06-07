@@ -372,7 +372,7 @@ close.geometry("300x50+1200+50")
 
 process_button = tk.Button(close,
                            text="Fermer les fenêtres",
-                           command=window.destroy)
+                           command=window.quit)
 process_button.pack()
 
 
