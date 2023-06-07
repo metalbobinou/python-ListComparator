@@ -41,13 +41,13 @@ class WindowList:
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsInputList(self):
-        self.LoadButton.config(state=tk.ENABLED)
+        self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsOutputList(self):
         self.LoadButton.config(state=tk.DISABLED)
-        self.SaveButton.config(state=tk.ENABLED)
+        self.SaveButton.config(state=tk.NORMAL)
 
     def SetTitle(self, title):
         self.Title = title
