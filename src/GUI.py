@@ -226,7 +226,8 @@ def process_csv():
         gui_liste[1] = BN_ID_csv_2
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        frame_1 = ttk.Frame(gui_windows[1])
+        #frame_1 = ttk.Frame(gui_windows[1])
+        frame_1 = ttk.Frame(gui_windows[1].GetCanevas())
         frame_1.pack(fill=tk.BOTH,
                      expand=True)
 
@@ -250,7 +251,8 @@ def process_csv():
         insert_data(BN_ID_1, occurence(BN_ID_csv_1))
 
         # Création d'un widget Frame pour contenir la liste des résultats
-        frame_2 = ttk.Frame(gui_windows[2])
+        #frame_2 = ttk.Frame(gui_windows[2])
+        frame_2 = ttk.Frame(gui_windows[2].GetCanevas())
         frame_2.pack(fill=tk.BOTH,
                      expand=True)
 
