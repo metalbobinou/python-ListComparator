@@ -19,17 +19,15 @@ def insert_data(data, dictio):
 
 
 class WindowList:
-    x = 0
-    y = 0
+    geometry = "0"
     Title = "My window"
     MainCanevas = None
     LoadButton = None
     SaveButton = None
 
     # def WindowListGenerator(self):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, geometry):
+        self.geometry
         self.MainCanevas = tk.Tk()
         self.LoadButton = tk.Button(self.MainCanevas,
                                     text="Charger",
@@ -57,13 +55,17 @@ class WindowList:
         self.MainCanevas.title(title)
 
     def SetGeometry(self, geometry):
+        self.geometry = geometry
         self.MainCanevas.geometry(geometry)
+
+    def GetGeometry(self):
+        return (self.geometry)
 
     def CallWithdraw(self):
         self.MainCanevas.withdraw()
 
-    def SimpleCanevas(self):
-        return tk.Tk()
+    def CallDestroy(self):
+        self.MainCanevas.destroy()
 
     def GetCanevas(self):
         return (self.MainCanevas)
@@ -75,6 +77,7 @@ def LoadFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanevas()
     TheWindowList.SetTitle("Charger un nouveau CSV")
+
     # Variables pour stocker les chemins des fichiers
     file_path = tk.StringVar()
 
@@ -89,8 +92,6 @@ def LoadFile(TheWindowList):
     button.pack()
 
 # Callback for SaveButton
-
-
 def SaveFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanevas()
@@ -107,7 +108,7 @@ def inter_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = WindowList(0, 0)
+    gui_windows[3] = WindowList("0")
     gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
     gui_windows[3].SetGeometry("300x400+650+300")
     gui_windows[3].SpecializedAsOutputList()
@@ -148,7 +149,7 @@ def union_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = WindowList(0, 0)
+    gui_windows[3] = WindowList("0")
     gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
     gui_windows[3].SetGeometry("300x400+650+300")
     gui_windows[3].SpecializedAsOutputList()
@@ -214,12 +215,12 @@ def process_csv():
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
         # Crée un nouveau canevas pour chaque fichier CSV
-        gui_windows[1] = WindowList(0, 0)
+        gui_windows[1] = WindowList("0")
         gui_windows[1].SetTitle("BN_ID du premier csv")
         gui_windows[1].SetGeometry("300x400+200+150")
         gui_windows[1].SpecializedAsInputList()
 
-        gui_windows[2] = WindowList(0, 0)
+        gui_windows[2] = WindowList("0")
         gui_windows[2].SetTitle("BN_ID du deuxième csv")
         gui_windows[2].SetGeometry("300x400+1100+150")
         gui_windows[2].SpecializedAsInputList()
