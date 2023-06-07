@@ -33,10 +33,12 @@ class WindowList:
         self.MainCanevas = tk.Tk()
         self.LoadButton = tk.Button(self.MainCanevas,
                                     text="Charger",
+                                    state=tk.DISABLED,
                                     command=lambda: LoadFile(self))
         self.LoadButton.pack()
         self.SaveButton = tk.Button(self.MainCanevas,
                                     text="Sauvegarder",
+                                    state=tk.DISABLED,
                                     command=lambda: SaveFile(self))
         self.SaveButton.pack()
 
