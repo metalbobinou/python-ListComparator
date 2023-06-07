@@ -57,7 +57,7 @@ class WindowList:
         self.MainCanevas.title(title)
 
     def SetGeometry(self, geometry):
-        self.MainCanevas.geometry("300x400+650+300")
+        self.MainCanevas.geometry(geometry)
 
     def CallWithdraw(self):
         self.MainCanevas.withdraw()
@@ -368,7 +368,7 @@ process_button.pack()
 # Canevas pour fermer toutes les fenêtres
 close = tk.Tk()
 close.title("Femer")
-close.geometry("300x50+1200+100")
+close.geometry("300x50+1200+50")
 
 process_button = tk.Button(close,
                            text="Fermer les fenêtres",
