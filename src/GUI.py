@@ -26,11 +26,11 @@ class WindowList:
     LoadButton = tk.Button(MainCanevas,
                            text="Charger",
                            state=tk.DISABLED,
-                           command=lambda: LoadFile(self))
+                           command=lambda: LoadFile)
     SaveButton = tk.Button(MainCanevas,
                            text="Sauvegarder",
                            state=tk.DISABLED,
-                           command=lambda: SaveFile(self))
+                           command=lambda: SaveFile)
 
     # def WindowListGenerator(self):
     def __init__(self, x, y):
