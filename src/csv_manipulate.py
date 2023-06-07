@@ -2,17 +2,14 @@ from tkinter import filedialog
 import pandas as pd
 
 
-def import_csv(file_number, file_path_1, file_path_2):
+def import_csv(file_path):
     # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
-    file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+    file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
 
     # Vérifie si un fichier a été sélectionné
-    if file_path:
+    if file:
         # Stocke le chemin du fichier
-        if file_number == 1:
-            file_path_1.set(file_path)
-        elif file_number == 2:
-            file_path_2.set(file_path)
+        file_path.set(file)
 
 
 def load_csv(path, separator, column):

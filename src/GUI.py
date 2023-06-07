@@ -62,6 +62,9 @@ class WindowList:
     def CallWithdraw(self):
         self.MainCanevas.withdraw()
 
+    def SimpleCanevas(self):
+        return tk.Tk()
+
     def GetCanevas(self):
         return (self.MainCanevas)
 
@@ -69,15 +72,29 @@ class WindowList:
 
 
 def LoadFile(TheWindowList):
+    TheWindowList.CallWithdraw()
+    TheWindowList.SimpleCanevas()
     TheWindowList.SetTitle("Charger un nouveau CSV")
-    TheWindowList.SetGeometry("300x400+650+300")
+    # Variables pour stocker les chemins des fichiers
+    file_path = tk.StringVar()
+
+    # Étiquettes pour afficher les chemins des fichiers
+    label = tk.Label(TheWindowList, textvariable=file_path)
+    label.pack()
+
+    # Boutons pour importer les fichiers
+    button = tk.Button(TheWindowList,
+                       text="Importer CSV 1",
+                       command=lambda: import_csv(file_path))
+    button.pack()
 
 # Callback for SaveButton
 
 
 def SaveFile(TheWindowList):
+    TheWindowList.CallWithdraw()
+    TheWindowList.SimpleCanevas()
     TheWindowList.SetTitle("Sauvegarder le résultat")
-    TheWindowList.SetGeometry("300x400+650+300")
 
 
 def inter_csv():
@@ -286,12 +303,12 @@ label_2.pack()
 # Boutons pour importer les fichiers
 button_1 = tk.Button(window,
                      text="Importer CSV 1",
-                     command=lambda: import_csv(1, file_path_1, file_path_2))
+                     command=lambda: import_csv(file_path_1))
 button_1.pack()
 
 button_2 = tk.Button(window,
                      text="Importer CSV 2",
-                     command=lambda: import_csv(2, file_path_1, file_path_2))
+                     command=lambda: import_csv(file_path_2))
 button_2.pack()
 
 # Liste des séparateurs
