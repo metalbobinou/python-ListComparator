@@ -23,14 +23,14 @@ class WindowList:
     y = 0
     Title = "My window"
     MainCanevas = tk.Tk()
-    LoadButton = tk.Button(MainCanevas,
+    LoadButton = tk.Button(self.MainCanevas,
                            text="Charger",
                            state=tk.DISABLED,
-                           command=lambda: LoadFile)
+                           command=lambda: LoadFile(self))
     SaveButton = tk.Button(MainCanevas,
                            text="Sauvegarder",
                            state=tk.DISABLED,
-                           command=lambda: SaveFile)
+                           command=lambda: SaveFile(self))
 
     # def WindowListGenerator(self):
     def __init__(self, x, y):
