@@ -22,21 +22,24 @@ class WindowList:
     x = 0
     y = 0
     Title = "My window"
-    MainCanevas = tk.Tk()
-    LoadButton = tk.Button(MainCanevas,
-                           text="Charger",
-                           state=tk.DISABLED,
-                           command=lambda: LoadFile(self))
-    SaveButton = tk.Button(MainCanevas,
-                           text="Sauvegarder",
-                           state=tk.DISABLED,
-                           command=lambda: SaveFile(self))
+    MainCanevas = None
+    LoadButton = None
+    SaveButton = None
 
     # def WindowListGenerator(self):
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.MainCanevas = tk.Tk()
+        self.LoadButton = tk.Button(self.MainCanevas,
+                                    text="Charger",
+                                    state=tk.DISABLED,
+                                    command=lambda: LoadFile(self))
         self.LoadButton.pack()
+        self.SaveButton = tk.Button(self.MainCanevas,
+                                    text="Sauvegarder",
+                                    state=tk.DISABLED,
+                                    command=lambda: SaveFile(self))
         self.SaveButton.pack()
 
     # def WindowListOutputGenerator(self):
