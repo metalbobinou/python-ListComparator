@@ -1,12 +1,11 @@
 import tkinter as tk
+from tkinter import filedialog
 from tkinter import ttk
-# import pandas as pd
 from logic_processing import union
 from logic_processing import inter
 from logic_processing import occurence
 from csv_manipulate import load_csv
 # from csv_manipulate import save_csv
-from csv_manipulate import import_csv
 
 gui_windows = [None, None, None, None]
 gui_liste = [None, None, None]
@@ -16,6 +15,25 @@ def insert_data(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
         data.insert(0, texte)
+
+
+def import_csv(file_path):
+    # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
+    file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+
+    # Vérifie si un fichier a été sélectionné
+    if file:
+        # Stocke le chemin du fichier
+        file_path.set(file)
+
+
+def save_path():
+    # Demander à l'utilisateur de choisir l'emplacement de sauvegarde
+    file_path = filedialog.asksaveasfilename(defaultextension=".csv",
+                                             filetypes=[("Fichier CSV",
+                                                         "*.csv")])
+
+    return file_path
 
 
 class WindowList:
