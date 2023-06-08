@@ -39,24 +39,57 @@ def save_path():
 class WindowList:
     geometry = "0"
     Title = "My window"
+    # Canevas getting the whole window
     MainCanevas = None
+    # Load/Save buttons in the window
     LoadButton = None
     SaveButton = None
+    # Frame for putting scrollbar and list inside
+    Frame = None
+    # Right scrollbar
+    Scrollbar = None
+    # ListBox with the data
+    ListBox = None
 
     # def WindowListGenerator(self):
     def __init__(self, geometry):
-        self.geometry
         self.MainCanevas = tk.Tk()
+
+        self.SetGeometry(geometry)
+
+        # Load CSV button
         self.LoadButton = tk.Button(self.MainCanevas,
                                     text="Charger",
                                     state=tk.DISABLED,
                                     command=lambda: LoadFile(self))
         self.LoadButton.pack()
+        # Save CSV button
         self.SaveButton = tk.Button(self.MainCanevas,
                                     text="Sauvegarder",
                                     state=tk.DISABLED,
                                     command=lambda: SaveFile(self))
         self.SaveButton.pack()
+
+        # Frame for containing the list
+        self.Frame = ttk.Frame(self.MainCanevas)
+        self.Frame.pack(fill=tk.BOTH,
+                        expand=True)
+
+        # Scrollbar for the list
+        self.Scrollbar = ttk.Scrollbar(self.Frame,
+                                       orient=tk.VERTICAL)
+
+        # ListBox for containing the list
+        self.ListBox = tk.Listbox(self.Frame,
+                                  yscrollcommand=self.Scrollbar.set)
+        self.ListBox.pack(side=tk.LEFT,
+                          fill=tk.BOTH,
+                          expand=True)
+
+        # Configure the scrollbar for expanding with the list
+        self.Scrollbar.config(command=self.ListBox.yview)
+        self.Scrollbar.pack(side=tk.RIGHT,
+                            fill=tk.Y)
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsInputList(self):
@@ -88,9 +121,8 @@ class WindowList:
     def GetCanevas(self):
         return (self.MainCanevas)
 
+
 # Callback for LoadButton
-
-
 def LoadFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanevas()
@@ -109,9 +141,8 @@ def LoadFile(TheWindowList):
                        command=lambda: import_csv(file_path))
     button.pack()
 
+
 # Callback for SaveButton
-
-
 def SaveFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanevas()
@@ -122,41 +153,16 @@ def inter_csv():
     global gui_windows, gui_liste
 
     if gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
         gui_windows[3].CallWithdraw()
         del gui_windows[3]
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = WindowList("0")
+    gui_windows[3] = WindowList("300x400+650+300")
     gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
-    gui_windows[3].SetGeometry("300x400+650+300")
     gui_windows[3].SpecializedAsOutputList()
-
-    # Création d'un widget Frame pour contenir la liste des résultats
-    # frame = ttk.Frame(gui_windows[3])
-    frame = ttk.Frame(gui_windows[3].GetCanevas())
-    frame.pack(fill=tk.BOTH,
-               expand=True)
-
-    # Création d'un widget Scrollbar
-    scrollbar = ttk.Scrollbar(frame,
-                              orient=tk.VERTICAL)
-
-    # Création d'un widget Listbox pour afficher les résultats
-    BN_ID_inter = tk.Listbox(frame,
-                             yscrollcommand=scrollbar.set)
-    BN_ID_inter.pack(side=tk.LEFT,
-                     fill=tk.BOTH, expand=True)
-
-    # Configuration de la Scrollbar pour se déplacer avec la Listbox
-    scrollbar.config(command=BN_ID_inter.yview)
-    scrollbar.pack(side=tk.RIGHT,
-                   fill=tk.Y)
-
-    # Appel de la fonction pour remplir les résultats
-    insert_data(BN_ID_inter, (occurence(inter(gui_liste[0],
-                                              gui_liste[1]))))
+    insert_data(gui_windows[3].ListBox, (occurence(inter(gui_liste[0],
+                                                         gui_liste[1]))))
 
 
 def union_csv():
@@ -169,35 +175,11 @@ def union_csv():
         gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    gui_windows[3] = WindowList("0")
+    gui_windows[3] = WindowList("300x400+650+300")
     gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
-    gui_windows[3].SetGeometry("300x400+650+300")
     gui_windows[3].SpecializedAsOutputList()
-
-    # Création d'un widget Frame pour contenir la liste des résultats
-    # frame = ttk.Frame(gui_windows[3])
-    frame = ttk.Frame(gui_windows[3].GetCanevas())
-    frame.pack(fill=tk.BOTH,
-               expand=True)
-
-    # Création d'un widget Scrollbar
-    scrollbar = ttk.Scrollbar(frame,
-                              orient=tk.VERTICAL)
-
-    # Création d'un widget Listbox pour afficher les résultats
-    BN_ID_union = tk.Listbox(frame,
-                             yscrollcommand=scrollbar.set)
-    BN_ID_union.pack(side=tk.LEFT,
-                     fill=tk.BOTH, expand=True)
-
-    # Configuration de la Scrollbar pour se déplacer avec la Listbox
-    scrollbar.config(command=BN_ID_union.yview)
-    scrollbar.pack(side=tk.RIGHT,
-                   fill=tk.Y)
-
-    # Appel de la fonction pour remplir les résultats
-    insert_data(BN_ID_union, (occurence(union(gui_liste[0],
-                                              gui_liste[1]))))
+    insert_data(gui_windows[3].ListBox, (occurence(union(gui_liste[0],
+                                                         gui_liste[1]))))
 
 
 def process_csv():
@@ -235,77 +217,27 @@ def process_csv():
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
         # Crée un nouveau canevas pour chaque fichier CSV
-        gui_windows[1] = WindowList("0")
+        gui_windows[1] = WindowList("300x400+200+150")
         gui_windows[1].SetTitle("BN_ID du premier csv")
-        gui_windows[1].SetGeometry("300x400+200+150")
         gui_windows[1].SpecializedAsInputList()
 
-        gui_windows[2] = WindowList("0")
+        gui_windows[2] = WindowList("300x400+1100+150")
         gui_windows[2].SetTitle("BN_ID du deuxième csv")
-        gui_windows[2].SetGeometry("300x400+1100+150")
         gui_windows[2].SpecializedAsInputList()
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator1, column2)
         gui_liste[0] = BN_ID_csv_1
+        insert_data(gui_windows[1].ListBox, occurence(gui_liste[0]))
 
         BN_ID_csv_2 = load_csv(path_2, separator1, column2)
         gui_liste[1] = BN_ID_csv_2
-
-        # Création d'un widget Frame pour contenir la liste des résultats
-        # frame_1 = ttk.Frame(gui_windows[1])
-        frame_1 = ttk.Frame(gui_windows[1].GetCanevas())
-        frame_1.pack(fill=tk.BOTH,
-                     expand=True)
-
-        # Création d'un widget Scrollbar
-        scrollbar = ttk.Scrollbar(frame_1,
-                                  orient=tk.VERTICAL)
-
-        # Création d'un widget Listbox pour afficher les résultats
-        BN_ID_1 = tk.Listbox(frame_1,
-                             yscrollcommand=scrollbar.set)
-        BN_ID_1.pack(side=tk.LEFT,
-                     fill=tk.BOTH,
-                     expand=True)
-
-        # Configuration de la Scrollbar pour se déplacer avec la Listbox
-        scrollbar.config(command=BN_ID_1.yview)
-        scrollbar.pack(side=tk.RIGHT,
-                       fill=tk.Y)
-
-        # Appel de la fonction pour remplir les résultats
-        insert_data(BN_ID_1, occurence(gui_liste[0]))
-
-        # Création d'un widget Frame pour contenir la liste des résultats
-        # frame_2 = ttk.Frame(gui_windows[2])
-        frame_2 = ttk.Frame(gui_windows[2].GetCanevas())
-        frame_2.pack(fill=tk.BOTH,
-                     expand=True)
-
-        # Création d'un widget Scrollbar
-        scrollbar = ttk.Scrollbar(frame_2,
-                                  orient=tk.VERTICAL)
-
-        # Création d'un widget Listbox pour afficher les résultats
-        BN_ID_2 = tk.Listbox(frame_2,
-                             yscrollcommand=scrollbar.set)
-        BN_ID_2.pack(side=tk.LEFT,
-                     fill=tk.BOTH, expand=True)
-
-        # Configuration de la Scrollbar pour se déplacer avec la Listbox
-        scrollbar.config(command=BN_ID_2.yview)
-        scrollbar.pack(side=tk.RIGHT,
-                       fill=tk.Y)
-
-        insert_data(BN_ID_2, occurence(gui_liste[1]))
+        insert_data(gui_windows[2].ListBox, occurence(gui_liste[1]))
 
     else:
         print("Sélectionnez tous les fichiers et paramètres souhaités.")
 
 # Crée une fenêtre Tkinter
-
-
 window = tk.Tk()
 window.title("Importer CSV")
 window.geometry("500x350+500+300")
