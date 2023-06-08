@@ -10,7 +10,10 @@ from logic_processing import smart_union
 from csv_manipulate import load_csv
 # from csv_manipulate import save_csv
 
+# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 gui_windows = [None, None, None, None]
+
+# gui_liste : Input List 1, Input List 2, Output List
 gui_liste = [None, None, None]
 
 
@@ -35,15 +38,15 @@ def save_path():
     file_path = filedialog.asksaveasfilename(defaultextension=".csv",
                                              filetypes=[("Fichier CSV",
                                                          "*.csv")])
-
     return file_path
 
 
+# Class for printing lists (input and output) and asking for load/save
 class WindowList:
-    geometry = "0"
-    Title = "My window"
-    # Canevas getting the whole window
-    MainCanevas = None
+    Geometry = "0"
+    Title = "List Window"
+    # Canvas getting the whole window
+    MainCanvas = None
     # Load/Save buttons in the window
     LoadButton = None
     SaveButton = None
@@ -56,25 +59,25 @@ class WindowList:
 
     # def WindowListGenerator(self):
     def __init__(self, geometry):
-        self.MainCanevas = tk.Tk()
+        self.MainCanvas = tk.Tk()
 
         self.SetGeometry(geometry)
 
         # Load CSV button
-        self.LoadButton = tk.Button(self.MainCanevas,
+        self.LoadButton = tk.Button(self.MainCanvas,
                                     text="Charger",
                                     state=tk.DISABLED,
                                     command=lambda: LoadFile(self))
         self.LoadButton.pack()
         # Save CSV button
-        self.SaveButton = tk.Button(self.MainCanevas,
+        self.SaveButton = tk.Button(self.MainCanvas,
                                     text="Sauvegarder",
                                     state=tk.DISABLED,
                                     command=lambda: SaveFile(self))
         self.SaveButton.pack()
 
         # Frame for containing the list
-        self.Frame = ttk.Frame(self.MainCanevas)
+        self.Frame = ttk.Frame(self.MainCanvas)
         self.Frame.pack(fill=tk.BOTH,
                         expand=True)
 
@@ -106,29 +109,32 @@ class WindowList:
 
     def SetTitle(self, title):
         self.Title = title
-        self.MainCanevas.title(title)
+        self.MainCanvas.title(title)
 
     def SetGeometry(self, geometry):
-        self.geometry = geometry
-        self.MainCanevas.geometry(geometry)
+        self.Geometry = geometry
+        self.MainCanvas.geometry(geometry)
 
     def GetGeometry(self):
-        return (self.geometry)
+        return (self.Geometry)
+
+    def GetTitle(self):
+        return (self.Title)
 
     def CallWithdraw(self):
-        self.MainCanevas.withdraw()
+        self.MainCanvas.withdraw()
 
     def CallDestroy(self):
-        self.MainCanevas.destroy()
+        self.MainCanvas.destroy()
 
-    def GetCanevas(self):
-        return (self.MainCanevas)
+    def GetCanvas(self):
+        return (self.MainCanvas)
 
 
 # Callback for LoadButton
 def LoadFile(TheWindowList):
     TheWindowList.CallWithdraw()
-    TheWindowList.SimpleCanevas()
+    TheWindowList.SimpleCanvas()
     TheWindowList.SetTitle("Charger un nouveau CSV")
 
     # Variables pour stocker les chemins des fichiers
@@ -148,7 +154,7 @@ def LoadFile(TheWindowList):
 # Callback for SaveButton
 def SaveFile(TheWindowList):
     TheWindowList.CallWithdraw()
-    TheWindowList.SimpleCanevas()
+    TheWindowList.SimpleCanvas()
     TheWindowList.SetTitle("Sauvegarder le résultat")
 
 
@@ -200,7 +206,7 @@ def unique_1_window():
     gui_windows[3].SpecializedAsOutputList()
     insert_data(gui_windows[3].ListBox, (occurence(unique(gui_liste[0],
                                                           gui_liste[1], 1))))
-    
+
 
 def unique_2_window():
     global gui_windows, gui_liste
@@ -252,45 +258,92 @@ def smart_union_window():
     insert_data(gui_windows[3].ListBox, (occurence(smart_union(gui_liste[0],
                                                                gui_liste[1]))))
 
+# Class for proposing as much buttons as available operations on sets
+class WindowActions:
+    Geometry = "0"
+    Title = "CSV List Comparator"
+    # Canvas getting the whole window
+    MainCanvas = None
+    # Buttons for launching actions (set operations)
+    Buttons = []
+    # Frame for putting scrollbar and list inside
+    Frame = None
+    # Right scrollbar
+    Scrollbar = None
+    # ListBox with the data
+    ListBox = None
+
+    def __init__(self, geometry):
+        self.MainCanvas = tk.Tk()
+
+        self.SetGeometry(geometry)
+
+        # Loading buttons
+        # [Currently hardcoded]
+        # TODO : loading as much buttons as there are operations in the operations file
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Intersection des 2 csv",
+                                      command=inter_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Union des 2 csv",
+                                      command=union_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Valeurs propre au premier csv",
+                                      command=unique_1_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Valeurs propre au deuxième csv",
+                                      command=unique_2_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="inverse de l'intersection des 2 csv",
+                                      command=inv_inter_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Smart union des 2 csv",
+                                      command=smart_union_window))
+        self.Buttons[-1].pack()
+
+    def SetTitle(self, title):
+        self.Title = title
+        self.MainCanvas.title(title)
+
+    def SetGeometry(self, geometry):
+        self.Geometry = geometry
+        self.MainCanvas.geometry(geometry)
+
+    def GetGeometry(self):
+        return (self.Geometry)
+
+    def GetTitle(self):
+        return (self.Title)
+
+    def CallWithdraw(self):
+        self.MainCanvas.withdraw()
+
+    def CallDestroy(self):
+        self.MainCanvas.destroy()
+
 
 def process_csv():
     global gui_windows, gui_liste
 
     # Crée un nouveau canevas pour les différentes actions
+    #gui_windows[0].withdraw()
+    #gui_windows[0] = tk.Tk()
+    #gui_windows[0].title("Action possible")
+    #gui_windows[0].geometry("300x200+650+50")
+
+    # Hide main window selecting files
     gui_windows[0].withdraw()
-    gui_windows[0] = tk.Tk()
-    gui_windows[0].title("Action possible")
-    gui_windows[0].geometry("300x200+650+50")
 
-    process_button = tk.Button(gui_windows[0],
-                               text="Intersection des 2 csv",
-                               command=inter_window)
-    process_button.pack()
+    ### !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
 
-    process_button = tk.Button(gui_windows[0],
-                               text="Union des 2 csv",
-                               command=union_window)
-    process_button.pack()
-
-    process_button = tk.Button(gui_windows[0],
-                               text="Valeurs propre au premier csv",
-                               command=unique_1_window)
-    process_button.pack()
-
-    process_button = tk.Button(gui_windows[0],
-                               text="Valeurs propre au deuxième csv",
-                               command=unique_2_window)
-    process_button.pack()
-
-    process_button = tk.Button(gui_windows[0],
-                               text="inverse de l'intersection des 2 csv",
-                               command=inv_inter_window)
-    process_button.pack()
-
-    process_button = tk.Button(gui_windows[0],
-                               text="Smart union des 2 csv",
-                               command=smart_union_window)
-    process_button.pack()
+    # Show a new window with the possible actions
+    gui_windows[0] = WindowActions("300x200+650+50")
+    gui_windows[0].SetTitle("Action possible")
 
     # Obtient les chemins des fichiers sélectionnés
     path_1 = file_path_1.get()
@@ -324,7 +377,6 @@ def process_csv():
         BN_ID_csv_2 = load_csv(path_2, separator1, column2)
         gui_liste[1] = BN_ID_csv_2
         insert_data(gui_windows[2].ListBox, occurence(gui_liste[1]))
-
     else:
         print("Sélectionnez tous les fichiers et paramètres souhaités.")
 
@@ -412,7 +464,7 @@ process_button = tk.Button(window,
                            command=process_csv)
 process_button.pack()
 
-# Canevas pour fermer toutes les fenêtres
+# Canvas pour fermer toutes les fenêtres
 close = tk.Tk()
 close.title("Femer")
 close.geometry("300x50+1200+50")
