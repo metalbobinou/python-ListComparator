@@ -24,7 +24,7 @@ def process_csv(file_path_1,
         print("\nBN_ID du premier CSV :\n")
         for key, value in occu_csv_1.items():
             print(f"{key} : {value} occurrence(s)")
-    
+
     if action == "CSV_2":
         occu_csv_2 = occurence(BN_ID_csv_2)
         print("\nBN_ID du deuxième CSV :\n")
