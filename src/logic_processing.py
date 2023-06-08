@@ -1,13 +1,32 @@
 def inter(BN_ID_csv_1, BN_ID_csv_2):
     # Intersection des deux CSV
-    intersec_csv = [x for x in BN_ID_csv_1 if x in BN_ID_csv_2]
-    return intersec_csv
+    intersec_liste = [x for x in BN_ID_csv_1 if x in BN_ID_csv_2]
+    return intersec_liste
 
 
 def union(BN_ID_csv_1, BN_ID_csv_2):
     # Union des deux CSV
-    union_csv = BN_ID_csv_1 + BN_ID_csv_2
-    return union_csv
+    union_liste = BN_ID_csv_1 + BN_ID_csv_2
+    return union_liste
+
+
+def unique(BN_ID_csv_1, BN_ID_csv_2, choix):
+    if choix == 1:
+        unique_1 = BN_ID_csv_1 - BN_ID_csv_2
+        return unique_1
+    if choix == 2:
+        unique_2 = BN_ID_csv_2 - BN_ID_csv_1
+        return unique_2
+
+
+def inv_inter(BN_ID_csv_1, BN_ID_csv_2):
+    inv_inter_liste = union(BN_ID_csv_1, BN_ID_csv_2) - inter(BN_ID_csv_1, BN_ID_csv_2)
+    return inv_inter_liste
+
+
+def smart_union(BN_ID_csv_1, BN_ID_csv_2):
+    smart_union_liste = unique(BN_ID_csv_1, BN_ID_csv_2, 1) + inter(BN_ID_csv_1, BN_ID_csv_2) + unique(BN_ID_csv_1, BN_ID_csv_2, 2)
+    return smart_union_liste
 
 
 def occurence(liste):
