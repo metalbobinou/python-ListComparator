@@ -4,6 +4,9 @@ from tkinter import ttk
 from logic_processing import union
 from logic_processing import inter
 from logic_processing import occurence
+from logic_processing import unique
+from logic_processing import inv_inter
+from logic_processing import smart_union
 from csv_manipulate import load_csv
 # from csv_manipulate import save_csv
 
@@ -149,7 +152,7 @@ def SaveFile(TheWindowList):
     TheWindowList.SetTitle("Sauvegarder le résultat")
 
 
-def inter_csv():
+def inter_window():
     global gui_windows, gui_liste
 
     if gui_windows[3] is not None:
@@ -165,7 +168,7 @@ def inter_csv():
                                                          gui_liste[1]))))
 
 
-def union_csv():
+def union_window():
     global gui_windows, gui_liste
 
     if gui_windows[3] is not None:
@@ -182,6 +185,74 @@ def union_csv():
                                                          gui_liste[1]))))
 
 
+def unique_1_window():
+    global gui_windows, gui_liste
+
+    if gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        gui_windows[3].CallWithdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
+
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = WindowList("300x400+650+300")
+    gui_windows[3].SetTitle("Valeur propre au premier CSV")
+    gui_windows[3].SpecializedAsOutputList()
+    insert_data(gui_windows[3].ListBox, (occurence(unique(gui_liste[0],
+                                                          gui_liste[1], 1))))
+    
+
+def unique_2_window():
+    global gui_windows, gui_liste
+
+    if gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        gui_windows[3].CallWithdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
+
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = WindowList("300x400+650+300")
+    gui_windows[3].SetTitle("Valeur propre au deuxième CSV")
+    gui_windows[3].SpecializedAsOutputList()
+    insert_data(gui_windows[3].ListBox, (occurence(unique(gui_liste[0],
+                                                          gui_liste[1], 2))))
+
+
+def inv_inter_window():
+    global gui_windows, gui_liste
+
+    if gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        gui_windows[3].CallWithdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
+
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = WindowList("300x400+650+300")
+    gui_windows[3].SetTitle("Inverse de l'intersection des BN_ID des deux CSV")
+    gui_windows[3].SpecializedAsOutputList()
+    insert_data(gui_windows[3].ListBox, (occurence(inv_inter(gui_liste[0],
+                                                             gui_liste[1]))))
+
+
+def smart_union_window():
+    global gui_windows, gui_liste
+
+    if gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        gui_windows[3].CallWithdraw()
+        del gui_windows[3]
+        gui_windows.append(None)
+
+    # Crée un canevas pour afficher les résultats
+    gui_windows[3] = WindowList("300x400+650+300")
+    gui_windows[3].SetTitle("Smart union des BN_ID des deux CSV")
+    gui_windows[3].SpecializedAsOutputList()
+    insert_data(gui_windows[3].ListBox, (occurence(smart_union(gui_liste[0],
+                                                               gui_liste[1]))))
+
+
 def process_csv():
     global gui_windows, gui_liste
 
@@ -189,16 +260,36 @@ def process_csv():
     gui_windows[0].withdraw()
     gui_windows[0] = tk.Tk()
     gui_windows[0].title("Action possible")
-    gui_windows[0].geometry("300x100+650+50")
+    gui_windows[0].geometry("300x200+650+50")
 
     process_button = tk.Button(gui_windows[0],
                                text="Intersection des 2 csv",
-                               command=inter_csv)
+                               command=inter_window)
     process_button.pack()
 
     process_button = tk.Button(gui_windows[0],
                                text="Union des 2 csv",
-                               command=union_csv)
+                               command=union_window)
+    process_button.pack()
+
+    process_button = tk.Button(gui_windows[0],
+                               text="Valeurs propre au premier csv",
+                               command=unique_1_window)
+    process_button.pack()
+
+    process_button = tk.Button(gui_windows[0],
+                               text="Valeurs propre au deuxième csv",
+                               command=unique_2_window)
+    process_button.pack()
+
+    process_button = tk.Button(gui_windows[0],
+                               text="inverse de l'intersection des 2 csv",
+                               command=inv_inter_window)
+    process_button.pack()
+
+    process_button = tk.Button(gui_windows[0],
+                               text="Smart union des 2 csv",
+                               command=smart_union_window)
     process_button.pack()
 
     # Obtient les chemins des fichiers sélectionnés
