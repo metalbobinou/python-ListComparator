@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 
 def load_csv(path, separator, column):
@@ -11,9 +12,12 @@ def load_csv(path, separator, column):
 
 
 def save_csv(dictio, separator, file_path):
-    if file_path:
-        # Convertir le dictionnaire en DataFrame
-        df = pd.DataFrame.from_dict(dictio, orient='index')
+    # Convertir le dictionnaire en DataFrame
+    df = pd.DataFrame.from_dict(dictio, orient='index')
 
-        # Sauvegarder le DataFrame en tant que fichier CSV
-        df.to_csv(file_path, sep=separator, header=False, index=False)
+    # Supprime le fichier csv si il existe déjà
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # Sauvegarder le DataFrame en tant que fichier CSV
+    df.to_csv(file_path, sep=separator, header=False, index=True)
