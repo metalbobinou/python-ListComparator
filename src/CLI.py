@@ -13,7 +13,7 @@ def process_csv(file_path_1,
                 separator2,
                 column2,
                 action,
-                nom_csv,
+                out_csv,
                 separator3):
     BN_ID_csv_1 = load_csv(file_path_1,
                            separator1,
@@ -25,34 +25,22 @@ def process_csv(file_path_1,
     if action == "CSV_1":
         occu_csv_1 = occurence(BN_ID_csv_1)
         dict_save = occu_csv_1
-        print("\nBN_ID du premier CSV :\n")
-        for key, value in occu_csv_1.items():
-            print(f"{key} : {value} occurrence(s)")
 
     if action == "CSV_2":
         occu_csv_2 = occurence(BN_ID_csv_2)
         dict_save = occu_csv_2
-        print("\nBN_ID du deuxième CSV :\n")
-        for key, value in occu_csv_2.items():
-            print(f"{key} : {value} occurrence(s)")
 
     if action == "INTERSECTION":
         intersection = occurence(inter(BN_ID_csv_1,
                                        BN_ID_csv_2))
         dict_save = intersection
-        print("\nIntersection des BN_ID des deux CSV :\n")
-        for key, value in intersection.items():
-            print(f"{key} : {value} occurrence(s)")
 
     if action == "UNION":
         union_result = occurence(union(BN_ID_csv_1,
                                        BN_ID_csv_2))
         dict_save = union_result
-        print("\nUnion des BN_ID des deux CSV :\n")
-        for key, value in union_result.items():
-            print(f"{key} : {value} occurrence(s)")
 
-    save_csv(dict_save, separator3, nom_csv)
+    save_csv(dict_save, separator3, out_csv)
 
 
 if __name__ == "__main__":
@@ -68,7 +56,7 @@ if __name__ == "__main__":
     separator2 = sys.argv[5]
     column2 = int(sys.argv[6])
     action = sys.argv[7]
-    nom_csv = sys.argv[8]
+    out_csv = sys.argv[8]
     separator3 = sys.argv[9]
 
     process_csv(file_path_1,
@@ -78,5 +66,5 @@ if __name__ == "__main__":
                 separator2,
                 column2,
                 action,
-                nom_csv,
+                out_csv,
                 separator3)

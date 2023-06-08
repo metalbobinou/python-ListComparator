@@ -11,7 +11,7 @@ def load_csv(path, separator, column):
     return csv_list
 
 
-def save_csv(dictio, separator, file_path):
+def save_csv_to_file(dictio, separator, file_path):
     # Convertir le dictionnaire en DataFrame
     df = pd.DataFrame.from_dict(dictio, orient='index')
 
@@ -21,3 +21,15 @@ def save_csv(dictio, separator, file_path):
 
     # Sauvegarder le DataFrame en tant que fichier CSV
     df.to_csv(file_path, sep=separator, header=False, index=True)
+
+
+def save_csv_to_shell(dictio, separator, file_path):
+    for key, value in dictio.items():
+        print(f"{key}{separator}{value}")
+
+
+def save_csv(dictio, separator, file_path):
+    if file_path == "-":
+        save_csv_to_shell(dictio, separator, file_path)
+    else:
+        save_csv_to_file(dictio, separator, file_path)
