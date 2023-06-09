@@ -9,11 +9,11 @@ from csv_manipulate import save_csv
 
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
-#gui_windows = [None, None, None, None]
+# gui_windows = [None, None, None, None]
 
 # gui_liste : Input List 1, Input List 2, Output List
 import GlobalLists
-#gui_liste = [None, None, None]
+# gui_liste = [None, None, None]
 
 
 def insert_data(data, dictio):
@@ -59,15 +59,15 @@ def process_csv():
         # Show a new window with the possible actions
         GlobalWindows.gui_windows[0] = WindowActions.WindowActions("300x200+650+50")
         GlobalWindows.gui_windows[0].SetTitle("Action possible")
-        
+
         # Obtient les chemins des fichiers sélectionnés
         path_1 = file_path_1.get()
         path_2 = file_path_2.get()
-    
+
         # Obtient le séparateur choisi
         separator1 = separator_var1.get()
         separator2 = separator_var2.get()
-        
+
         # Obtient le numéro de colonne saisi
         # Convertit en entier et ajuste pour l'index de la colonne
         column1 = int(column_entry1.get()) - 1
@@ -76,12 +76,12 @@ def process_csv():
         # Vérifie si les fichiers et les paramètres ont été sélectionnés
         if (path_1 is not None) and (path_2 is not None) and          \
            (separator1 is not None) and (separator2 is not None) and  \
-           (column1 is not None) and (column2 is not None) :
+           (column1 is not None) and (column2 is not None):
             # Crée un nouveau canevas pour chaque fichier CSV
             GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150")
             GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
             GlobalWindows.gui_windows[1].SpecializedAsInputList()
-            
+
             GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150")
             GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
             GlobalWindows.gui_windows[2].SpecializedAsInputList()
@@ -90,15 +90,19 @@ def process_csv():
             BN_ID_csv_1 = load_csv(path_1, separator1, column2)
 
             GlobalLists.gui_liste[0] = BN_ID_csv_1
-            insert_data(GlobalWindows.gui_windows[1].ListBox, occurence(GlobalLists.gui_liste[0]))
+            insert_data(GlobalWindows.gui_windows[1].ListBox,
+                        occurence(GlobalLists.gui_liste[0]))
 
             BN_ID_csv_2 = load_csv(path_2, separator1, column2)
             GlobalLists.gui_liste[1] = BN_ID_csv_2
-            insert_data(GlobalWindows.gui_windows[2].ListBox, occurence(GlobalLists.gui_liste[1]))
+            insert_data(GlobalWindows.gui_windows[2].ListBox,
+                        occurence(GlobalLists.gui_liste[1]))
         else:
             print("Sélectionnez tous les fichiers et paramètres souhaités.")
 
 # Crée une fenêtre Tkinter
+
+
 window = tk.Tk()
 window.title("Importer CSV")
 window.geometry("500x350+500+300")
