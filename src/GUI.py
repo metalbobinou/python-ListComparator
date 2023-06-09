@@ -329,6 +329,8 @@ def process_csv():
         print("Sélectionnez tous les fichiers et paramètres souhaités.")
 
 # Crée une fenêtre Tkinter
+
+
 window = tk.Tk()
 window.title("Importer CSV")
 window.geometry("500x350+500+300")
@@ -377,7 +379,7 @@ column_label1 = tk.Label(window,
 column_label1.pack()
 
 column_entry1 = tk.Entry(window)
-column_entry1.insert(0, "6")
+column_entry1.insert(0, "1")
 column_entry1.pack()
 
 gui_windows[0] = window
@@ -401,7 +403,7 @@ column_label2 = tk.Label(window,
 column_label2.pack()
 
 column_entry2 = tk.Entry(window)
-column_entry2.insert(0, "6")
+column_entry2.insert(0, "1")
 column_entry2.pack()
 
 gui_windows[0] = window
