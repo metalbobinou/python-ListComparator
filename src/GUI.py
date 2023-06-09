@@ -259,6 +259,8 @@ def smart_union_window():
                                                                gui_liste[1]))))
 
 # Class for proposing as much buttons as available operations on sets
+
+
 class WindowActions:
     Geometry = "0"
     Title = "CSV List Comparator"
@@ -339,7 +341,7 @@ def process_csv():
     # Hide main window selecting files
     gui_windows[0].withdraw()
 
-    ### !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
+    # !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
 
     # Show a new window with the possible actions
     gui_windows[0] = WindowActions("300x200+650+50")
@@ -351,14 +353,14 @@ def process_csv():
 
     print("File1 : " + str(path_1))
     print("File2 : " + str(path_2))
-    
+
     # Obtient le séparateur choisi
     separator1 = separator_var1.get()
     separator2 = separator_var2.get()
 
     print("Sep1 : " + str(separator1))
     print("Sep2 : " + str(separator2))
-    
+
     # Obtient le numéro de colonne saisi
     # Convertit en entier et ajuste pour l'index de la colonne
     column1 = int(column_entry1.get()) - 1
@@ -366,11 +368,11 @@ def process_csv():
 
     print("Col1 : " + str(column1))
     print("Col2 : " + str(column2))
-    
+
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if (path_1 is not None) and (path_2 is not None) and          \
        (separator1 is not None) and (separator2 is not None) and  \
-       (column1 is not None) and (column2 is not None) :
+       (column1 is not None) and (column2 is not None):
         # Crée un nouveau canevas pour chaque fichier CSV
         gui_windows[1] = WindowList("300x400+200+150")
         gui_windows[1].SetTitle("BN_ID du premier csv")
@@ -385,7 +387,7 @@ def process_csv():
 
         print("Type loadcsv 1 : " + str(type(BN_ID_csv_1)))
         print("loadcsv 1 : " + str(BN_ID_csv_1))
-        
+
         gui_liste[0] = BN_ID_csv_1
         insert_data(gui_windows[1].ListBox, occurence(gui_liste[0]))
 
@@ -446,7 +448,7 @@ column_label1 = tk.Label(window,
 column_label1.pack()
 
 column_entry1 = tk.Entry(window)
-column_entry1.insert(0, "1")
+column_entry1.insert(0, "6")
 column_entry1.pack()
 
 gui_windows[0] = window
@@ -470,7 +472,7 @@ column_label2 = tk.Label(window,
 column_label2.pack()
 
 column_entry2 = tk.Entry(window)
-column_entry2.insert(0, "1")
+column_entry2.insert(0, "6")
 column_entry2.pack()
 
 gui_windows[0] = window
@@ -482,6 +484,8 @@ process_button = tk.Button(window,
 process_button.pack()
 
 # Canvas pour fermer toutes les fenêtres
+
+
 close = tk.Tk()
 close.title("Femer")
 close.geometry("300x50+1200+50")
