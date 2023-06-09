@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import filedialog
-from tkinter import ttk
 from GuiClasses import WindowList
 from GuiClasses import WindowActions
 from logic_processing import occurence

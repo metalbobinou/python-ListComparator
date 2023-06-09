@@ -1,8 +1,10 @@
 import tkinter as tk
-from tkinter import filedialog
 from tkinter import ttk
+from tkinter import filedialog
 
 # Class for printing lists (input and output) and asking for load/save
+
+
 class WindowList:
     Geometry = "0"
     Title = "List Window"
@@ -105,7 +107,7 @@ def LoadFile(TheWindowList):
     # Boutons pour importer les fichiers
     button = tk.Button(TheWindowList,
                        text="Importer CSV 1",
-                       command=lambda: import_csv(file_path))
+                       command=lambda: import_csv2(file_path))
     button.pack()
 
 
@@ -114,3 +116,14 @@ def SaveFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanvas()
     TheWindowList.SetTitle("Sauvegarder le résultat")
+
+
+#  TMP
+def import_csv2(file_path):
+    # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
+    file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+
+    # Vérifie si un fichier a été sélectionné
+    if file:
+        # Stocke le chemin du fichier
+        file_path.set(file)
