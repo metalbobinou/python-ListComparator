@@ -300,7 +300,7 @@ class WindowActions:
                                       command=unique_2_window))
         self.Buttons[-1].pack()
         self.Buttons.append(tk.Button(self.MainCanvas,
-                                      text="inverse de l'intersection des 2 csv",
+                                      text="Inverse intersection des 2 csv",
                                       command=inv_inter_window))
         self.Buttons[-1].pack()
         self.Buttons.append(tk.Button(self.MainCanvas,
@@ -332,41 +332,45 @@ class WindowActions:
 def process_csv():
     global gui_windows, gui_liste
 
-    # Hide main window selecting files
-    gui_windows[0].withdraw()
-
-    # !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
-
-    # Show a new window with the possible actions
-    gui_windows[0] = WindowActions("300x200+650+50")
-    gui_windows[0].SetTitle("Action possible")
-
-    # Obtient les chemins des fichiers sélectionnés
-    path_1 = file_path_1.get()
-    path_2 = file_path_2.get()
-
-    print("File1 : " + str(path_1))
-    print("File2 : " + str(path_2))
-
-    # Obtient le séparateur choisi
-    separator1 = separator_var1.get()
-    separator2 = separator_var2.get()
-
-    print("Sep1 : " + str(separator1))
-    print("Sep2 : " + str(separator2))
-
-    # Obtient le numéro de colonne saisi
-    # Convertit en entier et ajuste pour l'index de la colonne
-    column1 = int(column_entry1.get()) - 1
-    column2 = int(column_entry2.get()) - 1
-
-    print("Col1 : " + str(column1))
-    print("Col2 : " + str(column2))
-
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if (path_1 is not None) and (path_2 is not None) and          \
-       (separator1 is not None) and (separator2 is not None) and  \
-       (column1 is not None) and (column2 is not None):
+    if (file_path_1.get() == "") or (file_path_2.get() == "")           \
+        or (separator_var1.get() == "") or (separator_var2.get() == "") \
+            or (column_entry1.get() == "") or (column_entry2.get() == ""):
+
+        label = tk.Label(gui_windows[0], text="Sélectionner tous les fichiers et paramètres souhaités")
+        label.pack()
+    else:
+        # Hide main window selecting files
+        gui_windows[0].withdraw()
+
+        # !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
+
+        # Show a new window with the possible actions
+        gui_windows[0] = WindowActions("300x200+650+50")
+        gui_windows[0].SetTitle("Action possible")
+
+        # Obtient les chemins des fichiers sélectionnés
+        path_1 = file_path_1.get()
+        path_2 = file_path_2.get()
+
+        print("File1 : " + str(path_1))
+        print("File2 : " + str(path_2))
+
+        # Obtient le séparateur choisi
+        separator1 = separator_var1.get()
+        separator2 = separator_var2.get()
+
+        print("Sep1 : " + str(separator1))
+        print("Sep2 : " + str(separator2))
+
+        # Obtient le numéro de colonne saisi
+        # Convertit en entier et ajuste pour l'index de la colonne
+        column1 = int(column_entry1.get()) - 1
+        column2 = int(column_entry2.get()) - 1
+
+        print("Col1 : " + str(column1))
+        print("Col2 : " + str(column2))
+
         # Crée un nouveau canevas pour chaque fichier CSV
         gui_windows[1] = WindowList("300x400+200+150")
         gui_windows[1].SetTitle("BN_ID du premier csv")
@@ -388,8 +392,6 @@ def process_csv():
         BN_ID_csv_2 = load_csv(path_2, separator1, column2)
         gui_liste[1] = BN_ID_csv_2
         insert_data(gui_windows[2].ListBox, occurence(gui_liste[1]))
-    else:
-        print("Sélectionnez tous les fichiers et paramètres souhaités.")
 
 # Crée une fenêtre Tkinter
 

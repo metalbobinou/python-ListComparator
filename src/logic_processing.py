@@ -20,12 +20,13 @@ def unique(BN_ID_csv_1, BN_ID_csv_2, choix):
 
 
 def inv_inter(BN_ID_csv_1, BN_ID_csv_2):
-    inv_inter_liste = set(union(BN_ID_csv_1, BN_ID_csv_2)) - set(inter(BN_ID_csv_1, BN_ID_csv_2))
+    inv_inter_liste = set(union(BN_ID_csv_1, BN_ID_csv_2)) \
+                      - set(inter(BN_ID_csv_1, BN_ID_csv_2))
     return list(inv_inter_liste)
 
 
 def smart_union(BN_ID_csv_1, BN_ID_csv_2):
-    smart_union_liste = unique(BN_ID_csv_1, BN_ID_csv_2, 1) + inter(BN_ID_csv_1, BN_ID_csv_2) + unique(BN_ID_csv_1, BN_ID_csv_2, 2)
+    smart_union_liste = BN_ID_csv_1 + unique(BN_ID_csv_1, BN_ID_csv_2, 2)
     return smart_union_liste
 
 
