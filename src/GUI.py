@@ -332,12 +332,6 @@ class WindowActions:
 def process_csv():
     global gui_windows, gui_liste
 
-    # Crée un nouveau canevas pour les différentes actions
-    #gui_windows[0].withdraw()
-    #gui_windows[0] = tk.Tk()
-    #gui_windows[0].title("Action possible")
-    #gui_windows[0].geometry("300x200+650+50")
-
     # Hide main window selecting files
     gui_windows[0].withdraw()
 
