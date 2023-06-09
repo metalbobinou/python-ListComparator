@@ -45,7 +45,7 @@ def process_csv():
 
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
     if (file_path_1.get() == "") or (file_path_2.get() == "")           \
-       or (separator_var1.get() == "") or (separator_var2.get() == "") \
+       or (separator_var1.get() == "") or (separator_var2.get() == "")  \
        or (column_entry1.get() == "") or (column_entry2.get() == ""):
 
         label = tk.Label(gui_windows[0], text="Sélectionner tous les fichiers et paramètres souhaités")
@@ -73,32 +73,26 @@ def process_csv():
         column1 = int(column_entry1.get()) - 1
         column2 = int(column_entry2.get()) - 1
 
-        # Vérifie si les fichiers et les paramètres ont été sélectionnés
-        if (path_1 is not None) and (path_2 is not None) and          \
-           (separator1 is not None) and (separator2 is not None) and  \
-           (column1 is not None) and (column2 is not None):
-            # Crée un nouveau canevas pour chaque fichier CSV
-            GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150")
-            GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
-            GlobalWindows.gui_windows[1].SpecializedAsInputList()
+        # Crée un nouveau canevas pour chaque fichier CSV
+        GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150")
+        GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
+        GlobalWindows.gui_windows[1].SpecializedAsInputList()
 
-            GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150")
-            GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
-            GlobalWindows.gui_windows[2].SpecializedAsInputList()
+        GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150")
+        GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
+        GlobalWindows.gui_windows[2].SpecializedAsInputList()
 
-            # Lit les fichiers CSV et traite les données selon nos paramètres
-            BN_ID_csv_1 = load_csv(path_1, separator1, column2)
+        # Lit les fichiers CSV et traite les données selon nos paramètres
+        BN_ID_csv_1 = load_csv(path_1, separator1, column1)
 
-            GlobalLists.gui_liste[0] = BN_ID_csv_1
-            insert_data(GlobalWindows.gui_windows[1].ListBox,
-                        occurence(GlobalLists.gui_liste[0]))
+        GlobalLists.gui_liste[0] = BN_ID_csv_1
+        insert_data(GlobalWindows.gui_windows[1].ListBox,
+                    occurence(GlobalLists.gui_liste[0]))
 
-            BN_ID_csv_2 = load_csv(path_2, separator1, column2)
-            GlobalLists.gui_liste[1] = BN_ID_csv_2
-            insert_data(GlobalWindows.gui_windows[2].ListBox,
-                        occurence(GlobalLists.gui_liste[1]))
-        else:
-            print("Sélectionnez tous les fichiers et paramètres souhaités.")
+        BN_ID_csv_2 = load_csv(path_2, separator2, column2)
+        GlobalLists.gui_liste[1] = BN_ID_csv_2
+        insert_data(GlobalWindows.gui_windows[2].ListBox,
+                    occurence(GlobalLists.gui_liste[1]))
 
 # Crée une fenêtre Tkinter
 
