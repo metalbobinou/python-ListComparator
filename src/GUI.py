@@ -349,17 +349,28 @@ def process_csv():
     path_1 = file_path_1.get()
     path_2 = file_path_2.get()
 
+    print("File1 : " + str(path_1))
+    print("File2 : " + str(path_2))
+    
     # Obtient le séparateur choisi
     separator1 = separator_var1.get()
     separator2 = separator_var2.get()
 
+    print("Sep1 : " + str(separator1))
+    print("Sep2 : " + str(separator2))
+    
     # Obtient le numéro de colonne saisi
     # Convertit en entier et ajuste pour l'index de la colonne
     column1 = int(column_entry1.get()) - 1
     column2 = int(column_entry2.get()) - 1
 
+    print("Col1 : " + str(column1))
+    print("Col2 : " + str(column2))
+    
     # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if path_1 and path_2 and separator1 and separator2 and column1 and column2 is not None:
+    if (path_1 is not None) and (path_2 is not None) and          \
+       (separator1 is not None) and (separator2 is not None) and  \
+       (column1 is not None) and (column2 is not None) :
         # Crée un nouveau canevas pour chaque fichier CSV
         gui_windows[1] = WindowList("300x400+200+150")
         gui_windows[1].SetTitle("BN_ID du premier csv")
@@ -371,6 +382,10 @@ def process_csv():
 
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator1, column2)
+
+        print("Type loadcsv 1 : " + str(type(BN_ID_csv_1)))
+        print("loadcsv 1 : " + str(BN_ID_csv_1))
+        
         gui_liste[0] = BN_ID_csv_1
         insert_data(gui_windows[1].ListBox, occurence(gui_liste[0]))
 
