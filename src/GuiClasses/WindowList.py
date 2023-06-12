@@ -23,7 +23,7 @@ class WindowList:
     ListBox = None
 
     # def WindowListGenerator(self):
-    def __init__(self, geometry):
+    def __init__(self, geometry, liste, dictio):
         self.MainCanvas = tk.Tk()
 
         self.SetGeometry(geometry)
@@ -40,19 +40,20 @@ class WindowList:
                                     state=tk.DISABLED,
                                     command=lambda: SaveFile(self))
         self.SaveButton.pack()
-        # Sort CSV button
-        # self.SortButton = tk.Button(self.MainCanvas,
-                                    # text="Trier",
-                                    # state=tk.NORMAL,
-                                    # command=lambda: SortValue(self))
-        # self.SortButton.pack()
         # List CSV button
-        self.ListButton = tk.Button(self.MainCanvas,
-                                    text="Lister",
-                                    state=tk.NORMAL,
-                                    command=lambda: insert_data_list(self))
-        self.ListButton.pack()
-
+        ListButton = tk.Button(self.MainCanvas,
+                               text="Lister",
+                               state=tk.NORMAL,
+                               command=lambda: insert_data_list(self.ListBox,
+                                                                liste))
+        ListButton.pack()
+        # Occurence CSV button
+        OccuButton = tk.Button(self.MainCanvas,
+                               text="Occurence",
+                               state=tk.NORMAL,
+                               command=lambda: insert_data_occu(self.ListBox,
+                                                                dictio))
+        OccuButton.pack()
 
         # Frame for containing the list
         self.Frame = ttk.Frame(self.MainCanvas)
@@ -133,13 +134,17 @@ def SaveFile(TheWindowList):
     TheWindowList.SetTitle("Sauvegarder le résultat")
 
 
-# def SortValue(TheWindowList):
-
-
 def insert_data_list(data, liste):
-    data.delete('1.0', tk.END)
+    data.delete(0, tk.END)
     for element in liste:
         data.insert(tk.END, element)
+
+
+def insert_data_occu(data, dictio):
+    data.delete(0, tk.END)
+    for valeur, compte in dictio.items():
+        texte = f"{valeur} : {compte} occurrence(s)"
+        data.insert(tk.END, texte)
 
 
 #  TMP

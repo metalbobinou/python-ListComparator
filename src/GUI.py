@@ -16,12 +16,6 @@ import GlobalLists
 # gui_liste = [None, None, None]
 
 
-def insert_data_occu(data, dictio):
-    for valeur, compte in dictio.items():
-        texte = f"{valeur} : {compte} occurrence(s)"
-        data.insert(tk.END, texte)
-
-
 def import_csv(file_path):
     # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
     file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
@@ -73,26 +67,32 @@ def process_csv():
         column1 = int(column_entry1.get()) - 1
         column2 = int(column_entry2.get()) - 1
 
-        # Crée un nouveau canevas pour chaque fichier CSV
-        GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150")
-        GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
-        GlobalWindows.gui_windows[1].SpecializedAsInputList()
-
-        GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150")
-        GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
-        GlobalWindows.gui_windows[2].SpecializedAsInputList()
-
         # Lit les fichiers CSV et traite les données selon nos paramètres
         BN_ID_csv_1 = load_csv(path_1, separator1, column1)
-
         GlobalLists.gui_liste[0] = BN_ID_csv_1
-        insert_data_occu(GlobalWindows.gui_windows[1].ListBox,
-                         occurence(GlobalLists.gui_liste[0]))
 
         BN_ID_csv_2 = load_csv(path_2, separator2, column2)
         GlobalLists.gui_liste[1] = BN_ID_csv_2
-        insert_data_occu(GlobalWindows.gui_windows[2].ListBox,
-                         occurence(GlobalLists.gui_liste[1]))
+
+        # Crée un nouveau canevas pour chaque fichier CSV
+        GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150",
+                                                             GlobalLists.gui_liste[0],
+                                                             occurence(GlobalLists.gui_liste[0]))
+        GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
+        GlobalWindows.gui_windows[1].SpecializedAsInputList()
+
+        GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150",
+                                                             GlobalLists.gui_liste[1],
+                                                             occurence(GlobalLists.gui_liste[1]))
+        GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
+        GlobalWindows.gui_windows[2].SpecializedAsInputList()
+
+        # Insert the data into the listbox
+        # insert_data_occu(GlobalWindows.gui_windows[1].ListBox,
+        #     woccurence(GlobalLists.gui_liste[0]))
+
+        # insert_data_occu(GlobalWindows.gui_windows[2].ListBox,
+        #     occurence(GlobalLists.gui_liste[1]))
 
 # Crée une fenêtre Tkinter
 
