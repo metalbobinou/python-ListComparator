@@ -13,6 +13,8 @@ class WindowList:
     # Load/Save buttons in the window
     LoadButton = None
     SaveButton = None
+    SortButton = None
+    ListButton = None
     # Frame for putting scrollbar and list inside
     Frame = None
     # Right scrollbar
@@ -38,6 +40,19 @@ class WindowList:
                                     state=tk.DISABLED,
                                     command=lambda: SaveFile(self))
         self.SaveButton.pack()
+        # Sort CSV button
+        # self.SortButton = tk.Button(self.MainCanvas,
+                                    # text="Trier",
+                                    # state=tk.NORMAL,
+                                    # command=lambda: SortValue(self))
+        # self.SortButton.pack()
+        # List CSV button
+        self.ListButton = tk.Button(self.MainCanvas,
+                                    text="Lister",
+                                    state=tk.NORMAL,
+                                    command=lambda: insert_data_list(self))
+        self.ListButton.pack()
+
 
         # Frame for containing the list
         self.Frame = ttk.Frame(self.MainCanvas)
@@ -116,6 +131,15 @@ def SaveFile(TheWindowList):
     TheWindowList.CallWithdraw()
     TheWindowList.SimpleCanvas()
     TheWindowList.SetTitle("Sauvegarder le résultat")
+
+
+# def SortValue(TheWindowList):
+
+
+def insert_data_list(data, liste):
+    data.delete('1.0', tk.END)
+    for element in liste:
+        data.insert(tk.END, element)
 
 
 #  TMP

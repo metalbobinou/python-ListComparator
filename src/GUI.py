@@ -6,6 +6,7 @@ from logic_processing import occurence
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
 
+
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
 # gui_windows = [None, None, None, None]
@@ -15,7 +16,7 @@ import GlobalLists
 # gui_liste = [None, None, None]
 
 
-def insert_data(data, dictio):
+def insert_data_occu(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
         data.insert(tk.END, texte)
@@ -85,13 +86,13 @@ def process_csv():
         BN_ID_csv_1 = load_csv(path_1, separator1, column1)
 
         GlobalLists.gui_liste[0] = BN_ID_csv_1
-        insert_data(GlobalWindows.gui_windows[1].ListBox,
-                    occurence(GlobalLists.gui_liste[0]))
+        insert_data_occu(GlobalWindows.gui_windows[1].ListBox,
+                         occurence(GlobalLists.gui_liste[0]))
 
         BN_ID_csv_2 = load_csv(path_2, separator2, column2)
         GlobalLists.gui_liste[1] = BN_ID_csv_2
-        insert_data(GlobalWindows.gui_windows[2].ListBox,
-                    occurence(GlobalLists.gui_liste[1]))
+        insert_data_occu(GlobalWindows.gui_windows[2].ListBox,
+                         occurence(GlobalLists.gui_liste[1]))
 
 # Crée une fenêtre Tkinter
 
