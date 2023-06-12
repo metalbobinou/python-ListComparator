@@ -103,7 +103,9 @@ def inter_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
@@ -121,7 +123,9 @@ def union_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
@@ -139,7 +143,9 @@ def unique_1_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
@@ -157,7 +163,9 @@ def unique_2_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
@@ -175,7 +183,9 @@ def inv_inter_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Inverse de l'intersection des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
@@ -193,7 +203,9 @@ def smart_union_window():
         GlobalWindows.gui_windows.append(None)
 
     # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300")
+    GlobalWindows.gui_windows[3] = WindowList.WindowList("300x400+650+300",
+                                                         GlobalLists.gui_liste[2],
+                                                         occurence(GlobalLists.gui_liste[2]))
     GlobalWindows.gui_windows[3].SetTitle("Smart union des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
     insert_data(GlobalWindows.gui_windows[3].ListBox,
