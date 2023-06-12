@@ -38,7 +38,7 @@ class FrameCSVLoader:
                                     command=lambda: import_csv(self))
         self.FileButton.pack()
         # Create a file field
-        self.FileField = tk.Entry(self.Canvas, textvariable=Filename)
+        self.FileField = tk.Entry(self.Canvas, textvariable=self.Filename)
         self.FileField.pack()
 
         # Separator Description and Field
@@ -54,7 +54,7 @@ class FrameCSVLoader:
         self.ColumnDescription = tk.Label(self.Canvas,
                                           text="Column:")
         self.ColumnDescription.pack()
-        self.ColumnField = tk.Entry(self.Canvas, textvariable=Column)
+        self.ColumnField = tk.Entry(self.Canvas, textvariable=self.Column)
         self.ColumnField.insert(0, "6")
         self.ColumnField.pack()
 
