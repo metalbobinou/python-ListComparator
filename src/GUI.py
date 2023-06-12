@@ -1,195 +1,88 @@
 import tkinter as tk
 from tkinter import filedialog
+from GuiClasses import WindowStart
 from GuiClasses import WindowList
 from GuiClasses import WindowActions
-from logic_processing import occurence
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
 
-
-# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
-from GuiClasses import GlobalWindows
-# gui_windows = [None, None, None, None]
 
 # gui_liste : Input List 1, Input List 2, Output List
 import GlobalLists
 # gui_liste = [None, None, None]
 
 
-def import_csv(file_path):
-    # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
-    file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+def occurence(liste):
+    # Initialiser un dictionnaire pour stocker les occurrences
+    occu = {}
 
-    # Vérifie si un fichier a été sélectionné
-    if file:
-        # Stocke le chemin du fichier
-        file_path.set(file)
+    # Parcourir les lignes du fichier CSV
+    for row in liste:
+        valeur = row
+        if valeur in occu:
+            occu[valeur] += 1
+        else:
+            occu[valeur] = 1
 
-
-def save_path():
-    # Demander à l'utilisateur de choisir l'emplacement de sauvegarde
-    file_path = filedialog.asksaveasfilename(defaultextension=".csv",
-                                             filetypes=[("Fichier CSV",
-                                                         "*.csv")])
-    return file_path
+    return occu
 
 
-def process_csv():
-    global gui_windows, gui_liste
+def main():
+    # Initialize 2 empty CSV (global var)
+    # (done by the initial files)
 
-    # Vérifie si les fichiers et les paramètres ont été sélectionnés
-    if (file_path_1.get() == "") or (file_path_2.get() == "")           \
-       or (separator_var1.get() == "") or (separator_var2.get() == "")  \
-       or (column_entry1.get() == "") or (column_entry2.get() == ""):
+    # Load exit button in hardcoded way
+    ExitWindow = tk.Tk()
+    ExitWindow.title("Close Application")
+    ExitWindow.geometry("300x50+1200+50")
 
-        label = tk.Label(GlobalWindows.gui_windows[0], text="Sélectionner tous les fichiers et paramètres souhaités")
-        label.pack()
-    else:
-        # Hide main window selecting files
-        GlobalWindows.gui_windows[0].withdraw()
+    ExitButton = tk.Button(ExitWindow,
+                           text="Close All Windows",
+                           command=lambda: exit(0))
+    ExitButton.pack()
 
-        ### !!! WARNING : HIDDEN WINDOW IS LOST IN MEMORY !!!
+    StartWindow = None
+    # main loop of events :
+    while (True):
 
-        # Show a new window with the possible actions
-        GlobalWindows.gui_windows[0] = WindowActions.WindowActions("300x200+650+50")
-        GlobalWindows.gui_windows[0].SetTitle("Action possible")
+        # if 2 empty CSV (global var) :
+        if ((GlobalLists.gui_liste[0] is None) or
+            (GlobalLists.gui_liste[1] is None)) :
 
-        # Obtient les chemins des fichiers sélectionnés
-        path_1 = file_path_1.get()
-        path_2 = file_path_2.get()
+            # Open WindowStart if not already opened
+            if (StartWindow is None) :
+                StartWindow = WindowStart.WindowStart("500x350+500+300")
+                StartWindow.SetTitle("Import CSV")
 
-        # Obtient le séparateur choisi
-        separator1 = separator_var1.get()
-        separator2 = separator_var2.get()
+            #   Load inside 2 FrameCSVLoader
+            #   OnPress "Process"
+            #     Validate content
+            #     if correct :
+            #       fill 2 CSV (global var)
+            #       quit WindowStart
+            #     if incorrect :
+            #       pop for error
 
-        # Obtient le numéro de colonne saisi
-        # Convertit en entier et ajuste pour l'index de la colonne
-        column1 = int(column_entry1.get()) - 1
-        column2 = int(column_entry2.get()) - 1
+            #   WindowStart.mainloop
+            StartWindow.CallMainloop()
 
-        # Lit les fichiers CSV et traite les données selon nos paramètres
-        BN_ID_csv_1 = load_csv(path_1, separator1, column1)
-        GlobalLists.gui_liste[0] = BN_ID_csv_1
+        # else :
+        else :
+            # Open WindowActions
+            ActionsWindow = WindowActions.WindowActions("300x200+650+50")
 
-        BN_ID_csv_2 = load_csv(path_2, separator2, column2)
-        GlobalLists.gui_liste[1] = BN_ID_csv_2
+            #   Open 2 WindowList with their CSV content (global var)
+            List1Window = WindowList.WindowList("300x400+200+150", GlobalLists.gui_liste[0], occurence(GlobalLists.gui_liste[0]))
+            List1Window.SetTitle("CSV 1 List")
+            List1Window.SpecializedAsInputList()
 
-        # Crée un nouveau canevas pour chaque fichier CSV
-        GlobalWindows.gui_windows[1] = WindowList.WindowList("300x400+200+150",
-                                                             GlobalLists.gui_liste[0],
-                                                             occurence(GlobalLists.gui_liste[0]))
-        GlobalWindows.gui_windows[1].SetTitle("BN_ID du premier csv")
-        GlobalWindows.gui_windows[1].SpecializedAsInputList()
+            List2Window = WindowList.WindowList("300x400+1100+150", GlobalLists.gui_liste[1], occurence(GlobalLists.gui_liste[1]))
+            List2Window.SetTitle("CSV 2 List")
+            List2Window.SpecializedAsInputList()
 
-        GlobalWindows.gui_windows[2] = WindowList.WindowList("300x400+1100+150",
-                                                             GlobalLists.gui_liste[1],
-                                                             occurence(GlobalLists.gui_liste[1]))
-        GlobalWindows.gui_windows[2].SetTitle("BN_ID du deuxième csv")
-        GlobalWindows.gui_windows[2].SpecializedAsInputList()
+            #   WindowActions.mainloop
+            ActionsWindow.CallMainloop()
 
-        # Insert the data into the listbox
-        # insert_data_occu(GlobalWindows.gui_windows[1].ListBox,
-        #     woccurence(GlobalLists.gui_liste[0]))
+    return 0
 
-        # insert_data_occu(GlobalWindows.gui_windows[2].ListBox,
-        #     occurence(GlobalLists.gui_liste[1]))
-
-# Crée une fenêtre Tkinter
-
-
-window = tk.Tk()
-window.title("Importer CSV")
-window.geometry("500x350+500+300")
-
-# Variables pour stocker les chemins des fichiers
-file_path_1 = tk.StringVar()
-file_path_2 = tk.StringVar()
-
-# Étiquettes pour afficher les chemins des fichiers
-label_1 = tk.Label(window, textvariable=file_path_1)
-label_1.pack()
-
-label_2 = tk.Label(window, textvariable=file_path_2)
-label_2.pack()
-
-# Boutons pour importer les fichiers
-button_1 = tk.Button(window,
-                     text="Importer CSV 1",
-                     command=lambda: import_csv(file_path_1))
-button_1.pack()
-
-button_2 = tk.Button(window,
-                     text="Importer CSV 2",
-                     command=lambda: import_csv(file_path_2))
-button_2.pack()
-
-# Liste des séparateurs
-separator_options = [",", ";", ":"]
-
-# Menu déroulant pour sélectionner le séparateur du csv 1
-separator_var1 = tk.StringVar(window)
-separator_var1.set(separator_options[1])  # Séparateur par défaut
-
-separator_label1 = tk.Label(window,
-                            text="Séparateur csv 1 :")
-separator_label1.pack()
-
-separator_menu1 = tk.OptionMenu(window,
-                                separator_var1,
-                                *separator_options)
-separator_menu1.pack()
-
-# Saisie du numéro de colonne du csv 1
-column_label1 = tk.Label(window,
-                         text="Numéro de colonne csv 1 :")
-column_label1.pack()
-
-column_entry1 = tk.Entry(window)
-column_entry1.insert(0, "6")
-column_entry1.pack()
-
-GlobalWindows.gui_windows[0] = window
-
-# Menu déroulant pour sélectionner le séparateur du csv 2
-separator_var2 = tk.StringVar(window)
-separator_var2.set(separator_options[1])  # Séparateur par défaut
-
-separator_label2 = tk.Label(window,
-                            text="Séparateur csv 2 :")
-separator_label2.pack()
-
-separator_menu2 = tk.OptionMenu(window,
-                                separator_var2,
-                                *separator_options)
-separator_menu2.pack()
-
-# Saisie du numéro de colonne du csv 2
-column_label2 = tk.Label(window,
-                         text="Numéro de colonne csv 2 :")
-column_label2.pack()
-
-column_entry2 = tk.Entry(window)
-column_entry2.insert(0, "6")
-column_entry2.pack()
-
-GlobalWindows.gui_windows[0] = window
-
-# Bouton pour traiter les fichiers CSV
-process_button = tk.Button(window,
-                           text="Traiter",
-                           command=process_csv)
-process_button.pack()
-
-# Canvas pour fermer toutes les fenêtres
-close = tk.Tk()
-close.title("Femer")
-close.geometry("300x50+1200+50")
-
-process_button = tk.Button(close,
-                           text="Fermer les fenêtres",
-                           command=window.quit)
-process_button.pack()
-
-
-# Lance la boucle principale Tkinter
-window.mainloop()
+main()

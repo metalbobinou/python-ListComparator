@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from GuiClasses import FrameCSVLoader
+from GuiClasses import WindowError
 from logic_processing import occurence
 from csv_manipulate import load_csv
 
@@ -111,11 +112,13 @@ def Launch_WindowListActions(TheStartWindow):
         TheStartWindow.CallQuit()
 
     else :
-        ErrWindow = tk.Tk()
-        ErrWindow.title("Error")
-        ErrLabel = tk.Label(ErrWindow, text="Error : Fill correctly CSV")
-        ErrLabel.pack()
-        ErrButton = tk.Button(ErrWindow,
-                              text="OK",
-                              command=lambda: ErrWindow.destroy())
-        ErrButton.pack()
+        #ErrWindow = tk.Tk()
+        #ErrWindow.title("Error")
+        #ErrLabel = tk.Label(ErrWindow, text="Error : Fill correctly CSV")
+        #ErrLabel.pack()
+        #ErrButton = tk.Button(ErrWindow,
+        #                      text="OK",
+        #                      command=lambda: ErrWindow.destroy())
+        #ErrButton.pack()
+        ErrWindow = WindowError.WindowError()
+        ErrWindow.SetLabel("Error : Fill correctly CSV paths, separator, and column")
