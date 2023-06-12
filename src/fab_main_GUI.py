@@ -12,10 +12,10 @@ import GlobalLists
 # gui_liste = [None, None, None]
 
 def occurence(liste):
-    # Initialiser un dictionnaire pour stocker les occurrences                                           
+    # Initialiser un dictionnaire pour stocker les occurrences
     occu = {}
 
-    # Parcourir les lignes du fichier CSV                                                                
+    # Parcourir les lignes du fichier CSV
     for row in liste:
         valeur = row
         if valeur in occu:
@@ -25,11 +25,6 @@ def occurence(liste):
 
     return occu
 
-
-def insert_data(data, dictio):
-    for valeur, compte in dictio.items():
-        texte = f"{valeur} : {compte} occurrence(s)"
-        data.insert(tk.END, texte)
 
 def main():
     # Initialize 2 empty CSV (global var)
@@ -101,17 +96,13 @@ def main():
             ActionsWindow = WindowActions.WindowActions("300x200+650+50")
 
             #   Open 2 WindowList with their CSV content (global var)
-            List1Window = WindowList.WindowList("300x400+200+150")
+            List1Window = WindowList.WindowList("300x400+200+150", GlobalLists.gui_liste[0], occurence(GlobalLists.gui_liste[0]))
             List1Window.SetTitle("CSV 1 List")
             List1Window.SpecializedAsInputList()
-            insert_data(List1Window.ListBox,
-                        occurence(GlobalLists.gui_liste[0]))
-            
-            List2Window = WindowList.WindowList("300x400+1100+150")
+
+            List2Window = WindowList.WindowList("300x400+1100+150", GlobalLists.gui_liste[1], occurence(GlobalLists.gui_liste[1]))
             List2Window.SetTitle("CSV 2 List")
             List2Window.SpecializedAsInputList()
-            insert_data(List2Window.ListBox,
-                        occurence(GlobalLists.gui_liste[1]))
 
             #   WindowActions.mainloop
             ActionsWindow.CallMainloop()
