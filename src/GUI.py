@@ -18,7 +18,7 @@ import GlobalLists
 def insert_data(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
-        data.insert(0, texte)
+        data.insert(tk.END, texte)
 
 
 def import_csv(file_path):
