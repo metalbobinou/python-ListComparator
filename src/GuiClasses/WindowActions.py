@@ -84,6 +84,9 @@ class WindowActions:
     def GetTitle(self):
         return (self.Title)
 
+    def CallMainloop(self):
+        self.MainCanvas.mainloop()
+    
     def CallWithdraw(self):
         self.MainCanvas.withdraw()
 

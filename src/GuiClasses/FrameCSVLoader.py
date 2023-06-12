@@ -1,12 +1,14 @@
+import os.path
 import tkinter as tk
 from tkinter import filedialog
 
 
+# Frame asking for informations about a CSV (path, sep, col)
 class FrameCSVLoader:
-    # Values we want to get from the user
-    Filename = tk.StringVar()
-    Separator = tk.StringVar()
-    Column = tk.StringVar()
+    # Values we want to get from the user (tk.StringVar())
+    Filename = None
+    Separator = None
+    Column = None
 
     # Canvas where to put the frame
     Canvas = None
@@ -18,15 +20,20 @@ class FrameCSVLoader:
     # Widgets of the frame
     FileDescription = None
     FileButton = None
-    FileField = None
+    FileEntry = None
     SeparatorDescription = None
-    SeparatorField = None
+    SeparatorEntry = None
     ColumnDescription = None
-    ColumnField = None
+    ColumnEntry = None
 
     def __init__(self, canvas):
         # Get the canvas where to put the frame
         self.Canvas = canvas
+
+        # Fill variables
+        self.Filename = tk.StringVar()
+        self.Separator = tk.StringVar()
+        self.Column = tk.StringVar()
 
         # Describe the field and button
         self.FileDescription = tk.Label(self.Canvas,
@@ -35,28 +42,28 @@ class FrameCSVLoader:
         # Put the button for the file and fill the file field when chosen
         self.FileButton = tk.Button(self.Canvas,
                                     text="Choose file",
-                                    command=lambda: import_csv(self))
+                                    command=self.ChooseFile)
         self.FileButton.pack()
         # Create a file field
-        self.FileField = tk.Entry(self.Canvas, textvariable=self.Filename)
-        self.FileField.pack()
+        self.FileEntry = tk.Entry(self.Canvas, textvariable=self.Filename)
+        self.FileEntry.pack()
 
         # Separator Description and Field
         self.SeparatorDescription = tk.Label(self.Canvas,
                                              text="Separator:")
         self.SeparatorDescription.pack()
-        self.SeparatorField = tk.Entry(self.Canvas,
+        self.SeparatorEntry = tk.Entry(self.Canvas,
                                        textvariable=self.Separator)
-        self.SeparatorField.insert(0, ";")
-        self.SeparatorField.pack()
+        self.SeparatorEntry.insert(0, ";")
+        self.SeparatorEntry.pack()
 
         # Column Description and Field
         self.ColumnDescription = tk.Label(self.Canvas,
                                           text="Column:")
         self.ColumnDescription.pack()
-        self.ColumnField = tk.Entry(self.Canvas, textvariable=self.Column)
-        self.ColumnField.insert(0, "6")
-        self.ColumnField.pack()
+        self.ColumnEntry = tk.Entry(self.Canvas, textvariable=self.Column)
+        self.ColumnEntry.insert(0, "6")
+        self.ColumnEntry.pack()
 
     def GetFilename(self):
         return (self.Filename)
@@ -79,19 +86,41 @@ class FrameCSVLoader:
         self.Relief = relief
         self.Frame['relief'] = relief
 
+    # Quit the "mainloop" and return
+    def CallQuit(self):
+        self.MainCanvas.quit()
+
+    # Kill the "mainloop" completely/Exit program
+    def CallDestroy(self):
+        self.MainCanvas.destroy()
+
     def ChooseFile(self):
-        # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
+        # Open a dialog box in order to select the CSV file
         file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
 
-        # Vérifie si un fichier a été sélectionné
+        # Check if a file has been selected
         if (file):
-            # Stocke le chemin du fichier
-            # file_path.set(file)
+            # Store & Fill the file path in the entry box
             self.Filename.set(file)
-            self.FileField.insert(0, file)
+            self.FileEntry.insert(0, file)
 
-    # def Validate(self):
-        # check the content of th cells ?... unsure about this one
+    def Validate(self):
+        self.Filename.set(self.FileEntry.get())
+        self.Separator.set(self.SeparatorEntry.get())
+        self.Column.set(self.ColumnEntry.get())
+
+        #print("Frame :")
+        #print("  Path : --" + self.Filename.get() + "--")
+        #print("  Sep  : --" + self.Separator.get() + "--")
+        #print("  Col  : --" + self.Column.get() + "--")
+
+        if ((os.path.isfile(self.Filename.get())) and
+            (len(self.Separator.get()) == 1) and
+            (int(self.Column.get()) > 0)) :
+
+            return (self.Filename.get(), self.Separator.get(), self.Column.get())
+        else :
+            return (None)
 
 
 def import_csv(TheFrame):

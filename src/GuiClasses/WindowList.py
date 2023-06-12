@@ -2,9 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 
+
 # Class for printing lists (input and output) and asking for load/save
-
-
 class WindowList:
     Geometry = "0"
     Title = "List Window"
