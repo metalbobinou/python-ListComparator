@@ -2,11 +2,16 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 
+# gui_liste : Input List 1, Input List 2, Output List
+import GlobalLists
+# gui_liste = [None, None, None]
+
 
 # Class for printing lists (input and output) and asking for load/save
 class WindowList:
     Geometry = "0"
     Title = "List Window"
+    GlobalListNumber = None
     # Canvas getting the whole window
     MainCanvas = None
     # Load/Save buttons in the window
@@ -22,10 +27,12 @@ class WindowList:
     ListBox = None
 
     # def WindowListGenerator(self):
-    def __init__(self, geometry, liste, dictio):
+    def __init__(self, globallistnum, geometry, liste, dictio):
         self.MainCanvas = tk.Tk()
 
         self.SetGeometry(geometry)
+
+        self.GlobalListNumber = globallistnum
 
         # Load CSV button
         self.LoadButton = tk.Button(self.MainCanvas,

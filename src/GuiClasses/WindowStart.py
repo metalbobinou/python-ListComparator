@@ -2,7 +2,6 @@ import tkinter as tk
 
 from GuiClasses import FrameCSVLoader
 from GuiClasses import WindowError
-from logic_processing import occurence
 from csv_manipulate import load_csv
 
 

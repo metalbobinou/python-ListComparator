@@ -1,27 +1,23 @@
 import tkinter as tk
 
-class WindowError:
+class WindowExit:
     Geometry = None
     Title = None
 
     # Main canvas getting the label and button
     MainCanvas = None
 
-    # The label first with the error message
-    Label = None
     # The button and its text to click on
     Button = None
     ButtonText = None
 
     def __init__(self):
         self.MainCanvas = tk.Tk()
-        self.SetTitle("Error")
-        self.Label = tk.Label(self.MainCanvas, text="Error")
-        self.Label.pack()
-        self.ButtonText = "OK"
+        self.SetTitle("Close Application")
+        self.ButtonText = "Close All Windows"
         self.Button = tk.Button(self.MainCanvas,
-                                text="OK",
-                                command=lambda: self.MainCanvas.destroy())
+                                text="Close All Windows",
+                                command=lambda: exit(0))
         self.Button.pack()
 
     def SetGeometry(self, geometry):
@@ -43,12 +39,5 @@ class WindowError:
         self.ButtonText = button_text
         self.Button = tk.Button(self.MainCanvas,
                                 text=button_text,
-                                command=lambda: self.MainCanvas.destroy())
+                                command=lambda: exit(0))
         self.Button.pack()
-
-    # For upating the label, we must remove the button and put it again
-    def SetLabel(self, new_text):
-        self.Label.destroy()
-        self.Label = tk.Label(self.MainCanvas, text=new_text)
-        self.Label.pack()
-        self.SetButton(self.ButtonText)

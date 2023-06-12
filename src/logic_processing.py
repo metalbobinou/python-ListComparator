@@ -28,18 +28,3 @@ def inv_inter(BN_ID_csv_1, BN_ID_csv_2):
 def smart_union(BN_ID_csv_1, BN_ID_csv_2):
     smart_union_liste = BN_ID_csv_1 + unique(BN_ID_csv_1, BN_ID_csv_2, 2)
     return smart_union_liste
-
-
-def occurence(liste):
-    # Initialiser un dictionnaire pour stocker les occurrences
-    occu = {}
-
-    # Parcourir les lignes du fichier CSV
-    for row in liste:
-        valeur = row
-        if valeur in occu:
-            occu[valeur] += 1
-        else:
-            occu[valeur] = 1
-
-    return occu
