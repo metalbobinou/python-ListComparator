@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog
+
 
 class FrameCSVLoader:
     # Values we want to get from the user
@@ -44,7 +45,8 @@ class FrameCSVLoader:
         self.SeparatorDescription = tk.Label(self.Canvas,
                                              text="Separator:")
         self.SeparatorDescription.pack()
-        self.SeparatorField = tk.Entry(self.Canvas, textvariable=self.Separator)
+        self.SeparatorField = tk.Entry(self.Canvas,
+                                       textvariable=self.Separator)
         self.SeparatorField.insert(0, ";")
         self.SeparatorField.pack()
 
@@ -84,13 +86,13 @@ class FrameCSVLoader:
         # Vérifie si un fichier a été sélectionné
         if (file):
             # Stocke le chemin du fichier
-            #file_path.set(file)
+            # file_path.set(file)
             self.Filename.set(file)
             self.FileField.insert(0, file)
 
-    def Validate(self):
+    # def Validate(self):
         # check the content of th cells ?... unsure about this one
 
-            
+           
 def import_csv(TheFrame):
     TheFrame.ChooseFile()
