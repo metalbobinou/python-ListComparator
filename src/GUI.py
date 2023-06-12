@@ -42,7 +42,7 @@ def process_csv():
        or (separator_var1.get() == "") or (separator_var2.get() == "")  \
        or (column_entry1.get() == "") or (column_entry2.get() == ""):
 
-        label = tk.Label(gui_windows[0], text="Sélectionner tous les fichiers et paramètres souhaités")
+        label = tk.Label(GlobalWindows.gui_windows[0], text="Sélectionner tous les fichiers et paramètres souhaités")
         label.pack()
     else:
         # Hide main window selecting files
