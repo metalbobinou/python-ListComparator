@@ -93,6 +93,6 @@ class FrameCSVLoader:
     # def Validate(self):
         # check the content of th cells ?... unsure about this one
 
-           
+
 def import_csv(TheFrame):
     TheFrame.ChooseFile()
