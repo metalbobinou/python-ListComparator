@@ -121,7 +121,3 @@ class FrameCSVLoader:
             return (self.Filename.get(), self.Separator.get(), self.Column.get())
         else :
             return (None)
-
-
-def import_csv(TheFrame):
-    TheFrame.ChooseFile()

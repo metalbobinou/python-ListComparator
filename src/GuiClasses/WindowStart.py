@@ -74,6 +74,7 @@ class WindowStart:
 
     # Quit the "mainloop" and return
     def CallQuit(self):
+        self.MainCanvas.withdraw()
         self.MainCanvas.quit()
 
     # Kill the "mainloop" completely/Exit program

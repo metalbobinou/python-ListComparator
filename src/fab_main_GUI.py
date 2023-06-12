@@ -11,6 +11,7 @@ from csv_manipulate import save_csv
 import GlobalLists
 # gui_liste = [None, None, None]
 
+
 def occurence(liste):
     # Initialiser un dictionnaire pour stocker les occurrences
     occu = {}
@@ -28,29 +29,6 @@ def occurence(liste):
 
 def main():
     # Initialize 2 empty CSV (global var)
-    #
-    # Load exit button in hardcoded way
-    #
-    # main loop of events :
-    #
-    # if 2 empty CSV (global var) :
-    #   Open WindowStart
-    #    Load inside 2 FrameCSVLoader
-    #   OnPress "Process"
-    #     Validate content
-    #     if correct :
-    #       fill 2 CSV (global var)
-    #       quit WindowStart
-    #     if incorrect :
-    #       pop for error
-    #   WindowStart.mainloop
-    # else :
-    #   Open WindowActions
-    #   Open 2 WindowList with their CSV content (global var)
-    #   WindowActions.mainloop
-
-
-    # Initialize 2 empty CSV (global var)
     # (done by the initial files)
 
     # Load exit button in hardcoded way
@@ -61,8 +39,6 @@ def main():
     ExitButton = tk.Button(ExitWindow,
                            text="Close All Windows",
                            command=lambda: exit(0))
-    #                       command=window.quit)
-
     ExitButton.pack()
 
     StartWindow = None
