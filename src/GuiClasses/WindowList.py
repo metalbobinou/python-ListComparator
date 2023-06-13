@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tools import occurrence
 
 # gui_liste : Input List 1, Input List 2, Output List
 import GlobalLists
@@ -27,7 +28,7 @@ class WindowList:
     ListBox = None
 
     # def WindowListGenerator(self):
-    def __init__(self, globallistnum, geometry, liste, dictio):
+    def __init__(self, globallistnum, geometry):
         self.MainCanvas = tk.Tk()
 
         self.SetGeometry(geometry)
@@ -51,14 +52,14 @@ class WindowList:
                                text="Lister",
                                state=tk.NORMAL,
                                command=lambda: insert_data_list(self.ListBox,
-                                                                liste))
+                                                                GlobalLists.gui_liste[globallistnum]))
         ListButton.pack()
         # Occurence CSV button
         OccuButton = tk.Button(self.MainCanvas,
                                text="Occurence",
                                state=tk.NORMAL,
                                command=lambda: insert_data_occu(self.ListBox,
-                                                                dictio))
+                                                                occurrence(GlobalLists.gui_liste[globallistnum])))
         OccuButton.pack()
 
         # Frame for containing the list
@@ -81,6 +82,9 @@ class WindowList:
         self.Scrollbar.config(command=self.ListBox.yview)
         self.Scrollbar.pack(side=tk.RIGHT,
                             fill=tk.Y)
+
+        # Insert the data of the CSV at the start of the program 
+        insert_data_list(self.ListBox, GlobalLists.gui_liste[globallistnum])
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsInputList(self):

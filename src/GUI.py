@@ -59,16 +59,12 @@ def main():
 
             #   Open 2 WindowList with their CSV content (global var)
             List1Window = WindowList.WindowList(0,
-                                                "300x400+200+150",
-                                                GlobalLists.gui_liste[0],
-                                                occurrence(GlobalLists.gui_liste[0]))
+                                                "300x400+200+150")
             List1Window.SetTitle("CSV 1 List")
             List1Window.SpecializedAsInputList()
 
             List2Window = WindowList.WindowList(1,
-                                                "300x400+1100+150",
-                                                GlobalLists.gui_liste[1],
-                                                occurrence(GlobalLists.gui_liste[1]))
+                                                "300x400+1100+150")
             List2Window.SetTitle("CSV 2 List")
             List2Window.SpecializedAsInputList()
 
