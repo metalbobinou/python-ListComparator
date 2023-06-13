@@ -154,14 +154,3 @@ def insert_data_occu(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
         data.insert(tk.END, texte)
-
-
-#  TMP
-def import_csv2(file_path):
-    # Ouvre une boîte de dialogue pour sélectionner un fichier CSV
-    file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
-
-    # Vérifie si un fichier a été sélectionné
-    if file:
-        # Stocke le chemin du fichier
-        file_path.set(file)
