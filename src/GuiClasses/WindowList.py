@@ -83,18 +83,17 @@ class WindowList:
         self.Scrollbar.pack(side=tk.RIGHT,
                             fill=tk.Y)
 
-        # Insert the data of the CSV at the start of the program 
-        insert_data_list(self.ListBox, GlobalLists.gui_liste[globallistnum])
-
     # def WindowListOutputGenerator(self):
     def SpecializedAsInputList(self):
         self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
+        insert_data_list(self.ListBox, GlobalLists.gui_liste[self.GlobalListNumber])
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsOutputList(self):
         self.LoadButton.config(state=tk.DISABLED)
         self.SaveButton.config(state=tk.NORMAL)
+        insert_data_occu(self.ListBox, GlobalLists.gui_liste[self.GlobalListNumber])
 
     def SetTitle(self, title):
         self.Title = title
