@@ -1,6 +1,5 @@
 import tkinter as tk
 from GuiClasses import WindowList
-from tools import occurrence
 from logic_processing import union
 from logic_processing import inter
 from logic_processing import unique
@@ -145,7 +144,7 @@ def unique_1_window():
 
     GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 1)
-    
+
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
                                                          "300x400+650+300")
@@ -164,7 +163,7 @@ def unique_2_window():
 
     GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 2)
-    
+
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
                                                          "300x400+650+300")
