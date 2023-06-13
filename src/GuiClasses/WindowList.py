@@ -87,13 +87,15 @@ class WindowList:
     def SpecializedAsInputList(self):
         self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
+        self.ListBox.delete(0, tk.END)
         insert_data_list(self.ListBox, GlobalLists.gui_liste[self.GlobalListNumber])
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsOutputList(self):
         self.LoadButton.config(state=tk.DISABLED)
         self.SaveButton.config(state=tk.NORMAL)
-        insert_data_occu(self.ListBox, GlobalLists.gui_liste[self.GlobalListNumber])
+        self.ListBox.delete(0, tk.END)
+        insert_data_occu(self.ListBox, occurrence(GlobalLists.gui_liste[self.GlobalListNumber]))
 
     def SetTitle(self, title):
         self.Title = title
