@@ -2,6 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tools import occurrence
+from GuiClasses import FrameCSVLoader
+from FrameCSVLoader import Launch_WindowListActions
+
+# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
+from GuiClasses import GlobalWindows
+# gui_windows = [None, None, None, None]
 
 # gui_liste : Input List 1, Input List 2, Output List
 import GlobalLists
@@ -39,13 +45,13 @@ class WindowList:
         self.LoadButton = tk.Button(self.MainCanvas,
                                     text="Charger",
                                     state=tk.DISABLED,
-                                    command=lambda: LoadFile(self))
+                                    command=lambda: LoadFile(self.MainCanvas, self.GlobalListNumber))
         self.LoadButton.pack()
         # Save CSV button
         self.SaveButton = tk.Button(self.MainCanvas,
                                     text="Sauvegarder",
                                     state=tk.DISABLED,
-                                    command=lambda: SaveFile(self))
+                                    command=lambda: SaveFile(self.MainCanvas, self.GlobalListNumber))
         self.SaveButton.pack()
         # List CSV button
         ListButton = tk.Button(self.MainCanvas,
@@ -119,21 +125,14 @@ class WindowList:
 
 
 # Callback for LoadButton
-def LoadFile(TheWindowList):
-    
+def LoadFile(TheWindowList, numwindow):
+    WindowLoad = FrameCSVLoader.FrameCSVLoader(TheWindowList)
+    GlobalWindows.gui_window[numwindow] = WindowLoad
 
-    # Variables pour stocker les chemins des fichiers
-    file_path = tk.StringVar()
-
-    # Étiquettes pour afficher les chemins des fichiers
-    label = tk.Label(TheWindowList, textvariable=file_path)
-    label.pack()
-
-    # Boutons pour importer les fichiers
-    button = tk.Button(TheWindowList,
-                       text="Importer CSV 1",
-                       command=lambda: import_csv2(file_path))
-    button.pack()
+    LaunchButton = tk.Button(WindowLoad,
+                             text="Launch",
+                             command=lambda: Launch_WindowListActions(WindowLoad))
+    LaunchButton.pack(side=tk.BOTTOM)
 
 
 # Callback for SaveButton
