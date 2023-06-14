@@ -35,13 +35,11 @@ class WindowStart:
         # Add the launch button
         self.PutLaunchButton()
 
-
     def PutLaunchButton(self):
         self.LaunchButton = tk.Button(self.MainCanvas,
                                       text="Launch",
                                       command=lambda: Launch_WindowListActions(self))
-        self.LaunchButton.pack()
-
+        self.LaunchButton.pack(side=tk.BOTTOM)
 
     def SetTitle(self, title):
         self.Title = title

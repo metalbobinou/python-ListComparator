@@ -10,6 +10,8 @@ class FrameCSVLoader:
     Separator = None
     Column = None
 
+    # Frame where to put the Canvas
+    Frame = None
     # Canvas where to put the frame
     Canvas = None
     # Specifications of the frame
@@ -30,40 +32,44 @@ class FrameCSVLoader:
         # Get the canvas where to put the frame
         self.Canvas = canvas
 
+        self.Frame = tk.Frame(self.Canvas, width=250, height=300)
+
         # Fill variables
         self.Filename = tk.StringVar()
         self.Separator = tk.StringVar()
         self.Column = tk.StringVar()
 
         # Describe the field and button
-        self.FileDescription = tk.Label(self.Canvas,
+        self.FileDescription = tk.Label(self.Frame,
                                         text="CSV File Path:")
         self.FileDescription.pack()
         # Put the button for the file and fill the file field when chosen
-        self.FileButton = tk.Button(self.Canvas,
+        self.FileButton = tk.Button(self.Frame,
                                     text="Choose file",
                                     command=self.ChooseFile)
         self.FileButton.pack()
         # Create a file field
-        self.FileEntry = tk.Entry(self.Canvas, textvariable=self.Filename)
+        self.FileEntry = tk.Entry(self.Frame, textvariable=self.Filename)
         self.FileEntry.pack()
 
         # Separator Description and Field
-        self.SeparatorDescription = tk.Label(self.Canvas,
+        self.SeparatorDescription = tk.Label(self.Frame,
                                              text="Separator:")
         self.SeparatorDescription.pack()
-        self.SeparatorEntry = tk.Entry(self.Canvas,
+        self.SeparatorEntry = tk.Entry(self.Frame,
                                        textvariable=self.Separator)
         self.SeparatorEntry.insert(0, ";")
         self.SeparatorEntry.pack()
 
         # Column Description and Field
-        self.ColumnDescription = tk.Label(self.Canvas,
+        self.ColumnDescription = tk.Label(self.Frame,
                                           text="Column:")
         self.ColumnDescription.pack()
-        self.ColumnEntry = tk.Entry(self.Canvas, textvariable=self.Column)
+        self.ColumnEntry = tk.Entry(self.Frame, textvariable=self.Column)
         self.ColumnEntry.insert(0, "6")
         self.ColumnEntry.pack()
+
+        self.Frame.pack(side="left")
 
     def GetFilename(self):
         return (self.Filename)
