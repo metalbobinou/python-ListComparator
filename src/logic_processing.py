@@ -18,12 +18,14 @@ def unique(BN_ID_csv_1, BN_ID_csv_2, choix):
             for valeur2 in tmp_BN_ID_csv_2:
                 if valeur1 == valeur2:
                     tmp_BN_ID_csv_1.remove(valeur1)
+                    print(tmp_BN_ID_csv_1)
             return (tmp_BN_ID_csv_1)
     if choix == 2:
         for valeur2 in tmp_BN_ID_csv_2:
             for valeur1 in tmp_BN_ID_csv_1:
                 if valeur2 == valeur1:
                     tmp_BN_ID_csv_2.remove(valeur2)
+                    print(tmp_BN_ID_csv_2)
             return (tmp_BN_ID_csv_2)
 
 
