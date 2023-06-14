@@ -120,9 +120,7 @@ class WindowList:
 
 # Callback for LoadButton
 def LoadFile(TheWindowList):
-    TheWindowList.CallWithdraw()
-    TheWindowList.SimpleCanvas()
-    TheWindowList.SetTitle("Charger un nouveau CSV")
+    
 
     # Variables pour stocker les chemins des fichiers
     file_path = tk.StringVar()
@@ -139,10 +137,8 @@ def LoadFile(TheWindowList):
 
 
 # Callback for SaveButton
-def SaveFile(TheWindowList):
-    TheWindowList.CallWithdraw()
-    TheWindowList.SimpleCanvas()
-    TheWindowList.SetTitle("Sauvegarder le résultat")
+# def SaveFile(TheWindowList):
+    
 
 
 def insert_data_list(data, liste):
