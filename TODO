@@ -1,7 +1,6 @@
 * Critical / Required for working:
 
 C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
-C2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
 C3) CSVLogic : Unique à refaire
 C4) WindowList : Bouton LoadCSV doit fonctionner
 C5) WindowList : Bouton SaveCSV doit fonctionner
@@ -9,7 +8,13 @@ C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrence
 
 
 * Additional Features:
+
 A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
+A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
+A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
+A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
+
+H1) [Heavy Feature] Conserver une liste des opérations et des états passés afin de revenir en arrière/en avant pour voir l'évolution
 
 
 * Future Corrections for later:
