@@ -11,22 +11,23 @@ def union(BN_ID_csv_1, BN_ID_csv_2):
 
 
 def unique(BN_ID_csv_1, BN_ID_csv_2, choix):
-    tmp_BN_ID_csv_1 = BN_ID_csv_1
-    tmp_BN_ID_csv_2 = BN_ID_csv_2
+    unique_values_1 = BN_ID_csv_1.copy()
+    unique_values_2 = BN_ID_csv_2.copy()
+
     if choix == 1:
-        for valeur1 in tmp_BN_ID_csv_1:
-            for valeur2 in tmp_BN_ID_csv_2:
-                if valeur1 == valeur2:
-                    tmp_BN_ID_csv_1.remove(valeur1)
-                    print(tmp_BN_ID_csv_1)
-            return (tmp_BN_ID_csv_1)
+        for value in BN_ID_csv_1:
+            if (value in BN_ID_csv_2):
+                if (value in unique_values_2):
+                    unique_values_2.remove(value)
+                unique_values_1.remove(value)
+        return unique_values_1
     if choix == 2:
-        for valeur2 in tmp_BN_ID_csv_2:
-            for valeur1 in tmp_BN_ID_csv_1:
-                if valeur2 == valeur1:
-                    tmp_BN_ID_csv_2.remove(valeur2)
-                    print(tmp_BN_ID_csv_2)
-            return (tmp_BN_ID_csv_2)
+        for value in BN_ID_csv_2:
+            if (value in BN_ID_csv_1):
+                if (value in unique_values_1):
+                    unique_values_1.remove(value)
+                    unique_values_2.remove(value)
+        return unique_values_2
 
 
 def unique_without_occurrence(BN_ID_csv_1, BN_ID_csv_2, choix):
