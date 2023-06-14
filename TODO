@@ -1,0 +1,19 @@
+* Critical / Required for working:
+
+C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
+C2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
+C3) CSVLogic : Unique à refaire
+C4) WindowList : Bouton LoadCSV doit fonctionner
+C5) WindowList : Bouton SaveCSV doit fonctionner
+C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
+
+
+* Additional Features:
+A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
+
+
+* Future Corrections for later:
+
+F1) WindowList : si fenêtre d'Input, alors la mettre automatiquement en mode "Liste" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
+F2) WindowList : si fenêtre d'output, alors la mettre automatiquement en mode "occurrences" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
+F3) WindowAction : passer à l'utilisation de "WindowList" pour la fenêtre de sortie => gui_windows[3] dans WindowAction.py pour Output, et variables classiques dans GUI.py... peut être revoir le design ?
