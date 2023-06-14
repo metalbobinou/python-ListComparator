@@ -14,6 +14,8 @@ A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la F
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
 A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
 
+A5) WindowList : Ajouter un module de statistiques graphiques... un menu déroulant avec plusieurs affichages graphiques (camembert, barres, ...) et un bouton qui affiche une nouvelle fenêtre avec le graphique (et les infos desssu) et cette fenêtre permet de sauvegarder le graphique dans un fichier externe au format PNG
+
 H1) [Heavy Feature] Conserver une liste des opérations et des états passés afin de revenir en arrière/en avant pour voir l'évolution
 
 
