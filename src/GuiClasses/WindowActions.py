@@ -5,6 +5,7 @@ from logic_processing import inter
 from logic_processing import unique
 from logic_processing import inv_inter
 from logic_processing import smart_union
+from logic_processing import unique_without_occurrence
 
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
@@ -62,6 +63,14 @@ class WindowActions:
         self.Buttons.append(tk.Button(self.MainCanvas,
                                       text="Valeurs propre au deuxième csv",
                                       command=unique_2_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Valeurs propre au deuxième csv (occurrence)",
+                                      command=unique_1_occu_window))
+        self.Buttons[-1].pack()
+        self.Buttons.append(tk.Button(self.MainCanvas,
+                                      text="Valeurs propre au deuxième csv (occurrence)",
+                                      command=unique_2_occu_window))
         self.Buttons[-1].pack()
         self.Buttons.append(tk.Button(self.MainCanvas,
                                       text="Inverse intersection des 2 csv",
@@ -142,7 +151,7 @@ def unique_1_window():
         del GlobalWindows.gui_windows[3]
         GlobalWindows.gui_windows.append(None)
 
-    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
+    GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 1)
 
     # Crée un canevas pour afficher les résultats
@@ -161,13 +170,51 @@ def unique_2_window():
         del GlobalWindows.gui_windows[3]
         GlobalWindows.gui_windows.append(None)
 
-    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
+    GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 2)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
                                                          "300x400+650+300")
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV")
+    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
+
+
+def unique_1_occu_window():
+    global gui_windows, gui_liste
+
+    if GlobalWindows.gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        GlobalWindows.gui_windows[3].CallWithdraw()
+        del GlobalWindows.gui_windows[3]
+        GlobalWindows.gui_windows.append(None)
+
+    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
+                                      GlobalLists.gui_liste[1], 1)
+
+    # Crée un canevas pour afficher les résultats
+    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
+                                                         "300x400+650+300")
+    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV (occurrence)")
+    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
+
+
+def unique_2_occu_window():
+    global gui_windows, gui_liste
+
+    if GlobalWindows.gui_windows[3] is not None:
+        # gui_windows[3].withdraw()
+        GlobalWindows.gui_windows[3].CallWithdraw()
+        del GlobalWindows.gui_windows[3]
+        GlobalWindows.gui_windows.append(None)
+
+    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
+                                      GlobalLists.gui_liste[1], 2)
+
+    # Crée un canevas pour afficher les résultats
+    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
+                                                         "300x400+650+300")
+    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV (occurrence)")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
 
