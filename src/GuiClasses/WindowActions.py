@@ -108,17 +108,14 @@ class WindowActions:
 def inter_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = inter(GlobalLists.gui_liste[0],
                                      GlobalLists.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -126,18 +123,14 @@ def inter_window():
 def union_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = union(GlobalLists.gui_liste[0],
                                      GlobalLists.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -145,18 +138,14 @@ def union_window():
 def unique_1_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 1)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -164,18 +153,14 @@ def unique_1_window():
 def unique_2_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 2)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -183,18 +168,14 @@ def unique_2_window():
 def unique_1_occu_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 1)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV (occurrence)")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -202,18 +183,14 @@ def unique_1_occu_window():
 def unique_2_occu_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
                                       GlobalLists.gui_liste[1], 2)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV (occurrence)")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -221,18 +198,14 @@ def unique_2_occu_window():
 def inv_inter_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = inv_inter(GlobalLists.gui_liste[0],
                                          GlobalLists.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Inverse de l'intersection des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
@@ -240,17 +213,23 @@ def inv_inter_window():
 def smart_union_window():
     global gui_windows, gui_liste
 
-    if GlobalWindows.gui_windows[3] is not None:
-        # gui_windows[3].withdraw()
-        GlobalWindows.gui_windows[3].CallWithdraw()
-        del GlobalWindows.gui_windows[3]
-        GlobalWindows.gui_windows.append(None)
+    CheckWindows3(GlobalWindows.gui_windows[3])
 
     GlobalLists.gui_liste[2] = smart_union(GlobalLists.gui_liste[0],
                                            GlobalLists.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+300")
+                                                         "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Smart union des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
+
+
+def CheckWindows3(Window):
+    global gui_windows
+
+    if Window is not None:
+        # gui_windows[3].withdraw()
+        Window.CallWithdraw()
+        del Window
+        GlobalWindows.gui_windows.append(None)
