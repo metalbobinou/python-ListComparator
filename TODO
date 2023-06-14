@@ -24,3 +24,10 @@ H1) [Heavy Feature] Conserver une liste des opérations et des états passés af
 F1) WindowList : si fenêtre d'Input, alors la mettre automatiquement en mode "Liste" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
 F2) WindowList : si fenêtre d'output, alors la mettre automatiquement en mode "occurrences" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
 F3) WindowAction : passer à l'utilisation de "WindowList" pour la fenêtre de sortie => gui_windows[3] dans WindowAction.py pour Output, et variables classiques dans GUI.py... peut être revoir le design ?
+
+
+* Theory :
+
+T0) "smart union" est en réalité l'union classique... "union" que l'on vise est l'union disjointe. Smart Union = Union au sens ensembliste (U), "Notre Union" = Union Disjointe au sens ensembliste = Somme Cartésienne = Somme Disjointe au sens catégorie (U en forme carré)
+
+T1) Check "Théorie des Catégories"/Category Theory instead of "Théorie des Ensembles"/Set Theory
