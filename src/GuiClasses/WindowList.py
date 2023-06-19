@@ -185,6 +185,7 @@ def SaveFile():
 
     separator = tk.StringVar()
     choice = tk.StringVar()
+    choice.set("Liste")
 
     SepLabel = tk.Label(WindowSave,
                         text="Separator :")
@@ -197,19 +198,23 @@ def SaveFile():
     ChoiceLabel = tk.Label(WindowSave,
                            text="choix output :")
     ChoiceLabel.pack()
-    TypeLabel = tk.Label(WindowSave,
-                         text="1 : Liste / 2 : Occurrence")
-    TypeLabel.pack()
-    ChoiceEntry = tk.Entry(WindowSave,
-                           textvariable=choice)
-    ChoiceEntry.insert(0, "2")
-    ChoiceEntry.pack()
+
+    RadioButton1 = tk.Radiobutton(WindowSave,
+                                  text="Liste",
+                                  variable=choice,
+                                  value="Liste")
+    RadioButton1.pack()
+    RadioButton2 = tk.Radiobutton(WindowSave,
+                                  text="Occurrence",
+                                  variable=choice,
+                                  value="Occurrence")
+    RadioButton2.pack()
 
     LaunchButton = tk.Button(WindowSave,
                              text="Save",
                              command=lambda: save(SepEntry.get(),
                                                   GlobalLists.gui_liste[2],
-                                                  ChoiceEntry.get(),
+                                                  choice.get(),
                                                   WindowSave))
     LaunchButton.pack()
 
@@ -221,11 +226,11 @@ def save(sep, data, choice, WindowSave):
                                         defaultextension=".csv")
 
     fob = open(file, 'w')
-    if choice == "1":
+    if choice == "Liste":
         [fob.write("{0}\n".format(key)) for key in data]
         fob.close()
 
-    if choice == "2":
+    if choice == "Occurrence":
         occu = occurrence(data)
         [fob.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
         fob.close()
