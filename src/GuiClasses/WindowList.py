@@ -131,51 +131,15 @@ def LoadFile(numwindow):
     WindowLoad.title("Charger un csv")
     WindowLoad.geometry("300x400+650+375")
 
+    LaunchButton = tk.Button(WindowLoad,
+                             text="Launch",
+                             # command=lambda: Launch_WindowListActions(WindowLoad)
+                             )
+    LaunchButton.pack(side=tk.BOTTOM)
+
     WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad)
     GlobalWindows.gui_windows[numwindow] = WindowLoad
 
-    LaunchButton = tk.Button(WindowLoad,
-                             text="Launch",
-                             command=lambda: Launch_WindowListActions(WindowLoad, numwindow))
-    LaunchButton.pack(side=tk.BOTTOM)
-
-
-def Launch_WindowListActions(WindowLoad, numwindow):
-    # Get CSV 1 & 2 informations
-    CSVInfos = WindowLoad.GetCSVInfos(numwindow)
-
-    #print("[WindowStart] CSV 1 :")
-    #print(type(CSV1Infos))
-    #print(CSV1Infos)
-    #print(" ")
-    #print("[WindowStart] CSV 2 :")
-    #print(type(CSV2Infos))
-    #print(CSV2Infos)
-
-    if (not (CSVInfos is None)):
-        # Correct the columns (technical) : [1 -> 9] to [0 -> 8]
-        Col1 = int(CSVInfos[2]) - 1
-
-        GlobalLists.gui_liste[numwindow - 1] = load_csv(CSVInfos[0], CSVInfos[1], Col1)
-
-        # If the 2 CSV has been correctly loaded, exit
-        #if (! (GlobalLists.gui_liste[0] is None) or
-        #    (GlobalLists.gui_liste[1] is None)) :
-        # Close the main window and return back to the program
-        #TheStartWindow.CallDestroy()
-        WindowLoad.CallQuit()
-
-    else :
-        #ErrWindow = tk.Tk()
-        #ErrWindow.title("Error")
-        #ErrLabel = tk.Label(ErrWindow, text="Error : Fill correctly CSV")
-        #ErrLabel.pack()
-        #ErrButton = tk.Button(ErrWindow,
-        #                      text="OK",
-        #                      command=lambda: ErrWindow.destroy())
-        #ErrButton.pack()
-        ErrWindow = WindowError.WindowError()
-        ErrWindow.SetLabel("Error : Fill correctly CSV paths, separator, and column")
 
 # Callback for SaveButton
 def SaveFile():

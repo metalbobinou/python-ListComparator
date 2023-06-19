@@ -3,7 +3,7 @@
 ### C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
 ### C3) CSVLogic : Unique à refaire
 C4) WindowList : Bouton LoadCSV doit fonctionner
-C5) WindowList : Bouton SaveCSV doit fonctionner
+### C5) WindowList : Bouton SaveCSV doit fonctionner
 ### C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
 
 
