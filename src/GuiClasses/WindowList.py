@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkinter import filedialog
 from tools import occurrence
 from GuiClasses import FrameCSVLoader
+from GuiClasses import WindowError
+from csv_manipulate import load_csv
 
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
@@ -44,13 +46,13 @@ class WindowList:
         self.LoadButton = tk.Button(self.MainCanvas,
                                     text="Charger",
                                     state=tk.DISABLED,
-                                    command=lambda: LoadFile(self.MainCanvas, self.GlobalListNumber))
+                                    command=lambda: LoadFile(self.GlobalListNumber))
         self.LoadButton.pack()
         # Save CSV button
         self.SaveButton = tk.Button(self.MainCanvas,
                                     text="Sauvegarder",
                                     state=tk.DISABLED,
-                                    command=lambda: SaveFile(self.MainCanvas, self.GlobalListNumber))
+                                    command=SaveFile)
         self.SaveButton.pack()
         # List CSV button
         ListButton = tk.Button(self.MainCanvas,
@@ -124,19 +126,111 @@ class WindowList:
 
 
 # Callback for LoadButton
-def LoadFile(TheWindowList, numwindow):
-    WindowLoad = FrameCSVLoader.FrameCSVLoader(TheWindowList)
-    GlobalWindows.gui_window[numwindow] = WindowLoad
+def LoadFile(numwindow):
+    WindowLoad = tk.Tk()
+    WindowLoad.title("Charger un csv")
+    WindowLoad.geometry("300x400+650+375")
+
+    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad)
+    GlobalWindows.gui_windows[numwindow] = WindowLoad
 
     LaunchButton = tk.Button(WindowLoad,
                              text="Launch",
-                             command=lambda: Launch_WindowListActions(WindowLoad))
+                             command=lambda: Launch_WindowListActions(WindowLoad, numwindow))
     LaunchButton.pack(side=tk.BOTTOM)
 
 
+def Launch_WindowListActions(WindowLoad, numwindow):
+    # Get CSV 1 & 2 informations
+    CSVInfos = WindowLoad.GetCSVInfos(numwindow)
+
+    #print("[WindowStart] CSV 1 :")
+    #print(type(CSV1Infos))
+    #print(CSV1Infos)
+    #print(" ")
+    #print("[WindowStart] CSV 2 :")
+    #print(type(CSV2Infos))
+    #print(CSV2Infos)
+
+    if (not (CSVInfos is None)):
+        # Correct the columns (technical) : [1 -> 9] to [0 -> 8]
+        Col1 = int(CSVInfos[2]) - 1
+
+        GlobalLists.gui_liste[numwindow - 1] = load_csv(CSVInfos[0], CSVInfos[1], Col1)
+
+        # If the 2 CSV has been correctly loaded, exit
+        #if (! (GlobalLists.gui_liste[0] is None) or
+        #    (GlobalLists.gui_liste[1] is None)) :
+        # Close the main window and return back to the program
+        #TheStartWindow.CallDestroy()
+        WindowLoad.CallQuit()
+
+    else :
+        #ErrWindow = tk.Tk()
+        #ErrWindow.title("Error")
+        #ErrLabel = tk.Label(ErrWindow, text="Error : Fill correctly CSV")
+        #ErrLabel.pack()
+        #ErrButton = tk.Button(ErrWindow,
+        #                      text="OK",
+        #                      command=lambda: ErrWindow.destroy())
+        #ErrButton.pack()
+        ErrWindow = WindowError.WindowError()
+        ErrWindow.SetLabel("Error : Fill correctly CSV paths, separator, and column")
+
 # Callback for SaveButton
-# def SaveFile(TheWindowList):
-    
+def SaveFile():
+    WindowSave = tk.Tk()
+    WindowSave.title("Sauvegarder un csv")
+    WindowSave.geometry("300x400+650+375")
+
+    separator = tk.StringVar()
+    choice = tk.StringVar()
+
+    SepLabel = tk.Label(WindowSave,
+                        text="Separator :")
+    SepLabel.pack()
+    SepEntry = tk.Entry(WindowSave,
+                        textvariable=separator)
+    SepEntry.insert(0, ";")
+    SepEntry.pack()
+
+    ChoiceLabel = tk.Label(WindowSave,
+                           text="choix output :")
+    ChoiceLabel.pack()
+    TypeLabel = tk.Label(WindowSave,
+                         text="1 : Liste / 2 : Occurrence")
+    TypeLabel.pack()
+    ChoiceEntry = tk.Entry(WindowSave,
+                           textvariable=choice)
+    ChoiceEntry.insert(0, "2")
+    ChoiceEntry.pack()
+
+    LaunchButton = tk.Button(WindowSave,
+                             text="Save",
+                             command=lambda: save(SepEntry.get(),
+                                                  GlobalLists.gui_liste[2],
+                                                  ChoiceEntry.get(),
+                                                  WindowSave))
+    LaunchButton.pack()
+
+
+def save(sep, data, choice, WindowSave):
+    print(sep)
+
+    file = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
+                                        defaultextension=".csv")
+
+    fob = open(file, 'w')
+    if choice == "1":
+        [fob.write("{0}\n".format(key)) for key in data]
+        fob.close()
+
+    if choice == "2":
+        occu = occurrence(data)
+        [fob.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
+        fob.close()
+
+    WindowSave.destroy()
 
 
 def insert_data_list(data, liste):
