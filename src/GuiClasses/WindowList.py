@@ -3,8 +3,6 @@ from tkinter import ttk
 from tkinter import filedialog
 from tools import occurrence
 from GuiClasses import FrameCSVLoader
-from GuiClasses import WindowError
-from csv_manipulate import load_csv
 
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
@@ -131,13 +129,10 @@ def LoadFile(numwindow):
     WindowLoad.title("Charger un csv")
     WindowLoad.geometry("300x400+650+375")
 
-    LaunchButton = tk.Button(WindowLoad,
-                             text="Launch",
-                             # command=lambda: Launch_WindowListActions(WindowLoad)
-                             )
-    LaunchButton.pack(side=tk.BOTTOM)
+    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, numwindow)
 
-    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad)
+    # Add the launch button
+    WindowLoad.PutLaunchButton()
     GlobalWindows.gui_windows[numwindow] = WindowLoad
 
 
