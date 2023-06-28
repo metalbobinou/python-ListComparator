@@ -164,7 +164,7 @@ def Launch_WindowList(Window, num):
         # Correct the columns (technical) : [1 -> 9] to [0 -> 8]
         Col = int(CSVInfos[2]) - 1
 
-        GlobalLists.gui_liste[0] = load_csv(CSVInfos[0], CSVInfos[1], Col)
+        GlobalLists.gui_liste[num] = load_csv(CSVInfos[0], CSVInfos[1], Col)
 
         # If the 2 CSV has been correctly loaded, exit
         #if (! (GlobalLists.gui_liste[0] is None) or
