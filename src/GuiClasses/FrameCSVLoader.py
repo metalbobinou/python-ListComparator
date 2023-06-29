@@ -42,7 +42,7 @@ class FrameCSVLoader:
         self.Canvas = canvas
         self.Num = num
 
-        self.Frame = tk.Frame(self.Canvas, width=250, height=300)
+        self.Frame = tk.Frame(self.Canvas)
 
         # Fill variables
         self.Filename = tk.StringVar()
@@ -79,7 +79,7 @@ class FrameCSVLoader:
         self.ColumnEntry.insert(0, "6")
         self.ColumnEntry.pack()
 
-        self.Frame.pack(side="left")
+        self.Frame.pack(side="left", padx=50, pady=50)
 
     def GetFilename(self):
         return (self.Filename)

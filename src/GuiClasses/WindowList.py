@@ -66,6 +66,20 @@ class WindowList:
                                command=lambda: insert_data_occu(self.ListBox,
                                                                 occurrence(GlobalLists.gui_liste[globallistnum])))
         OccuButton.pack()
+        # Sorted A -> Z CSV button
+        SortButton = tk.Button(self.MainCanvas,
+                               text="Trier (A -> Z)",
+                               state=tk.NORMAL,
+                               command=lambda: insert_data_sort_a_z(self.ListBox,
+                                                                    GlobalLists.gui_liste[globallistnum]))
+        SortButton.pack()
+        # Sorted Z -> A CSV button
+        SortButton = tk.Button(self.MainCanvas,
+                               text="Trier (Z -> A)",
+                               state=tk.NORMAL,
+                               command=lambda: insert_data_sort_z_a(self.ListBox,
+                                                                    GlobalLists.gui_liste[globallistnum]))
+        SortButton.pack()
 
         # Frame for containing the list
         self.Frame = ttk.Frame(self.MainCanvas)
@@ -197,14 +211,40 @@ def save(sep, data, choice, WindowSave):
     WindowSave.destroy()
 
 
-def insert_data_list(data, liste):
-    data.delete(0, tk.END)
+def insert_data_list(listbox, liste):
+    listbox.delete(0, tk.END)
     for element in liste:
-        data.insert(tk.END, element)
+        listbox.insert(tk.END, element)
 
 
-def insert_data_occu(data, dictio):
-    data.delete(0, tk.END)
+def insert_data_occu(listbox, dictio):
+    listbox.delete(0, tk.END)
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
-        data.insert(tk.END, texte)
+        listbox.insert(tk.END, texte)
+
+
+def insert_data_sort_a_z(listbox, data):
+    listbox.delete(0, tk.END)
+    if (type(data) == list):
+        new_data = sorted(data)
+        for element in new_data:
+            listbox.insert(tk.END, element)
+    if (type(data) == dict):
+        dict(sorted(data.items()))
+        for valeur, compte in data.items():
+            texte = f"{valeur} : {compte} occurrence(s)"
+            listbox.insert(tk.END, texte)
+
+
+def insert_data_sort_z_a(listbox, data):
+    listbox.delete(0, tk.END)
+    if (type(data) == list):
+        new_data = sorted(data, reverse=True)
+        for element in new_data:
+            listbox.insert(tk.END, element)
+    if (type(data) == dict):
+        dict(reversed(sorted(data.items())))
+        for valeur, compte in data.items():
+            texte = f"{valeur} : {compte} occurrence(s)"
+            listbox.insert(tk.END, texte)
