@@ -31,6 +31,8 @@ class WindowList:
     Scrollbar = None
     # ListBox with the data
     ListBox = None
+    # "liste" if it's a list and "dictio" if it's a dict
+    Nature = None
 
     # def WindowListGenerator(self):
     def __init__(self, globallistnum, geometry):
@@ -57,28 +59,22 @@ class WindowList:
                                text="Lister",
                                state=tk.NORMAL,
                                command=lambda: insert_data_list(self.ListBox,
-                                                                GlobalLists.gui_liste[globallistnum]))
+                                                                GlobalLists.gui_liste[self.GlobalListNumber]))
         ListButton.pack()
         # Occurence CSV button
         OccuButton = tk.Button(self.MainCanvas,
                                text="Occurence",
                                state=tk.NORMAL,
                                command=lambda: insert_data_occu(self.ListBox,
-                                                                occurrence(GlobalLists.gui_liste[globallistnum])))
+                                                                occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
         OccuButton.pack()
         # Sorted A -> Z CSV button
         SortButton = tk.Button(self.MainCanvas,
                                text="Trier (A -> Z)",
                                state=tk.NORMAL,
                                command=lambda: insert_data_sort_a_z(self.ListBox,
-                                                                    GlobalLists.gui_liste[globallistnum]))
-        SortButton.pack()
-        # Sorted Z -> A CSV button
-        SortButton = tk.Button(self.MainCanvas,
-                               text="Trier (Z -> A)",
-                               state=tk.NORMAL,
-                               command=lambda: insert_data_sort_z_a(self.ListBox,
-                                                                    GlobalLists.gui_liste[globallistnum]))
+                                                                    GlobalLists.gui_liste[globallistnum],
+                                                                    self.Nature))
         SortButton.pack()
 
         # Frame for containing the list
@@ -104,6 +100,7 @@ class WindowList:
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsInputList(self):
+        self.Nature = "liste"
         self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
         self.ListBox.delete(0, tk.END)
@@ -111,6 +108,7 @@ class WindowList:
 
     # def WindowListOutputGenerator(self):
     def SpecializedAsOutputList(self):
+        self.Nature = "dictio"
         self.LoadButton.config(state=tk.DISABLED)
         self.SaveButton.config(state=tk.NORMAL)
         self.ListBox.delete(0, tk.END)
@@ -135,6 +133,24 @@ class WindowList:
 
     def CallDestroy(self):
         self.MainCanvas.destroy()
+
+    def ChangeNature(self):
+        if self.Nature == "liste":
+            self.Nature = "dictio"
+        if self.Nature == "dictio":
+            self.Nature = "liste"
+
+    def ChangeSortButton(self):
+        if self.SortButton.cget("text") == "Trier (A -> Z)":
+            self.SortButton.config(text="Trier (Z -> A)",
+                                   command=lambda: insert_data_sort_z_a(self.ListBox,
+                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
+                                                                        self.Nature))
+        if self.SortButton.cget("text") == "Trier (Z -> A)":
+            self.SortButton.config(text="Trier (A -> Z)",
+                                   command=lambda: insert_data_sort_a_z(self.ListBox,
+                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
+                                                                        self.Nature))
 
 
 # Callback for LoadButton
@@ -215,6 +231,7 @@ def insert_data_list(listbox, liste):
     listbox.delete(0, tk.END)
     for element in liste:
         listbox.insert(tk.END, element)
+    WindowList.ChangeNature()
 
 
 def insert_data_occu(listbox, dictio):
@@ -222,29 +239,32 @@ def insert_data_occu(listbox, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
         listbox.insert(tk.END, texte)
+    WindowList.ChangeNature()
 
 
-def insert_data_sort_a_z(listbox, data):
+def insert_data_sort_a_z(listbox, data, nature):
     listbox.delete(0, tk.END)
-    if (type(data) == list):
+    if nature == "liste":
         new_data = sorted(data)
         for element in new_data:
             listbox.insert(tk.END, element)
-    if (type(data) == dict):
+    if nature == "dictio":
         dict(sorted(data.items()))
         for valeur, compte in data.items():
             texte = f"{valeur} : {compte} occurrence(s)"
             listbox.insert(tk.END, texte)
+    WindowList.ChangeSortButton()
 
 
-def insert_data_sort_z_a(listbox, data):
+def insert_data_sort_z_a(listbox, data, nature):
     listbox.delete(0, tk.END)
-    if (type(data) == list):
+    if nature == "liste":
         new_data = sorted(data, reverse=True)
         for element in new_data:
             listbox.insert(tk.END, element)
-    if (type(data) == dict):
+    if nature == "dictio":
         dict(reversed(sorted(data.items())))
         for valeur, compte in data.items():
             texte = f"{valeur} : {compte} occurrence(s)"
             listbox.insert(tk.END, texte)
+    WindowList.ChangeSortButton()
