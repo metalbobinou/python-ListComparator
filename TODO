@@ -3,7 +3,8 @@
 ### C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
 ### C3) CSVLogic : Unique à refaire
 C4) WindowList : Bouton LoadCSV doit fonctionner
-### C5) WindowList : Bouton SaveCSV doit fonctionner
+C5) WindowList : Bouton SaveCSV doit fonctionner
+ => Mode occurrences ou termes ne sauvegarde que en mode termes
 ### C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
 
 C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)

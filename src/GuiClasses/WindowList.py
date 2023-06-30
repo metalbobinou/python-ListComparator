@@ -145,23 +145,12 @@ class WindowList:
 
     # Switch the button from A->Z to Z->A (and vice versa)
     def UpdateSortAtoZButton(self):
+        # If list is already in alphabetical, propose the reverse
         if (self.SortState == WindowListSortState.SORTED_AtoZ):
-            self.SortButton.config(text="Sort (A -> Z)")
-        else:
             self.SortButton.config(text="Sort (Z -> A)")
+        else:
+            self.SortButton.config(text="Sort (A -> Z)")
 
-
-    def ChangeSortButton(self):
-        if self.SortButton.cget("text") == "Trier (A -> Z)":
-            self.SortButton.config(text="Trier (Z -> A)",
-                                   command=lambda: insert_data_sort_z_a(self.ListBox,
-                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
-                                                                        self.Nature))
-        if self.SortButton.cget("text") == "Trier (Z -> A)":
-            self.SortButton.config(text="Trier (A -> Z)",
-                                   command=lambda: insert_data_sort_a_z(self.ListBox,
-                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
-                                                                        self.Nature))
     # Insert a list of terms in the ListBox
     def InsertListInListBox(self, liste):
         self.ListBox.delete(0, tk.END)
@@ -181,7 +170,7 @@ class WindowList:
     def SortListInListBoxAlphabetically(self):
         liste = GlobalLists.gui_liste[self.GlobalListNumber]
         if (self.State == WindowListState.NAMES):
-            # If the current Window is in List mode, apply regular sort
+            # List mode
             if (self.SortState != WindowListSortState.SORTED_AtoZ):
                 # If the list is not sorted alphabetically...
                 #  let's sort it!
@@ -194,14 +183,15 @@ class WindowList:
             self.InsertListInListBox(sorted_list)
 
         else:
-            # If the current Window is in Occurrencies mode, it's a bit complex
+            dico = occurrence(liste)
+            # Occurrencies mode
             if (self.SortState != WindowListSortState.SORTED_AtoZ):
                 # If the list is not sorted alphabetically...
-                sorted_items = sorted(liste.items(), reverse=False)
+                sorted_items = sorted(dico.items(), reverse=False)
                 self.SortState = WindowListSortState.SORTED_AtoZ
             else:
                 # Else, let's revert the sort
-                sorted_items = sorted(list.items(), reverse=True)
+                sorted_items = sorted(dico.items(), reverse=True)
                 self.SortState = WindowListSortState.SORTED_ZtoA
             self.InsertDictInListBox(dict(sorted_items))
         self.UpdateSortAtoZButton()
@@ -288,50 +278,14 @@ def SaveFile():
 
 
 def save(sep, data, choice, WindowSave):
-    print(sep)
-
-    file = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
-                                        defaultextension=".csv")
-
-    fob = open(file, 'w')
+    filename = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
+                                            defaultextension=".csv")
+    fd = open(filename, 'w')
     if choice == "Liste":
-        [fob.write("{0}\n".format(key)) for key in data]
-        fob.close()
-
-    if choice == "Occurrence":
+        [fd.write("{0}\n".format(key)) for key in data]
+    elif choice == "Occurrence":
         occu = occurrence(data)
-        [fob.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
-        fob.close()
+        [fd.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
+    fd.close()
 
     WindowSave.destroy()
-
-
-
-
-
-def insert_data_sort_a_z(listbox, data, nature):
-    listbox.delete(0, tk.END)
-    if nature == "liste":
-        new_data = sorted(data)
-        for element in new_data:
-            listbox.insert(tk.END, element)
-    if nature == "dictio":
-        dict(sorted(data.items()))
-        for valeur, compte in data.items():
-            texte = f"{valeur} : {compte} occurrence(s)"
-            listbox.insert(tk.END, texte)
-    WindowList.ChangeSortButton()
-
-
-def insert_data_sort_z_a(listbox, data, nature):
-    listbox.delete(0, tk.END)
-    if nature == "liste":
-        new_data = sorted(data, reverse=True)
-        for element in new_data:
-            listbox.insert(tk.END, element)
-    if nature == "dictio":
-        dict(reversed(sorted(data.items())))
-        for valeur, compte in data.items():
-            texte = f"{valeur} : {compte} occurrence(s)"
-            listbox.insert(tk.END, texte)
-    WindowList.ChangeSortButton()
