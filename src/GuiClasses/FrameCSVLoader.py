@@ -187,9 +187,11 @@ def Reload_WindowList(Frame, NumList, TheWindowListToReload):
 
         # If the CSV has been correctly loaded, exit
         if (not (GlobalLists.gui_liste[NumList] is None)):
+            # Refresh the WindowList
+            TheWindowListToReload.InsertListInListBox(GlobalLists.gui_liste[NumList])
             # Close the main window and return back to the program
-            #Frame.CallDestroy()
-            Frame.CallQuit()
+            Frame.CallDestroy()
+            #Frame.CallQuit()
 
     else :
         #ErrWindow = tk.Tk()
