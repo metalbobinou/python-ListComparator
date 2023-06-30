@@ -12,18 +12,19 @@ import GlobalLists
 
 # Frame asking for informations about a CSV (path, sep, col)
 class FrameCSVLoader:
+    GlobalListNumber = None
+
     # Values we want to get from the user (tk.StringVar())
     Filename = None
     Separator = None
     Column = None
 
-    # Frame where to put the Canvas
+    ### GUI
+    # The current frame
     Frame = None
-    # Canvas where to put the frame
+    # Canvas where to put the current frame
     Canvas = None
-
-    Num = None
-    # Specifications of the frame
+    # Specifications of the current frame
     Geometry = None
     Padding = None
     BorderWidth = None
@@ -36,11 +37,13 @@ class FrameCSVLoader:
     SeparatorEntry = None
     ColumnDescription = None
     ColumnEntry = None
+    # Widgets for reloading a CSV
+    LaunchButton = None
 
-    def __init__(self, canvas, num=None):
+    def __init__(self, canvas, ListNum=None):
         # Get the canvas where to put the frame
         self.Canvas = canvas
-        self.Num = num
+        self.GlobalListNumber = ListNum
 
         self.Frame = tk.Frame(self.Canvas)
 
@@ -114,11 +117,18 @@ class FrameCSVLoader:
                         padx=10,
                         pady=10)
 
-    def PutLaunchButton(self):
+    # Called when reloading a CSV
+    #  Add the launch button and pack everything
+    def Reload_PutLaunchButton(self, TheWindowListToReload):
+        self.Frame.pack(side=tk.TOP, anchor=tk.N)
         self.LaunchButton = tk.Button(self.Canvas,
                                       text="Launch",
-                                      command=lambda: Launch_WindowList(self, self.Num))
-        self.LaunchButton.pack(side=tk.BOTTOM)
+                                      command=lambda: Reload_WindowList(self,
+                                                                        self.GlobalListNumber,
+                                                                        TheWindowListToReload))
+        self.LaunchButton.pack(side=tk.TOP,
+                               padx=10,
+                               pady=10)
 
     # Quit the "mainloop" and return
     def CallQuit(self):
@@ -156,34 +166,30 @@ class FrameCSVLoader:
         else :
             return (None)
 
-    def GetCSVInfos(self, num):
+    def GetCSVInfos(self):
         return (self.Validate())
 
 
-def Launch_WindowList(Window, num):
-    # Get CSV 1 & 2 informations
-    CSVInfos = Window.GetCSVInfos(num)
+def Reload_WindowList(Frame, NumList, TheWindowListToReload):
+    # Get CSV informations
+    CSVInfos = Frame.GetCSVInfos()
 
-    #print("[WindowStart] CSV 1 :")
-    #print(type(CSV1Infos))
-    #print(CSV1Infos)
+    #print("[ReloadWindowList] CSV :")
+    #print(type(CSVInfos))
+    #print(CSVInfos)
     #print(" ")
-    #print("[WindowStart] CSV 2 :")
-    #print(type(CSV2Infos))
-    #print(CSV2Infos)
 
     if (not (CSVInfos is None)):
         # Correct the columns (technical) : [1 -> 9] to [0 -> 8]
         Col = int(CSVInfos[2]) - 1
 
-        GlobalLists.gui_liste[num] = load_csv(CSVInfos[0], CSVInfos[1], Col)
+        GlobalLists.gui_liste[NumList] = load_csv(CSVInfos[0], CSVInfos[1], Col)
 
-        # If the 2 CSV has been correctly loaded, exit
-        #if (! (GlobalLists.gui_liste[0] is None) or
-        #    (GlobalLists.gui_liste[1] is None)) :
-        # Close the main window and return back to the program
-        #TheStartWindow.CallDestroy()
-        Window.CallQuit()
+        # If the CSV has been correctly loaded, exit
+        if (not (GlobalLists.gui_liste[NumList] is None)):
+            # Close the main window and return back to the program
+            #Frame.CallDestroy()
+            Frame.CallQuit()
 
     else :
         #ErrWindow = tk.Tk()

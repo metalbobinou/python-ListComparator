@@ -30,13 +30,15 @@ class WindowListSortState(Enum):
 
 # Class for printing lists (input and output) and asking for load/save
 class WindowList:
-    Geometry = "0"
-    Title = "List Window"
     GlobalListNumber = None
+
+    ### States / Context
     # State (list in Name format only, or Name+Ocurrencies)
     State = None
     # SortState (list unsorted, sorted alphabetically, or by occurrencies)
     SortState = None
+
+    ### GUI
     # Canvas getting the whole window
     MainCanvas = None
     # Load/Save buttons in the window
@@ -50,8 +52,9 @@ class WindowList:
     Scrollbar = None
     # ListBox with the data
     ListBox = None
-    # "liste" if it's a list and "dictio" if it's a dict
-    Nature = None
+    # Specifications of the window
+    Geometry = "0"
+    Title = "List Window"
 
     # def WindowListGenerator(self):
     def __init__(self, globallistnum, geometry):
@@ -63,27 +66,27 @@ class WindowList:
 
         # Load CSV button
         self.LoadButton = tk.Button(self.MainCanvas,
-                                    text="Charger",
+                                    text="Load",
                                     state=tk.DISABLED,
-                                    command=lambda: LoadFile(self.GlobalListNumber))
+                                    command=lambda: LoadFile(self.GlobalListNumber, self))
         self.LoadButton.pack()
         # Save CSV button
         self.SaveButton = tk.Button(self.MainCanvas,
-                                    text="Sauvegarder",
+                                    text="Save",
                                     state=tk.DISABLED,
                                     command=SaveFile)
         self.SaveButton.pack()
 
         # List CSV button
         self.ListButton = tk.Button(self.MainCanvas,
-                                    text="Terms List mode",
+                                    text="Mode: Terms List",
                                     state=tk.NORMAL,
                                     command=lambda: self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber]))
         self.ListButton.pack()
 
         # Occurence CSV button
         self.OccuButton = tk.Button(self.MainCanvas,
-                                    text="Occurences mode",
+                                    text="Mode: Occurences",
                                     state=tk.NORMAL,
                                     command=lambda: self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
         self.OccuButton.pack()
@@ -119,7 +122,6 @@ class WindowList:
     # Specialize the Window List as an Input list (one of the 2 input CSV)
     #  List each term in its exact position (print only the terms)
     def SpecializedAsInputList(self):
-        self.Nature = "liste"
         self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
         self.ListBox.delete(0, tk.END)
@@ -129,7 +131,6 @@ class WindowList:
     # Specialize the Window List as an Output list
     #  List the occurrencies of terms
     def SpecializedAsOutputList(self):
-        self.Nature = "dictio"
         self.LoadButton.config(state=tk.DISABLED)
         self.SaveButton.config(state=tk.NORMAL)
         self.ListBox.delete(0, tk.END)
@@ -223,30 +224,29 @@ class WindowList:
 
 
 # Callback for LoadButton
-def LoadFile(numwindow):
+def LoadFile(NumList, TheWindowList):
     WindowLoad = tk.Tk()
-    WindowLoad.title("Charger un csv")
+    WindowLoad.title("Load CSV")
     WindowLoad.geometry("300x400+650+375")
 
-    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, numwindow)
-
-    # Add the launch button
-    WindowLoad.PutLaunchButton()
-    GlobalWindows.gui_windows[numwindow] = WindowLoad
+    # Fill with the frame dedicated for loading CSV
+    FrameLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, NumList)
+    # Add the launch button & pack the frame
+    FrameLoad.Reload_PutLaunchButton(TheWindowList)
 
 
 # Callback for SaveButton
 def SaveFile():
     WindowSave = tk.Tk()
-    WindowSave.title("Sauvegarder un csv")
+    WindowSave.title("Save CSV")
     WindowSave.geometry("300x400+650+375")
 
     separator = tk.StringVar()
     choice = tk.StringVar()
-    choice.set("Liste")
+    choice.set("List")
 
     SepLabel = tk.Label(WindowSave,
-                        text="Separator :")
+                        text="Separator:")
     SepLabel.pack()
     SepEntry = tk.Entry(WindowSave,
                         textvariable=separator)
@@ -254,18 +254,18 @@ def SaveFile():
     SepEntry.pack()
 
     ChoiceLabel = tk.Label(WindowSave,
-                           text="choix output :")
+                           text="Type of output :")
     ChoiceLabel.pack()
 
     RadioButton1 = tk.Radiobutton(WindowSave,
-                                  text="Liste",
+                                  text="List",
                                   variable=choice,
-                                  value="Liste")
+                                  value="List")
     RadioButton1.pack()
     RadioButton2 = tk.Radiobutton(WindowSave,
-                                  text="Occurrence",
+                                  text="Occurrencies",
                                   variable=choice,
-                                  value="Occurrence")
+                                  value="Occurrencies")
     RadioButton2.pack()
 
     LaunchButton = tk.Button(WindowSave,
@@ -281,9 +281,9 @@ def save(sep, data, choice, WindowSave):
     filename = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
                                             defaultextension=".csv")
     fd = open(filename, 'w')
-    if choice == "Liste":
+    if choice == "List":
         [fd.write("{0}\n".format(key)) for key in data]
-    elif choice == "Occurrence":
+    elif choice == "Occurrencies":
         occu = occurrence(data)
         [fd.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
     fd.close()
