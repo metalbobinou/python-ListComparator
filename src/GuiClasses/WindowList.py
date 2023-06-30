@@ -73,26 +73,27 @@ class WindowList:
                                     state=tk.DISABLED,
                                     command=SaveFile)
         self.SaveButton.pack()
+
         # List CSV button
-        ListButton = tk.Button(self.MainCanvas,
-                               text="Terms List mode",
-                               state=tk.NORMAL,
-                               command=lambda: self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber]))
-        ListButton.pack()
+        self.ListButton = tk.Button(self.MainCanvas,
+                                    text="Terms List mode",
+                                    state=tk.NORMAL,
+                                    command=lambda: self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber]))
+        self.ListButton.pack()
+
         # Occurence CSV button
-        OccuButton = tk.Button(self.MainCanvas,
-                               text="Occurences mode",
-                               state=tk.NORMAL,
-                               command=lambda: self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
-        OccuButton.pack()
-        # Sorted A -> Z CSV button
-        SortButton = tk.Button(self.MainCanvas,
-                               text="Trier (A -> Z)",
-                               state=tk.NORMAL,
-                               command=lambda: insert_data_sort_a_z(self.ListBox,
-                                                                    GlobalLists.gui_liste[globallistnum],
-                                                                    self.Nature))
-        SortButton.pack()
+        self.OccuButton = tk.Button(self.MainCanvas,
+                                    text="Occurences mode",
+                                    state=tk.NORMAL,
+                                    command=lambda: self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
+        self.OccuButton.pack()
+
+        # Sort A->Z CSV button
+        self.SortButton = tk.Button(self.MainCanvas,
+                                    text="Sort (A -> Z)",
+                                    state=tk.NORMAL,
+                                    command=lambda: self.SortListInListBoxAlphabetically())
+        self.SortButton.pack()
 
         # Frame for containing the list
         self.Frame = ttk.Frame(self.MainCanvas)
@@ -143,6 +144,13 @@ class WindowList:
             self.State = WindowListState.NAMES
 
     # Switch the button from A->Z to Z->A (and vice versa)
+    def UpdateSortAtoZButton(self):
+        if (self.SortState == WindowListSortState.SORTED_AtoZ):
+            self.SortButton.config(text="Sort (A -> Z)")
+        else:
+            self.SortButton.config(text="Sort (Z -> A)")
+
+
     def ChangeSortButton(self):
         if self.SortButton.cget("text") == "Trier (A -> Z)":
             self.SortButton.config(text="Trier (Z -> A)",
@@ -168,6 +176,35 @@ class WindowList:
             texte = f"{valeur} : {compte} occurrence(s)"
             self.ListBox.insert(tk.END, texte)
         self.State = WindowListState.OCCURRENCIES
+
+    # Sort (A <-> Z) the list of terms
+    def SortListInListBoxAlphabetically(self):
+        liste = GlobalLists.gui_liste[self.GlobalListNumber]
+        if (self.State == WindowListState.NAMES):
+            # If the current Window is in List mode, apply regular sort
+            if (self.SortState != WindowListSortState.SORTED_AtoZ):
+                # If the list is not sorted alphabetically...
+                #  let's sort it!
+                sorted_list = sorted(liste, reverse=False)
+                self.SortState = WindowListSortState.SORTED_AtoZ
+            else:
+                # Else, let's revert the sort
+                sorted_list = sorted(liste, reverse=True)
+                self.SortState = WindowListSortState.SORTED_ZtoA
+            self.InsertListInListBox(sorted_list)
+
+        else:
+            # If the current Window is in Occurrencies mode, it's a bit complex
+            if (self.SortState != WindowListSortState.SORTED_AtoZ):
+                # If the list is not sorted alphabetically...
+                sorted_items = sorted(liste.items(), reverse=False)
+                self.SortState = WindowListSortState.SORTED_AtoZ
+            else:
+                # Else, let's revert the sort
+                sorted_items = sorted(list.items(), reverse=True)
+                self.SortState = WindowListSortState.SORTED_ZtoA
+            self.InsertDictInListBox(dict(sorted_items))
+        self.UpdateSortAtoZButton()
 
     ### Regular Methods of the class (setters, getters, quit, geometry, ...)
 
