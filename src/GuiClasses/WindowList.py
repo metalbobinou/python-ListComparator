@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from enum import Enum
+
 from tools import occurrence
 from GuiClasses import FrameCSVLoader
 
@@ -13,11 +15,28 @@ import GlobalLists
 # gui_liste = [None, None, None]
 
 
+# If the list is printed with only names (list), or with occurrencies (dict)
+class WindowListState(Enum):
+    NAMES = 1
+    OCCURRENCIES = 2
+
+# If the list is unsorted (0), or sorted alphabetically or by occurrencies
+class WindowListSortState(Enum):
+    UNKNOWN = 0
+    SORTED_AtoZ = 1
+    SORTED_ZtoA = 2
+    SORTED_0to9 = 3
+    SORTED_9to0 = 1
+
 # Class for printing lists (input and output) and asking for load/save
 class WindowList:
     Geometry = "0"
     Title = "List Window"
     GlobalListNumber = None
+    # State (list in Name format only, or Name+Ocurrencies)
+    State = None
+    # SortState (list unsorted, sorted alphabetically, or by occurrencies)
+    SortState = None
     # Canvas getting the whole window
     MainCanvas = None
     # Load/Save buttons in the window
@@ -37,10 +56,10 @@ class WindowList:
     # def WindowListGenerator(self):
     def __init__(self, globallistnum, geometry):
         self.MainCanvas = tk.Tk()
-
         self.SetGeometry(geometry)
-
         self.GlobalListNumber = globallistnum
+        self.State = WindowListState.NAMES
+        self.SortState = WindowListSortState.UNKNOWN
 
         # Load CSV button
         self.LoadButton = tk.Button(self.MainCanvas,
@@ -56,17 +75,15 @@ class WindowList:
         self.SaveButton.pack()
         # List CSV button
         ListButton = tk.Button(self.MainCanvas,
-                               text="Lister",
+                               text="Terms List mode",
                                state=tk.NORMAL,
-                               command=lambda: insert_data_list(self.ListBox,
-                                                                GlobalLists.gui_liste[self.GlobalListNumber]))
+                               command=lambda: self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber]))
         ListButton.pack()
         # Occurence CSV button
         OccuButton = tk.Button(self.MainCanvas,
-                               text="Occurence",
+                               text="Occurences mode",
                                state=tk.NORMAL,
-                               command=lambda: insert_data_occu(self.ListBox,
-                                                                occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
+                               command=lambda: self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
         OccuButton.pack()
         # Sorted A -> Z CSV button
         SortButton = tk.Button(self.MainCanvas,
@@ -98,21 +115,61 @@ class WindowList:
         self.Scrollbar.pack(side=tk.RIGHT,
                             fill=tk.Y)
 
-    # def WindowListOutputGenerator(self):
+    # Specialize the Window List as an Input list (one of the 2 input CSV)
+    #  List each term in its exact position (print only the terms)
     def SpecializedAsInputList(self):
         self.Nature = "liste"
         self.LoadButton.config(state=tk.NORMAL)
         self.SaveButton.config(state=tk.DISABLED)
         self.ListBox.delete(0, tk.END)
-        insert_data_list(self.ListBox, GlobalLists.gui_liste[self.GlobalListNumber])
 
-    # def WindowListOutputGenerator(self):
+        self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber])
+
+    # Specialize the Window List as an Output list
+    #  List the occurrencies of terms
     def SpecializedAsOutputList(self):
         self.Nature = "dictio"
         self.LoadButton.config(state=tk.DISABLED)
         self.SaveButton.config(state=tk.NORMAL)
         self.ListBox.delete(0, tk.END)
-        insert_data_occu(self.ListBox, occurrence(GlobalLists.gui_liste[self.GlobalListNumber]))
+
+        self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber]))
+
+    # Switch between the 2 states (NAMES <-> OCCURRENCIES)
+    def StateSwitch(self):
+        if (self.State == WindowListState.NAMES):
+            self.State = WindowListState.OCCURRENCES
+        else:
+            self.State = WindowListState.NAMES
+
+    # Switch the button from A->Z to Z->A (and vice versa)
+    def ChangeSortButton(self):
+        if self.SortButton.cget("text") == "Trier (A -> Z)":
+            self.SortButton.config(text="Trier (Z -> A)",
+                                   command=lambda: insert_data_sort_z_a(self.ListBox,
+                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
+                                                                        self.Nature))
+        if self.SortButton.cget("text") == "Trier (Z -> A)":
+            self.SortButton.config(text="Trier (A -> Z)",
+                                   command=lambda: insert_data_sort_a_z(self.ListBox,
+                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
+                                                                        self.Nature))
+    # Insert a list of terms in the ListBox
+    def InsertListInListBox(self, liste):
+        self.ListBox.delete(0, tk.END)
+        for element in liste:
+            self.ListBox.insert(tk.END, element)
+        self.State = WindowListState.NAMES
+
+    # Insert a dictionnary (term:occ) in the ListBox
+    def InsertDictInListBox(self, dico):
+        self.ListBox.delete(0, tk.END)
+        for valeur, compte in dico.items():
+            texte = f"{valeur} : {compte} occurrence(s)"
+            self.ListBox.insert(tk.END, texte)
+        self.State = WindowListState.OCCURRENCIES
+
+    ### Regular Methods of the class (setters, getters, quit, geometry, ...)
 
     def SetTitle(self, title):
         self.Title = title
@@ -128,29 +185,14 @@ class WindowList:
     def GetTitle(self):
         return (self.Title)
 
+    # Hide the window
     def CallWithdraw(self):
         self.MainCanvas.withdraw()
 
+    # Destroy the window
     def CallDestroy(self):
         self.MainCanvas.destroy()
 
-    def ChangeNature(self):
-        if self.Nature == "liste":
-            self.Nature = "dictio"
-        if self.Nature == "dictio":
-            self.Nature = "liste"
-
-    def ChangeSortButton(self):
-        if self.SortButton.cget("text") == "Trier (A -> Z)":
-            self.SortButton.config(text="Trier (Z -> A)",
-                                   command=lambda: insert_data_sort_z_a(self.ListBox,
-                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
-                                                                        self.Nature))
-        if self.SortButton.cget("text") == "Trier (Z -> A)":
-            self.SortButton.config(text="Trier (A -> Z)",
-                                   command=lambda: insert_data_sort_a_z(self.ListBox,
-                                                                        GlobalLists.gui_liste[self.GlobalListNumber],
-                                                                        self.Nature))
 
 
 # Callback for LoadButton
@@ -227,19 +269,7 @@ def save(sep, data, choice, WindowSave):
     WindowSave.destroy()
 
 
-def insert_data_list(listbox, liste):
-    listbox.delete(0, tk.END)
-    for element in liste:
-        listbox.insert(tk.END, element)
-    WindowList.ChangeNature()
 
-
-def insert_data_occu(listbox, dictio):
-    listbox.delete(0, tk.END)
-    for valeur, compte in dictio.items():
-        texte = f"{valeur} : {compte} occurrence(s)"
-        listbox.insert(tk.END, texte)
-    WindowList.ChangeNature()
 
 
 def insert_data_sort_a_z(listbox, data, nature):
