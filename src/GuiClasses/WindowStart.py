@@ -20,6 +20,7 @@ class WindowStart:
     # 2nd Frame for CSV 2
     FrameCSV2 = None
     # Launch button
+    FrameButton = None
     LaunchButton = None
 
     def __init__(self, geometry):
@@ -28,19 +29,25 @@ class WindowStart:
 
         # Add the CSV 1 frame
         self.FrameCSV1 = FrameCSVLoader.FrameCSVLoader(self.MainCanvas)
+        self.FrameCSV1.PackLeft()
 
         # Add the CSV 2 frame
         self.FrameCSV2 = FrameCSVLoader.FrameCSVLoader(self.MainCanvas)
+        self.FrameCSV2.PackRight()
 
         # Add the launch button
+        self.FrameButton = tk.Frame(self.MainCanvas)
         self.PutLaunchButton()
+        self.FrameButton.pack(side=tk.BOTTOM,
+                              fill=tk.BOTH)
 
     def PutLaunchButton(self):
-        self.LaunchButton = tk.Button(self.MainCanvas,
+        self.LaunchButton = tk.Button(self.FrameButton,
                                       text="Launch",
                                       command=lambda: Launch_WindowListActions(self))
-        self.LaunchButton.pack(side=tk.BOTTOM,
-                               fill=tk.X)
+        self.LaunchButton.pack(fill=tk.BOTH,
+                               padx=10,
+                               pady=10)
 
     def SetTitle(self, title):
         self.Title = title

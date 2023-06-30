@@ -37,7 +37,7 @@ def main():
 
             # Open WindowStart if not already opened
             if (StartWindow is None) :
-                StartWindow = WindowStart.WindowStart("500x250+550+250")
+                StartWindow = WindowStart.WindowStart("500x300+550+250")
                 StartWindow.SetTitle("Import CSV")
 
             #   Load inside 2 FrameCSVLoader

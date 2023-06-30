@@ -79,7 +79,7 @@ class FrameCSVLoader:
         self.ColumnEntry.insert(0, "6")
         self.ColumnEntry.pack()
 
-        self.Frame.pack(side="left", padx=50, pady=50)
+        #self.Frame.pack(side="left", padx=50, pady=50)
 
     def GetFilename(self):
         return (self.Filename)
@@ -101,6 +101,18 @@ class FrameCSVLoader:
     def SetRelief(self, relief):
         self.Relief = relief
         self.Frame['relief'] = relief
+
+    def PackLeft(self):
+        self.Frame.pack(side=tk.LEFT,
+                        anchor=tk.NW,
+                        padx=10,
+                        pady=10)
+
+    def PackRight(self):
+        self.Frame.pack(side=tk.RIGHT,
+                        anchor=tk.NE,
+                        padx=10,
+                        pady=10)
 
     def PutLaunchButton(self):
         self.LaunchButton = tk.Button(self.Canvas,

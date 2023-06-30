@@ -6,11 +6,13 @@ C4) WindowList : Bouton LoadCSV doit fonctionner
 ### C5) WindowList : Bouton SaveCSV doit fonctionner
 ### C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
 
+C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
+
 
 * Additional Features:
 
 A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
-A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
+### A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable ###
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
 A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
 
