@@ -1,7 +1,7 @@
 import sys
 from logic_processing import union
 from logic_processing import inter
-from logic_processing import occurence
+from tools import occurrence
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
 
@@ -23,21 +23,21 @@ def process_csv(file_path_1,
                            column2)
 
     if action == "CSV_1":
-        occu_csv_1 = occurence(BN_ID_csv_1)
+        occu_csv_1 = occurrence(BN_ID_csv_1)
         dict_save = occu_csv_1
 
     if action == "CSV_2":
-        occu_csv_2 = occurence(BN_ID_csv_2)
+        occu_csv_2 = occurrence(BN_ID_csv_2)
         dict_save = occu_csv_2
 
     if action == "INTERSECTION":
-        intersection = occurence(inter(BN_ID_csv_1,
-                                       BN_ID_csv_2))
+        intersection = occurrence(inter(BN_ID_csv_1,
+                                        BN_ID_csv_2))
         dict_save = intersection
 
     if action == "UNION":
-        union_result = occurence(union(BN_ID_csv_1,
-                                       BN_ID_csv_2))
+        union_result = occurrence(union(BN_ID_csv_1,
+                                        BN_ID_csv_2))
         dict_save = union_result
 
     save_csv(dict_save, separator3, out_csv)
