@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 from GuiClasses import WindowList
 from logic_processing import union
@@ -102,8 +103,11 @@ class WindowActions:
         # Add Exit button
         self.Buttons.append(tk.Button(self.MainCanvas,
                                       text="Quit",
-                                      command=lambda: exit(0)))
+                                      command=lambda: on_closing(self)))
         self.Buttons[-1].pack()
+        # Catch the exit signal on the window ('X' in right corner)
+        self.MainCanvas.protocol("WM_DELETE_WINDOW",
+                                 lambda: on_closing(self))
 
     def AddButton(self, Text, Command):
         self.Buttons.append(tk.Button(self.MainCanvas,
@@ -263,3 +267,8 @@ def CheckWindows3(Window):
         Window.CallWithdraw()
         del Window
         GlobalWindows.gui_windows.append(None)
+
+def on_closing(TheWindow):
+    if (messagebox.askokcancel("Quit", "Do you want to quit?")):
+        #TheWindow.CallDestroy()
+        exit(0)

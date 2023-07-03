@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 from GuiClasses import FrameCSVLoader
 from GuiClasses import WindowError
@@ -26,6 +27,10 @@ class WindowStart:
     def __init__(self, geometry):
         self.MainCanvas = tk.Tk()
         self.SetGeometry(geometry)
+
+        # If user close the window, kill everything
+        self.MainCanvas.protocol("WM_DELETE_WINDOW",
+                                 lambda: on_closing(self))
 
         # Add the CSV 1 frame
         self.FrameCSV1 = FrameCSVLoader.FrameCSVLoader(self.MainCanvas)
@@ -127,3 +132,8 @@ def Launch_WindowListActions(TheStartWindow):
         #ErrButton.pack()
         ErrWindow = WindowError.WindowError()
         ErrWindow.SetLabel("Error : Fill correctly CSV paths, separator, and column")
+
+def on_closing(TheStartWindow):
+    if (messagebox.askokcancel("Quit", "Do you want to quit?")):
+        #TheStartWindow.CallDestroy()
+        exit(0)

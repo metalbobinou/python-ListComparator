@@ -18,8 +18,8 @@ def main():
     # (done by the initial files)
 
     # Load exit button in hardcoded way
-    ExitWindow = WindowExit.WindowExit()
-    ExitWindow.SetGeometry("300x50+1200+50")
+    #ExitWindow = WindowExit.WindowExit()
+    #ExitWindow.SetGeometry("300x50+1200+50")
 
     StartWindow = None
     # main loop of events :

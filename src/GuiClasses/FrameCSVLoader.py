@@ -140,12 +140,16 @@ class FrameCSVLoader:
 
     def ChooseFile(self):
         # Open a dialog box in order to select the CSV file
-        file = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+        file = filedialog.askopenfilename(title="Select a CSV file",
+                                          filetypes=[("CSV Files", "*.csv"),
+                                                     ("Text Files","*.txt"),
+                                                     ("All Files","*.*")])
 
         # Check if a file has been selected
         if (file):
             # Store & Fill the file path in the entry box
             self.Filename.set(file)
+            self.FileEntry.delete(0, tk.END) # remove previous content
             self.FileEntry.insert(0, file)
 
     def Validate(self):
