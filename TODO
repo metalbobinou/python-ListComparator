@@ -9,6 +9,10 @@ C5) WindowList : Bouton SaveCSV doit fonctionner
 
 C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
 
+C8) WindowAction/WindowList : quand on ferme la fenètre en output, impossible d'en rouvrir une autre
+
+C9) WindowStart : quand on veut modifier un des fichiers déjà sélectionné, vider le contenu des champs
+
 
 * Additional Features:
 

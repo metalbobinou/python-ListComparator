@@ -223,16 +223,16 @@ class WindowList:
 
 
 # Callback for LoadButton
-def LoadFile(numwindow):
+def LoadFile(numliste):
     WindowLoad = tk.Tk()
     WindowLoad.title("Charger un csv")
     WindowLoad.geometry("300x400+650+375")
 
-    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, numwindow)
+    WindowLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, numliste)
 
     # Add the launch button
     WindowLoad.PutLaunchButton()
-    GlobalWindows.gui_windows[numwindow] = WindowLoad
+    GlobalWindows.gui_windows[numliste] = WindowLoad
 
 
 # Callback for SaveButton

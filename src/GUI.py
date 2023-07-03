@@ -18,14 +18,8 @@ def main():
     # (done by the initial files)
 
     # Load exit button in hardcoded way
-    #ExitWindow = tk.Tk()
-    #ExitWindow.title("Close Application")
     ExitWindow = WindowExit.WindowExit()
     ExitWindow.SetGeometry("300x50+1200+50")
-    #ExitButton = tk.Button(ExitWindow,
-    #                       text="Close All Windows",
-    #                       command=lambda: exit(0))
-    #ExitButton.pack()
 
     StartWindow = None
     # main loop of events :
@@ -54,8 +48,8 @@ def main():
 
         # else :
         else :
-            # Open WindowActions
-            ActionsWindow = WindowActions.WindowActions("300x250+650+50")
+            # Open WindowActions   (300x250+650+50)
+            ActionsWindow = WindowActions.WindowActions("300x350+650+50")
             ActionsWindow.SetTitle("CSV List Comparator")
 
             #   Open 2 WindowList with their CSV content (global var)
