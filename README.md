@@ -14,4 +14,4 @@ type of lists.
 
 # Contributors:
 - BOISSIER Fabrice (Project Leader & Developper) [2023-...]
-- LAUMONIER Quentin (Main Developper) [2023]
+- LAUMONIER Quentin (Developper - Draft Version) [2023]
