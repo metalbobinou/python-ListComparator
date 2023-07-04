@@ -63,6 +63,7 @@ class FrameCSVLoader:
         self.FileButton.pack()
         # Create a file field
         self.FileEntry = tk.Entry(self.Frame, textvariable=self.Filename)
+        self.FileEntry.insert(0, "C1.csv")
         self.FileEntry.pack()
 
         # Separator Description and Field
