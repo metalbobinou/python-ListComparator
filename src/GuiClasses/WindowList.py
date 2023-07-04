@@ -313,13 +313,14 @@ class WindowList:
 def LoadFile(NumList, TheWindowList):
     WindowLoad = tk.Tk()
     WindowLoad.title("Load CSV")
-    WindowLoad.geometry("300x200+600+375")
+    WindowLoad.geometry("300x220+600+375")
 
     # Fill with the frame dedicated for loading CSV
     FrameLoad = FrameCSVLoader.FrameCSVLoader(WindowLoad, NumList)
     # Add the launch button & pack the frame
     FrameLoad.Reload_PutLaunchButton(TheWindowList)
 
+    WindowLoad.mainloop()
 
 # Callback for SaveButton
 def SaveFile(NumList, TheWindowList):
@@ -327,5 +328,9 @@ def SaveFile(NumList, TheWindowList):
     WindowSave.title("Save CSV")
     WindowSave.geometry("250x200+600+375")
 
+    # Create a frame
     FrameSave = FrameCSVSaver.FrameCSVSaver(WindowSave, NumList)
+    # Add the save button & pack the frame
     FrameSave.Save_PutSaveButton(WindowSave)
+
+    WindowSave.mainloop()

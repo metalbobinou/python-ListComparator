@@ -5,6 +5,7 @@ from enum import Enum
 
 from GuiClasses import WindowError
 from csv_manipulate import load_csv
+from tools import occurrence
 
 # gui_liste : Input List 1, Input List 2, Output List
 import GlobalLists
@@ -53,7 +54,7 @@ class FrameCSVSaver:
 
         # Fill variables
         self.Separator = tk.StringVar()
-        self.ModeType = tk.IntVar()
+        self.ModeType = tk.IntVar(self.Frame)
         self.Filename = tk.StringVar()
 
         # Separator Description and Field
@@ -69,8 +70,6 @@ class FrameCSVSaver:
         self.ModeTypeLabel = tk.Label(self.Frame,
                                       text="Type of output:")
         self.ModeTypeLabel.pack()
-        # Default : Terms list
-        self.ModeType.set(ChoiceModeType.TERMS.value)
         # Radio button : List
         self.ModeTypeRadioButton1 = tk.Radiobutton(self.Frame,
                                                    text="Terms only",
@@ -84,6 +83,13 @@ class FrameCSVSaver:
                                                    value=ChoiceModeType.OCCURRENCIES.value)
         self.ModeTypeRadioButton2.pack()
 
+        # Default : Terms list
+        #self.ModeType.set(ChoiceModeType.TERMS.value)
+        self.ModeTypeRadioButton1.select()
+        # Default : None
+        #self.ModeType.set(None)
+
+        #self.Frame.pack(side="left", padx=50, pady=50)
 
 
     def GetFilename(self):
@@ -98,15 +104,16 @@ class FrameCSVSaver:
 
     # Called when saving a CSV
     #  Add the launch button and pack everything
-    def Save_PutSaveButton(self, TheWindowListToReload):
+    def Save_PutSaveButton(self, TheWindowListToSave):
         self.Frame.pack(side=tk.TOP, anchor=tk.N)
-
-        self.SaveButton = tk.Button(self.Frame,
+        self.SaveButton = tk.Button(self.OutterCanvas,
                                     text="Save to",
                                     command=lambda: Save_WindowList(self,
                                                                     self.GlobalListNumber,
-                                                                    TheWindowListToReload))
-        self.SaveButton.pack()
+                                                                    TheWindowListToSave))
+        self.SaveButton.pack(side=tk.TOP,
+                             padx=10,
+                             pady=10)
 
 
     # Quit the "mainloop" and return
@@ -124,7 +131,7 @@ class FrameCSVSaver:
 
         #print("Frame [Save] :")
         #print("  Sep  : --" + self.Separator.get() + "--")
-        #print("  Col  : --" + self.Column.get() + "--")
+        #print("  ModeType  : --" + str(self.ModeType.get()) + "--")
 
         if ((len(self.Separator.get()) == 1) and
             ((self.ModeType.get() == ChoiceModeType.TERMS.value)
@@ -138,9 +145,14 @@ class FrameCSVSaver:
         return (self.Validate())
 
 
-def Save_WindowList(Frame, NumList, TheWindowListForSaving):
+def Save_WindowList(Frame, NumList, TheWindowListToSave):
     # Get CSV informations
     CSVInfos = Frame.GetCSVInfos()
+
+    #print("[SaveWindowList] CSV :")
+    #print(type(CSVInfos))
+    #print(CSVInfos)
+    #print(" ")
 
     if (not (CSVInfos is None)):
         ModeType = int(CSVInfos[1])
@@ -156,7 +168,7 @@ def Save_WindowList(Frame, NumList, TheWindowListForSaving):
             occu = occurrence(data)
             [fd.write("{0}{1}{2}\n".format(key, Sep, value)) for key, value in occu.items()]
         fd.close()
-        TheWindowListForSaving.destroy()
+        Frame.CallDestroy()
     else:
         ErrWindow = WindowError.WindowError()
         ErrWindow.SetLabel("Error : Fill correctly CSV separator and column")
