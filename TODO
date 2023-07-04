@@ -2,24 +2,26 @@
 
 ### C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
 ### C3) CSVLogic : Unique à refaire
-C4) WindowList : Bouton LoadCSV doit fonctionner
+### C4) WindowList : Bouton LoadCSV doit fonctionner
 C5) WindowList : Bouton SaveCSV doit fonctionner
  => Mode occurrences ou termes ne sauvegarde que en mode termes
 ### C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
 
-C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
+### C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
 
 C8) WindowAction/WindowList : quand on ferme la fenètre en output, impossible d'en rouvrir une autre
 
-C9) WindowStart : quand on veut modifier un des fichiers déjà sélectionné, vider le contenu des champs
+### C9) WindowStart : quand on veut modifier un des fichiers déjà sélectionné, vider le contenu des champs
+
+C10) WindowList : proposer de quitter le programme en cas de fermeture des fenètres d'input
 
 
 * Additional Features:
 
-A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
+### A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
 ### A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable ###
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
-A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
+### A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
 
 A5) WindowList : Ajouter un module de statistiques graphiques... un menu déroulant avec plusieurs affichages graphiques (camembert, barres, ...) et un bouton qui affiche une nouvelle fenêtre avec le graphique (et les infos desssu) et cette fenêtre permet de sauvegarder le graphique dans un fichier externe au format PNG
 
@@ -35,6 +37,6 @@ F4) WindowList : sortir la frame de sauvegarde dans une classe FrameCSVSaver
 
 * Theory :
 
-T0) "smart union" est en réalité l'union classique... "union" que l'on vise est l'union disjointe. Smart Union = Union au sens ensembliste (U), "Notre Union" = Union Disjointe au sens ensembliste = Somme Cartésienne = Somme Disjointe au sens catégorie (U en forme carré)
+### T0) "smart union" est en réalité l'union classique... "union" que l'on vise est l'union disjointe. Smart Union = Union au sens ensembliste (U), "Notre Union" = Union Disjointe au sens ensembliste = Somme Cartésienne = Somme Disjointe au sens catégorie (U en forme carré)
 
 T1) Check "Théorie des Catégories"/Category Theory instead of "Théorie des Ensembles"/Set Theory

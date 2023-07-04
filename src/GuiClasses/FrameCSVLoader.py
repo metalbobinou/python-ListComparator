@@ -23,29 +23,29 @@ class FrameCSVLoader:
     # The current frame
     Frame = None
     # Canvas where to put the current frame
-    Canvas = None
+    OutterCanvas = None
     # Specifications of the current frame
     Geometry = None
     Padding = None
     BorderWidth = None
     Relief = None
     # Widgets of the frame
-    FileDescription = None
+    FileLabel = None
     FileButton = None
     FileEntry = None
-    SeparatorDescription = None
+    SeparatorLabel = None
     SeparatorEntry = None
-    ColumnDescription = None
+    ColumnLabel = None
     ColumnEntry = None
     # Widgets for reloading a CSV
     LaunchButton = None
 
     def __init__(self, canvas, ListNum=None):
         # Get the canvas where to put the frame
-        self.Canvas = canvas
+        self.OutterCanvas = canvas
         self.GlobalListNumber = ListNum
 
-        self.Frame = tk.Frame(self.Canvas)
+        self.Frame = tk.Frame(self.OutterCanvas)
 
         # Fill variables
         self.Filename = tk.StringVar()
@@ -53,9 +53,9 @@ class FrameCSVLoader:
         self.Column = tk.StringVar()
 
         # Describe the field and button
-        self.FileDescription = tk.Label(self.Frame,
-                                        text="CSV File Path:")
-        self.FileDescription.pack()
+        self.FileLabel = tk.Label(self.Frame,
+                                  text="CSV File Path:")
+        self.FileLabel.pack()
         # Put the button for the file and fill the file field when chosen
         self.FileButton = tk.Button(self.Frame,
                                     text="Choose file",
@@ -67,18 +67,18 @@ class FrameCSVLoader:
         self.FileEntry.pack()
 
         # Separator Description and Field
-        self.SeparatorDescription = tk.Label(self.Frame,
-                                             text="Separator:")
-        self.SeparatorDescription.pack()
+        self.SeparatorLabel = tk.Label(self.Frame,
+                                       text="Separator:")
+        self.SeparatorLabel.pack()
         self.SeparatorEntry = tk.Entry(self.Frame,
                                        textvariable=self.Separator)
         self.SeparatorEntry.insert(0, ";")
         self.SeparatorEntry.pack()
 
         # Column Description and Field
-        self.ColumnDescription = tk.Label(self.Frame,
-                                          text="Column:")
-        self.ColumnDescription.pack()
+        self.ColumnLabel = tk.Label(self.Frame,
+                                    text="Column:")
+        self.ColumnLabel.pack()
         self.ColumnEntry = tk.Entry(self.Frame, textvariable=self.Column)
         self.ColumnEntry.insert(0, "6")
         self.ColumnEntry.pack()
@@ -122,7 +122,7 @@ class FrameCSVLoader:
     #  Add the launch button and pack everything
     def Reload_PutLaunchButton(self, TheWindowListToReload):
         self.Frame.pack(side=tk.TOP, anchor=tk.N)
-        self.LaunchButton = tk.Button(self.Canvas,
+        self.LaunchButton = tk.Button(self.OutterCanvas,
                                       text="Launch",
                                       command=lambda: Reload_WindowList(self,
                                                                         self.GlobalListNumber,
@@ -133,11 +133,11 @@ class FrameCSVLoader:
 
     # Quit the "mainloop" and return
     def CallQuit(self):
-        self.Canvas.quit()
+        self.OutterCanvas.quit()
 
     # Kill the "mainloop" completely/Exit program
     def CallDestroy(self):
-        self.Canvas.destroy()
+        self.OutterCanvas.destroy()
 
     def ChooseFile(self):
         # Open a dialog box in order to select the CSV file

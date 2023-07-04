@@ -13,7 +13,7 @@ from logic_processing import unique_without_occurrence
 from GuiClasses import GlobalWindows
 # gui_windows = [None, None, None, None]
 
-# gui_liste : Input List 1, Input List 2, Output List
+# gui_liste :  [0]:Input List 1  [1]:Input List 2  [2]:Output List
 import GlobalLists
 # gui_liste = [None, None, None]
 

@@ -5,6 +5,7 @@ from enum import Enum
 
 from tools import occurrence
 from GuiClasses import FrameCSVLoader
+from GuiClasses import FrameCSVSaver
 
 # gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
 from GuiClasses import GlobalWindows
@@ -17,7 +18,7 @@ import GlobalLists
 
 # If the list is printed with only names (list), or with occurrencies (dict)
 class WindowListState(Enum):
-    NAMES = 1
+    TERMS = 1
     OCCURRENCIES = 2
 
 # If the list is unsorted (0), or sorted alphabetically or by occurrencies
@@ -33,6 +34,8 @@ class WindowList:
     GlobalListNumber = None
 
     ### States / Context
+    # Context (Input list or Output list)
+    Context = None
     # State (list in Name format only, or Name+Ocurrencies)
     State = None
     # SortState (list unsorted, sorted alphabetically, or by occurrencies)
@@ -67,7 +70,7 @@ class WindowList:
         self.MainCanvas = tk.Tk()
         self.SetGeometry(geometry)
         self.GlobalListNumber = globallistnum
-        self.State = WindowListState.NAMES
+        self.State = WindowListState.TERMS
         self.SortState = WindowListSortState.UNKNOWN
 
         ### Load / Save
@@ -90,7 +93,7 @@ class WindowList:
         self.SaveButton = tk.Button(self.FrameLoadSave,
                                     text="Save",
                                     state=tk.DISABLED,
-                                    command=SaveFile)
+                                    command=lambda: SaveFile(self.GlobalListNumber, self))
         self.SaveButton.pack(side=tk.RIGHT,
                              fill=tk.X,
                              expand=tk.YES,
@@ -188,12 +191,12 @@ class WindowList:
         self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber]))
 
 
-    # Switch between the 2 states (NAMES <-> OCCURRENCIES)
+    # Switch between the 2 states (TERMS <-> OCCURRENCIES)
     def StateSwitch(self):
-        if (self.State == WindowListState.NAMES):
+        if (self.State == WindowListState.TERMS):
             self.State = WindowListState.OCCURRENCES
         else:
-            self.State = WindowListState.NAMES
+            self.State = WindowListState.TERMS
 
     # Switch the button from A->Z to Z->A (and vice versa)
     def UpdateSortAtoZButton(self):
@@ -214,7 +217,7 @@ class WindowList:
     # Sort (A <-> Z) the list of terms
     def SortListInListBoxAlphabetically(self):
         liste = GlobalLists.gui_liste[self.GlobalListNumber]
-        if (self.State == WindowListState.NAMES):
+        if (self.State == WindowListState.TERMS):
             # List mode
             if (self.SortState != WindowListSortState.SORTED_AtoZ):
                 # If the list is not sorted alphabetically...
@@ -267,7 +270,7 @@ class WindowList:
         self.ListBox.delete(0, tk.END)
         for element in liste:
             self.ListBox.insert(tk.END, element)
-        self.State = WindowListState.NAMES
+        self.State = WindowListState.TERMS
         self.SortNumButton.config(state=tk.DISABLED)
 
     # Insert a dictionnary (term:occ) in the ListBox
@@ -319,56 +322,10 @@ def LoadFile(NumList, TheWindowList):
 
 
 # Callback for SaveButton
-def SaveFile():
+def SaveFile(NumList, TheWindowList):
     WindowSave = tk.Tk()
     WindowSave.title("Save CSV")
     WindowSave.geometry("250x200+600+375")
 
-    separator = tk.StringVar()
-    choice = tk.StringVar()
-    choice.set("List")
-
-    SepLabel = tk.Label(WindowSave,
-                        text="Separator:")
-    SepLabel.pack()
-    SepEntry = tk.Entry(WindowSave,
-                        textvariable=separator)
-    SepEntry.insert(0, ";")
-    SepEntry.pack()
-
-    ChoiceLabel = tk.Label(WindowSave,
-                           text="Type of output :")
-    ChoiceLabel.pack()
-
-    RadioButton1 = tk.Radiobutton(WindowSave,
-                                  text="List",
-                                  variable=choice,
-                                  value="List")
-    RadioButton1.pack()
-    RadioButton2 = tk.Radiobutton(WindowSave,
-                                  text="Occurrencies",
-                                  variable=choice,
-                                  value="Occurrencies")
-    RadioButton2.pack()
-
-    LaunchButton = tk.Button(WindowSave,
-                             text="Save",
-                             command=lambda: save(SepEntry.get(),
-                                                  GlobalLists.gui_liste[2],
-                                                  choice.get(),
-                                                  WindowSave))
-    LaunchButton.pack()
-
-
-def save(sep, data, choice, WindowSave):
-    filename = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
-                                            defaultextension=".csv")
-    fd = open(filename, 'w')
-    if choice == "List":
-        [fd.write("{0}\n".format(key)) for key in data]
-    elif choice == "Occurrencies":
-        occu = occurrence(data)
-        [fd.write("{0}{1}{2}\n".format(key, sep, value)) for key, value in occu.items()]
-    fd.close()
-
-    WindowSave.destroy()
+    FrameSave = FrameCSVSaver.FrameCSVSaver(WindowSave, NumList)
+    FrameSave.Save_PutSaveButton(WindowSave)
