@@ -53,46 +53,15 @@ class WindowActions:
         # [Currently hardcoded]
         # TODO : loading as much buttons as there are operations in the operations file
 
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Intersection des 2 csv",
-        #                              command=inter_window))
-        #self.Buttons[-1].pack()
         self.AddButton("Intersection des 2 csv", inter_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Union des 2 csv",
-        #                              command=union_window))
-        #self.Buttons[-1].pack()
         self.AddButton("Union des 2 csv", union_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Union Disjointe des 2 csv",
-        #                              command=smart_union_window))
-        #self.Buttons[-1].pack()
         self.AddButton("Union Disjointe des 2 csv", disjoint_union_window)
 
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Valeurs propre au premier csv",
-        #                              command=unique_1_window))
-        #self.Buttons[-1].pack()
         self.AddButton("Valeurs propre au premier csv", unique_1_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Valeurs propre au deuxième csv",
-        #                              command=unique_2_window))
-        #self.Buttons[-1].pack()
         self.AddButton("Valeurs propre au deuxième csv", unique_2_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Valeurs propre au deuxième csv (occurrence)",
-        #                              command=unique_1_occu_window))
-        #self.Buttons[-1].pack()
-        self.AddButton("Valeurs propre au deuxième csv (occurrence)", unique_1_occu_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Valeurs propre au deuxième csv (occurrence)",
-        #                              command=unique_2_occu_window))
-        #self.Buttons[-1].pack()
+        self.AddButton("Valeurs propre au premier csv (occurrence)", unique_1_occu_window)
         self.AddButton("Valeurs propre au deuxième csv (occurrence)", unique_2_occu_window)
-        #self.Buttons.append(tk.Button(self.MainCanvas,
-        #                              text="Inverse intersection des 2 csv",
-        #                              command=inv_inter_window))
-        #self.Buttons[-1].pack()
+
         self.AddButton("Inverse intersection des 2 csv", inv_inter_window)
 
         # Separate
