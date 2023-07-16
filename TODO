@@ -1,42 +1,43 @@
 * Critical / Required for working:
 
-### C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
-### C3) CSVLogic : Unique à refaire
-### C4) WindowList : Bouton LoadCSV doit fonctionner
-C5) WindowList : Bouton SaveCSV doit fonctionner
- => Mode occurrences ou termes ne sauvegarde que en mode termes
-### C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
-
-### C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
-
-C8) WindowAction/WindowList : quand on ferme la fenètre en output, impossible d'en rouvrir une autre
-
-### C9) WindowStart : quand on veut modifier un des fichiers déjà sélectionné, vider le contenu des champs
-
-C10) WindowList : proposer de quitter le programme en cas de fermeture des fenètres d'input
-
-
 * Additional Features:
 
-### A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
-### A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable ###
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
-### A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
-
 A5) WindowList : Ajouter un module de statistiques graphiques... un menu déroulant avec plusieurs affichages graphiques (camembert, barres, ...) et un bouton qui affiche une nouvelle fenêtre avec le graphique (et les infos desssu) et cette fenêtre permet de sauvegarder le graphique dans un fichier externe au format PNG
+A6) WindowAction : Tester plusieurs propriétés sur les listes (Liste 1 est inclue dans Liste 2, ...)
+A7) Séparer les opérations "catégories" des opérations "ensembles" dans des fichiers distincts
+A7bits) Recoder les opérations ensemblistes avec de vrais __sets__ python
 
-H1) [Heavy Feature] Conserver une liste des opérations et des états passés afin de revenir en arrière/en avant pour voir l'évolution
+* Heavy Features:
+
+H1) Conserver une liste des opérations et des états passés afin de revenir en arrière/en avant pour voir l'évolution
+
+* Theory :
+
+T1) Check "Théorie des Catégories"/Category Theory instead of "Théorie des Ensembles"/Set Theory
 
 
-* Future Corrections for later:
+
+* Done/Corrected :
+
+A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
+A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
+A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
 
 F1) WindowList : si fenêtre d'Input, alors la mettre automatiquement en mode "Liste" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
 F2) WindowList : si fenêtre d'output, alors la mettre automatiquement en mode "occurrences" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
 F3) WindowAction : passer à l'utilisation de "WindowList" pour la fenêtre de sortie => gui_windows[3] dans WindowAction.py pour Output, et variables classiques dans GUI.py... peut être revoir le design ?
 F4) WindowList : sortir la frame de sauvegarde dans une classe FrameCSVSaver
 
-* Theory :
+C1) WindowAction : faire re-fonctionner les boutons qui génèrent la fenêtre de sortie
+C3) CSVLogic : Unique à refaire
+C4) WindowList : Bouton LoadCSV doit fonctionner
+C5) WindowList : Bouton SaveCSV doit fonctionner
+ => Mode occurrences ou termes ne sauvegarde que en mode termes
+C6) WindowAction : rajouter les boutons "Unique (termes)" et "Unique (occurrences)"
+C7) WindowAction : faire un bouton "quit" qui ferme tout (et retirer la fenètre externe)
+C8) WindowAction/WindowList : quand on ferme la fenètre en output, impossible d'en rouvrir une autre
+C9) WindowStart : quand on veut modifier un des fichiers déjà sélectionné, vider le contenu des champs
+C10) WindowList : proposer de quitter le programme en cas de fermeture des fenètres d'input
 
-### T0) "smart union" est en réalité l'union classique... "union" que l'on vise est l'union disjointe. Smart Union = Union au sens ensembliste (U), "Notre Union" = Union Disjointe au sens ensembliste = Somme Cartésienne = Somme Disjointe au sens catégorie (U en forme carré)
-
-T1) Check "Théorie des Catégories"/Category Theory instead of "Théorie des Ensembles"/Set Theory
+T0) "smart union" est en réalité l'union classique... "union" que l'on vise est l'union disjointe. Smart Union = Union au sens ensembliste (U), "Notre Union" = Union Disjointe au sens ensembliste = Somme Cartésienne = Somme Disjointe au sens catégorie (U en forme carré)
