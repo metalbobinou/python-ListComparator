@@ -25,7 +25,7 @@ def save_csv_to_file(dictio, separator, file_path):
     df.to_csv(file_path, sep=separator, header=False, index=True)
 
 
-def save_csv_to_shell(dictio, separator, file_path):
+def print_out_csv(dictio, separator):
     for key, value in dictio.items():
         print(f"{key}{separator}{value}")
 
