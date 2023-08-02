@@ -18,13 +18,9 @@ from logic_processing import unique_without_occurrence
 
 
 
-def process_csv(file_path_1, sep1, id_col1,
-                file_path_2, sep2, id_col2,
-                action,
-                out_sep):
-                #out_csv, out_sep):
-    list_1 = load_csv(file_path_1, sep1, id_col1)
-    list_2 = load_csv(file_path_2, sep2, id_col2)
+def execute_action(list_1, list_2, action):
+    # Execution of the desired action
+    dict_save = []
 
     if (action == "CSV_1"):
         # Print CSV 1
@@ -76,17 +72,18 @@ def process_csv(file_path_1, sep1, id_col1,
         unique_2_result = occurrence(unique(list_1, list_2, 2))
         dict_save = unique_2_result
 
-    #save_csv(dict_save, out_sep, out_csv)
-    print_out_csv(dict_save, out_sep)
-
+    return (dict_save)
 
 def print_usage():
     print("Usage: python CLI.py " \
           "<file_path_1> <separator1> <column_of_ID_1> " \
           "<file_path_2> <separator2> <column_of_ID_2> " \
           "<action> " \
-          "<output_separator>")
-          #"<output_file> <output_separator>")
+          "<output_separator> [<output_file>]")
+    print("")
+    print("Write the output in the terminal if no <output_file> given or" \
+          " if it is '-'")
+    print("or write in the designated file (created if it does not exist)")
     print("")
     print("-- Actions --")
     print("")
@@ -114,28 +111,35 @@ def print_usage():
     print("   Print elements unique to 2nd CSV (delete occurrencies from the 1st CSV)")
 
 def main():
-    #if (len(sys.argv) != 10):
-    if (len(sys.argv) != 9):
+    if ((len(sys.argv) < 9) or ((len(sys.argv) > 10))) :
         print_usage()
         sys.exit(-1)
 
+    # Arguments assignation
     file_path_1 = sys.argv[1]
     sep1 = sys.argv[2]
     id_col1 = int(sys.argv[3])
+
     file_path_2 = sys.argv[4]
     sep2 = sys.argv[5]
     id_col2 = int(sys.argv[6])
+
     action = sys.argv[7]
     out_sep = sys.argv[8]
 
-    #out_csv = sys.argv[8]
-    #out_sep = sys.argv[9]
+    # Loading CSV in memory
+    list_csv_1 = load_csv(file_path_1, sep1, id_col1)
+    list_csv_2 = load_csv(file_path_2, sep2, id_col2)
 
-    process_csv(file_path_1, sep1, id_col1,
-                file_path_2, sep2, id_col2,
-                action,
-                out_sep)
-                #out_csv, out_sep)
+    # Executing the asked action
+    output_list = execute_action(list_csv_1, list_csv_2, action)
+
+    # Write out the results
+    if (len(sys.argv) == 10):
+        out_file = sys.argv[9]
+        save_csv(output_list, out_sep, out_file)
+    else:
+        print_out_csv(output_list, out_sep)
 
     return (0)
 

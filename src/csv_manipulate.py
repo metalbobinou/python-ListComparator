@@ -31,7 +31,7 @@ def print_out_csv(dictio, separator):
 
 
 def save_csv(dictio, separator, file_path):
-    if file_path == "-":
-        save_csv_to_shell(dictio, separator, file_path)
+    if (file_path == "-"):
+        print_out_csv(dictio, separator)
     else:
         save_csv_to_file(dictio, separator, file_path)
