@@ -1,4 +1,6 @@
+# Tkinter GUI
 import tkinter as tk
+
 
 class WindowExit:
     Geometry = None

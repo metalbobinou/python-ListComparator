@@ -1,19 +1,24 @@
+# Tkinter GUI
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-from enum import Enum
 
-from tools import occurrence
+# Windows & Frames for loading and saving CSV
 from GuiClasses import FrameCSVLoader
 from GuiClasses import FrameCSVSaver
 
-# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
-from GuiClasses import GlobalWindows
-# gui_windows = [None, None, None, None]
+# Tools
+from tools import occurrence
+from enum import Enum
 
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
-import GlobalLists
 # gui_liste = [None, None, None]
+
+from GuiClasses import GlobalWindows
+# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
+# gui_windows = [None, None, None, None]
 
 
 # If the list is printed with only names (list), or with occurrencies (dict)
@@ -110,7 +115,7 @@ class WindowList:
         self.FormatTermButton = tk.Button(self.FrameFormatList,
                                           text="Mode:\nTerms List",
                                           state=tk.NORMAL,
-                                          command=lambda: self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber]))
+                                          command=lambda: self.InsertListInListBox(Globals.gui_liste[self.GlobalListNumber]))
         self.FormatTermButton.pack(side=tk.LEFT,
                              fill=tk.X,
                              expand=tk.YES,
@@ -119,7 +124,7 @@ class WindowList:
         self.FormatOccButton = tk.Button(self.FrameFormatList,
                                          text="Mode:\nOccurrences",
                                          state=tk.NORMAL,
-                                         command=lambda: self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber])))
+                                         command=lambda: self.InsertDictInListBox(occurrence(Globals.gui_liste[self.GlobalListNumber])))
         self.FormatOccButton.pack(side=tk.RIGHT,
                              fill=tk.X,
                              expand=tk.YES,
@@ -179,7 +184,7 @@ class WindowList:
         self.SaveButton.config(state=tk.DISABLED)
         self.ListBox.delete(0, tk.END)
 
-        self.InsertListInListBox(GlobalLists.gui_liste[self.GlobalListNumber])
+        self.InsertListInListBox(Globals.gui_liste[self.GlobalListNumber])
 
     # Specialize the Window List as an Output list
     #  List the occurrencies of terms
@@ -188,7 +193,7 @@ class WindowList:
         self.SaveButton.config(state=tk.NORMAL)
         self.ListBox.delete(0, tk.END)
 
-        self.InsertDictInListBox(occurrence(GlobalLists.gui_liste[self.GlobalListNumber]))
+        self.InsertDictInListBox(occurrence(Globals.gui_liste[self.GlobalListNumber]))
 
 
     # Switch between the 2 states (TERMS <-> OCCURRENCIES)
@@ -216,7 +221,7 @@ class WindowList:
 
     # Sort (A <-> Z) the list of terms
     def SortListInListBoxAlphabetically(self):
-        liste = GlobalLists.gui_liste[self.GlobalListNumber]
+        liste = Globals.gui_liste[self.GlobalListNumber]
         if (self.State == WindowListState.TERMS):
             # List mode
             if (self.SortState != WindowListSortState.SORTED_AtoZ):
@@ -246,7 +251,7 @@ class WindowList:
 
     # Sort (0 <-> 9) the list of terms
     def SortListInListBoxNumerically(self):
-        liste = GlobalLists.gui_liste[self.GlobalListNumber]
+        liste = Globals.gui_liste[self.GlobalListNumber]
         if (self.State == WindowListState.OCCURRENCIES):
             dico = occurrence(liste)
             # Occurrencies mode

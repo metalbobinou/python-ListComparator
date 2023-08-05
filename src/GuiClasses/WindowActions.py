@@ -1,7 +1,11 @@
+# Tkinter GUI
 import tkinter as tk
 from tkinter import messagebox
 
+# Windows for input lists
 from GuiClasses import WindowList
+
+# Logic operations
 from logic_processing import union
 from logic_processing import inter
 from logic_processing import unique
@@ -9,15 +13,16 @@ from logic_processing import inv_inter
 from logic_processing import disjoint_union
 from logic_processing import unique_without_occurrence
 
-# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
-from GuiClasses import GlobalWindows
-# gui_windows = [None, None, None, None]
-
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste :  [0]:Input List 1  [1]:Input List 2  [2]:Output List
-import GlobalLists
 # gui_liste = [None, None, None]
 
+from GuiClasses import GlobalWindows
+# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
+# gui_windows = [None, None, None, None]
 
+# Insert data in a dictionnary
 def insert_data(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
@@ -113,8 +118,8 @@ def inter_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = inter(GlobalLists.gui_liste[0],
-                                     GlobalLists.gui_liste[1])
+    Globals.gui_liste[2] = inter(Globals.gui_liste[0],
+                                 Globals.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -128,8 +133,8 @@ def union_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = union(GlobalLists.gui_liste[0],
-                                     GlobalLists.gui_liste[1])
+    Globals.gui_liste[2] = union(Globals.gui_liste[0],
+                                 Globals.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -143,8 +148,8 @@ def unique_1_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
-                                      GlobalLists.gui_liste[1], 1)
+    Globals.gui_liste[2] = unique_without_occurrence(Globals.gui_liste[0],
+                                                     Globals.gui_liste[1], 1)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -158,8 +163,8 @@ def unique_2_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = unique_without_occurrence(GlobalLists.gui_liste[0],
-                                      GlobalLists.gui_liste[1], 2)
+    Globals.gui_liste[2] = unique_without_occurrence(Globals.gui_liste[0],
+                                                     Globals.gui_liste[1], 2)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -173,8 +178,8 @@ def unique_1_occu_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
-                                      GlobalLists.gui_liste[1], 1)
+    Globals.gui_liste[2] = unique(Globals.gui_liste[0],
+                                  Globals.gui_liste[1], 1)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -188,8 +193,8 @@ def unique_2_occu_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = unique(GlobalLists.gui_liste[0],
-                                      GlobalLists.gui_liste[1], 2)
+    Globals.gui_liste[2] = unique(Globals.gui_liste[0],
+                                  Globals.gui_liste[1], 2)
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -203,8 +208,8 @@ def inv_inter_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = inv_inter(GlobalLists.gui_liste[0],
-                                         GlobalLists.gui_liste[1])
+    Globals.gui_liste[2] = inv_inter(Globals.gui_liste[0],
+                                     Globals.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
@@ -218,8 +223,8 @@ def disjoint_union_window():
 
     CheckWindows3(GlobalWindows.gui_windows[3])
 
-    GlobalLists.gui_liste[2] = disjoint_union(GlobalLists.gui_liste[0],
-                                              GlobalLists.gui_liste[1])
+    Globals.gui_liste[2] = disjoint_union(Globals.gui_liste[0],
+                                          Globals.gui_liste[1])
 
     # Crée un canevas pour afficher les résultats
     GlobalWindows.gui_windows[3] = WindowList.WindowList(2,

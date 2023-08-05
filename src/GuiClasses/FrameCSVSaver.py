@@ -1,14 +1,22 @@
+import os.path
+
+# Tkinter GUI
 import tkinter as tk
 from tkinter import filedialog
-import os.path
+
+# Windows for errors
+from GuiClasses import WindowError
+
+# CSV Loader
+from csv_manipulate import load_csv
+
+# Tools
+from tools import occurrence
 from enum import Enum
 
-from GuiClasses import WindowError
-from csv_manipulate import load_csv
-from tools import occurrence
-
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
-import GlobalLists
 # gui_liste = [None, None, None]
 
 
@@ -157,7 +165,7 @@ def Save_WindowList(Frame, NumList, TheWindowListToSave):
     if (not (CSVInfos is None)):
         ModeType = int(CSVInfos[1])
         Sep = CSVInfos[0]
-        data = GlobalLists.gui_liste[NumList]
+        data = Globals.gui_liste[NumList]
 
         filename = filedialog.asksaveasfilename(filetypes=[("CSV Files", "*.csv")],
                                                 defaultextension=".csv")

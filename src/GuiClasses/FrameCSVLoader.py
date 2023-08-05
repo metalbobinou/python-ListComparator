@@ -1,12 +1,18 @@
 import os.path
+
+# Tkinter GUI
 import tkinter as tk
 from tkinter import filedialog
 
+# Windows for errors
 from GuiClasses import WindowError
+
+# CSV Loader
 from csv_manipulate import load_csv
 
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
-import GlobalLists
 # gui_liste = [None, None, None]
 
 
@@ -188,12 +194,12 @@ def Reload_WindowList(Frame, NumList, TheWindowListToReload):
         # Correct the columns (technical) : [1 -> 9] to [0 -> 8]
         Col = int(CSVInfos[2]) - 1
 
-        GlobalLists.gui_liste[NumList] = load_csv(CSVInfos[0], CSVInfos[1], Col)
+        Globals.gui_liste[NumList] = load_csv(CSVInfos[0], CSVInfos[1], Col)
 
         # If the CSV has been correctly loaded, exit
-        if (not (GlobalLists.gui_liste[NumList] is None)):
+        if (not (Globals.gui_liste[NumList] is None)):
             # Refresh the WindowList
-            TheWindowListToReload.InsertListInListBox(GlobalLists.gui_liste[NumList])
+            TheWindowListToReload.InsertListInListBox(Globals.gui_liste[NumList])
             # Close the main window and return back to the program
             Frame.CallDestroy()
             #Frame.CallQuit()

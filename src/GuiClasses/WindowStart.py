@@ -1,14 +1,19 @@
+# Tkinter GUI
 import tkinter as tk
 from tkinter import messagebox
 
+# Windows & Frames for Errors and CSV Loading
 from GuiClasses import FrameCSVLoader
 from GuiClasses import WindowError
+
+# Tools
 from csv_manipulate import load_csv
 
-
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
-import GlobalLists
 # gui_liste = [None, None, None]
+
 
 # Main first window asking to input 2 CSV
 class WindowStart:
@@ -111,12 +116,12 @@ def Launch_WindowListActions(TheStartWindow):
         Col1 = int(CSV1Infos[2]) - 1
         Col2 = int(CSV2Infos[2]) - 1
 
-        GlobalLists.gui_liste[0] = load_csv(CSV1Infos[0], CSV1Infos[1], Col1)
-        GlobalLists.gui_liste[1] = load_csv(CSV2Infos[0], CSV2Infos[1], Col2)
+        Globals.gui_liste[0] = load_csv(CSV1Infos[0], CSV1Infos[1], Col1)
+        Globals.gui_liste[1] = load_csv(CSV2Infos[0], CSV2Infos[1], Col2)
 
         # If the 2 CSV has been correctly loaded, exit
-        #if (! (GlobalLists.gui_liste[0] is None) or
-        #    (GlobalLists.gui_liste[1] is None)) :
+        #if (! (Globals.gui_liste[0] is None) or
+        #    (Globals.gui_liste[1] is None)) :
         # Close the main window and return back to the program
         #TheStartWindow.CallDestroy()
         TheStartWindow.CallQuit()
