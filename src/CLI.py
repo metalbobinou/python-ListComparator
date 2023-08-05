@@ -1,3 +1,4 @@
+import os
 import sys
 
 # Plugin loader
@@ -38,6 +39,14 @@ def main():
 
     action = sys.argv[7]
     out_sep = sys.argv[8]
+
+    if (not (os.path.isfile(file_path_1))):
+        print("File 1 must exist")
+        sys.exit(-2)
+
+    if (not (os.path.isfile(file_path_2))):
+        print("File 2 must exist")
+        sys.exit(-2)
 
     # Loading CSV in memory
     list_csv_1 = load_csv(file_path_1, sep1, id_col1)
