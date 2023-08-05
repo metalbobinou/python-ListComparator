@@ -1,6 +1,5 @@
 import os
 import sys
-import importlib
 
 # CSV loader (and saver)
 from csv_manipulate import load_csv
@@ -18,94 +17,18 @@ from logic_processing import inv_inter
 from logic_processing import disjoint_union
 from logic_processing import unique_without_occurrence
 
-import inspect
-from plugins.PluginLogic import PluginLogic
-
-g_plugins_directory = "plugins"
-
-class PluginsImporter:
-    # List of functions
-    functions_list = []
-
-    def __init__(self):
-        directory = g_plugins_directory
-        if (not (self.dir_exists_and_not_empty(directory))):
-            return (None)
-
-        # List all the files in the "plugins" directory
-        for filename in os.listdir(directory):
-            filepath = os.path.join(directory, filename)
-            if (not os.path.isfile(filepath)):
-                continue
-
-            # Avoid the non python files / Filenames that do not ends by ".py"
-            if (not (filename.split(".")[-1] == "py")):
-                continue
-
-            # Avoid the Parent class
-            if (filename == "PluginLogic.py"):
-                continue
-
-            print(filename)
-            # Build the name of module in python format : Dir.Class
-            submodulename = os.path.splitext(filename)[0]
-            modulename = directory + "." + submodulename
-            # Import the module
-            module = importlib.import_module(modulename)
-            classes = []
-            for name, obj in inspect.getmembers(module, inspect.isclass):
-                #print(obj)
-                #print(obj.__name__)
-
-                # Avoid loading the PlugLogic class
-                if (obj.__name__ == "PluginLogic"):
-                    continue
-
-                # Add the class to the class container
-                classes.append(obj)
-
-            #classe = classes[0]
-            #cls = getattr(module, classe)
-            cls = classes[0]
-
-            name_str = cls.GetName(cls)
-            help_str = cls.GetHelp(cls)
-            button_str = cls.GetButton(cls)
-
-            print("Str found :")
-            print("NAME : " + name_str)
-            print("HELP : " + help_str)
-            print("BUTTON : " + button_str)
-
-            l1 = ["A", "B", "C", "D"]
-            l2 = ["C", "D", "E", "F"]
-
-            tmp = cls.Logic(cls, l1, l2)
-            out = occurrence(tmp)
-            print(out)
+# Plugin loader
+import importlib
+from plugins_loader import PluginsImporter
+#from plugins.PluginLogic import PluginLogic
 
 
-    # Test if a directory exists and is not empty
-    def dir_exists_and_not_empty(self, directory):
-        res = False
-        if (os.path.exists(directory)):
-            if (os.listdir(directory)):
-                res = True
-        return (res)
 
-    # Return list of functions loaded
-    def GetFunctions(self):
-        return (self.functions_list)
 
-    # Return number of functions loaded
-    def GetNbFunctions(self):
-        return (len(self.functions_list))
 
-def importer():
+def importer1():
     BasicSet = importlib.import_module("basic_set_operators")
     BasicOcc = importlib.import_module("basic_occurrencies_operators")
-
-    my_importer = PluginsImporter()
 
     l1 = ["A", "B", "C", "D"]
     l2 = ["C", "D", "E", "F"]
@@ -113,6 +36,33 @@ def importer():
     out = occurrence(BasicSet.union(l1, l2))
 
     print(out)
+
+
+def importer2():
+    MyImporter = PluginsImporter()
+    nb_classes = MyImporter.LoadPlugins()
+
+
+    l1 = ["A", "B", "C", "D"]
+    l2 = ["C", "D", "E", "F"]
+
+
+    cls = MyImporter.GetClasses()[0]
+
+    name_str = cls.GetName(cls)
+    help_str = cls.GetHelp(cls)
+    button_str = cls.GetButton(cls)
+
+    print("Str found :")
+    print("NAME : " + name_str)
+    print("HELP : " + help_str)
+    print("BUTTON : " + button_str)
+
+    tmp = cls.Logic(cls, l1, l2)
+    out = occurrence(tmp)
+    print(out)
+
+
 
 def execute_action(list_1, list_2, action):
     # Execution of the desired action
@@ -242,6 +192,7 @@ def main():
 #main()
 
 def main2():
-    importer()
+    importer1()
+    importer2()
 
 main2()
