@@ -9,10 +9,10 @@ from csv_manipulate import save_csv
 from csv_manipulate import print_out_csv
 
 # Actions
-from CliClasses import actions
+from CliClasses.actions import execute_action
 
 # Usages & Helper
-from CliClasses import usages
+from CliClasses.usages import print_usage
 
 
 ### MAIN ###
@@ -24,7 +24,7 @@ def main():
 
     # Test if enough parameters were given
     if ((len(sys.argv) < 9) or ((len(sys.argv) > 10))) :
-        usages.print_usage(MyPluginsImporter)
+        print_usage(MyPluginsImporter)
         sys.exit(-1)
 
     # Arguments assignation
@@ -44,10 +44,10 @@ def main():
     list_csv_2 = load_csv(file_path_2, sep2, id_col2)
 
     # Executing the asked action
-    output_list = actions.execute_action(list_csv_1,
-                                         list_csv_2,
-                                         action,
-                                         MyPluginsImporter)
+    output_list = execute_action(list_csv_1,
+                                 list_csv_2,
+                                 action,
+                                 MyPluginsImporter)
 
     # Write out the results
     if (len(sys.argv) == 10):

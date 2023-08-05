@@ -6,7 +6,7 @@ import inspect
 
 
 # The parent class of the plugins
-from plugins.PluginLogic import PluginLogic
+from PluginLogic import PluginLogic
 
 
 # The directory containing the plugins
@@ -41,7 +41,8 @@ class PluginsImporter:
         # List all the files in the "plugins" directory, and process them
         for filename in os.listdir(directory):
             filepath = os.path.join(directory, filename)
-            if (not os.path.isfile(filepath)):
+            absfilepath = os.path.abspath(filepath)
+            if (not os.path.isfile(absfilepath)):
                 continue
 
             # Avoid the non python files / Filenames that do not ends by ".py"
@@ -59,8 +60,14 @@ class PluginsImporter:
             submodulename = os.path.splitext(filename)[0]
             modulename = directory + "." + submodulename
 
-            # Import the module
-            module = importlib.import_module(modulename)
+            # Import the module (import from relative path)
+            #module = importlib.import_module(modulename)
+            # Import the module (import from absolute path)
+            module_spec = importlib.util.spec_from_file_location(modulename, absfilepath)
+            module = importlib.util.module_from_spec(module_spec)
+            module_spec.loader.exec_module(module)
+
+            # Import classes inside (avoid the "PluginLogic"/Parent Class)
             for name, obj in inspect.getmembers(module, inspect.isclass):
                 #print(obj)
                 #print(obj.__name__)

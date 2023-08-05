@@ -1,4 +1,4 @@
-from plugins.PluginLogic import PluginLogic
+from PluginLogic import PluginLogic
 
 # Vector of classes containing the function and its descriptors/infos
 def ListSetOperators():
