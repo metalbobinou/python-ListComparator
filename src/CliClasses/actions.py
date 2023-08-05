@@ -80,4 +80,4 @@ def execute_action(list_1, list_2, action, MyPluginsImporter):
 
     print("!!! ERROR: ACTION NOT FOUND !!!")
 
-    sys.exit(-2)
+    sys.exit(-3)
