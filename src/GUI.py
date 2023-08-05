@@ -1,19 +1,29 @@
+# Windows for each part
 from GuiClasses import WindowStart
 from GuiClasses import WindowActions
 from GuiClasses import WindowList
 from GuiClasses import WindowExit
 
+# Plugin loader
+from plugins_loader import PluginsImporter
+
+# CSV Loader
 from csv_manipulate import load_csv
 
+# Tools
 from tools import occurrence
 
-
+# Globals required for the GUI
+from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
-import GlobalLists
 # gui_liste = [None, None, None]
 
 
 def main():
+    # Load the plugins
+    MyPluginsImporter = PluginsImporter()
+    nb_plugins_classes = MyPluginsImporter.LoadPlugins()
+
     # Initialize 2 empty CSV (global var)
     # (done by the initial files)
 
@@ -26,8 +36,8 @@ def main():
     while (True):
 
         # if 2 empty CSV (global var) :
-        if ((GlobalLists.gui_liste[0] is None) or
-            (GlobalLists.gui_liste[1] is None)) :
+        if ((Globals.gui_liste[0] is None) or
+            (Globals.gui_liste[1] is None)) :
 
             # Open WindowStart if not already opened
             if (StartWindow is None) :
