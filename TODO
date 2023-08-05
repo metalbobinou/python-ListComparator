@@ -1,4 +1,6 @@
 * Critical / Required for working:
+C12) When closing the output window, it becomes impossible to do another action
+The window is lost and an error is throw... (in Cygwin)
 
 * Additional Features:
 
