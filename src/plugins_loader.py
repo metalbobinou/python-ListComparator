@@ -105,3 +105,37 @@ class PluginsImporter:
     # Return the state of the loader
     def IsAlreadyLoaded(self):
         return (self.loaded)
+
+
+### Example of how to load classes in different manners
+#def importer1():
+#    BasicSet = importlib.import_module("basic_set_operators")
+#    BasicOcc = importlib.import_module("basic_occurrencies_operators")
+#
+#    l1 = ["A", "B", "C", "D"]
+#    l2 = ["C", "D", "E", "F"]
+#
+#    out = occurrence(BasicSet.union(l1, l2))
+#    print(out)
+#
+#def importer2():
+#    MyImporter = PluginsImporter()
+#    nb_classes = MyImporter.LoadPlugins()
+#
+#    l1 = ["A", "B", "C", "D"]
+#    l2 = ["C", "D", "E", "F"]
+#
+#    cls = MyImporter.GetClasses()[0]
+#
+#    name_str = cls.GetName(cls)
+#    help_str = cls.GetHelp(cls)
+#    button_str = cls.GetButton(cls)
+#
+#    print("Str found :")
+#    print("NAME : " + name_str)
+#    print("HELP : " + help_str)
+#    print("BUTTON : " + button_str)
+#
+#    tmp = cls.Logic(cls, l1, l2)
+#    out = occurrence(tmp)
+#    print(out)
