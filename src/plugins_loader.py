@@ -1,5 +1,4 @@
 import os
-import sys
 
 # Tools for loading modules and inspecting classes
 import importlib
@@ -99,7 +98,7 @@ class PluginsImporter:
         return (len(self.classes_list))
 
     # Return the number of files read
-    def GetNbPluginsLoaded(self):
+    def GetNbFilesLoaded(self):
         return (self.nb_files)
 
     # Return the state of the loader

@@ -1,80 +1,78 @@
 import sys
 
+# Plugin loader
+from plugins_loader import PluginsImporter
+
 # CSV loader (and saver)
 from csv_manipulate import load_csv
 from csv_manipulate import save_csv
 from csv_manipulate import print_out_csv
 
+# Logic operators
+from basic_set_operators import ListSetOperators
+from basic_occurrencies_operators import ListOccurrenciesOperators
+
 # Tools for lists
 from tools import occurrence
 
-# Logic operators
-from logic_processing import union
-from logic_processing import inter
-from logic_processing import unique
-from logic_processing import inv_inter
-from logic_processing import disjoint_union
-from logic_processing import unique_without_occurrence
 
+### SEARCH ONE ACTION TO DO FROM THE LISTS OF ACTIONS ###
 
-
-def execute_action(list_1, list_2, action):
+def execute_action(list_1, list_2, action, MyPluginsImporter):
     # Execution of the desired action
-    dict_save = []
+    out_dict = []
 
+    # Fundamental actions
     if (action == "CSV_1"):
         # Print CSV 1
-        occu_csv_1 = occurrence(list_1)
-        dict_save = occu_csv_1
+        csv_1 = list_1
+        out_dict = occurrence(csv_1)
+        return (out_dict)
 
     if (action == "CSV_2"):
         # Print CSV 2
-        occu_csv_2 = occurrence(list_2)
-        dict_save = occu_csv_2
+        csv_2 = list_2
+        out_dict = occurrence(csv_2)
+        return (out_dict)
 
-    if (action == "UNION"):
-        # [set] Union of CSV 1 and CSV 2
-        union_result = occurrence(union(list_1, list_2))
-        dict_save = union_result
+    # Load internal functions first (set & occ) and search the verbs
+    operations = get_set_actions() + get_occurrencies_actions()
+    for operation in operations:
+        # operation == [ name/action, lambda l1, l2 : Logic(l1, l2) ]
+        verb = operation[0]
+        #function = operation[1] ### Contains a lambda
+        if (action == verb):
+            res = operation[1](list_1, list_2)
+            out_dict = occurrence(res)
+            return (out_dict)
 
-    if (action == "INTERSECTION"):
-        # [set] Intersection of CSV 1 and CSV 2
-        intersection_result = occurrence(inter(list_1, list_2))
-        dict_save = intersection_result
+    # Load plugins functions if action is not found in the integrated ones
+    new_operations = get_plugins_actions(MyPluginsImporter)
+    for operation in new_operations:
+        verb = operation[0]
+        #function = operation[1] ### Contains a lambda
+        if (action == verb):
+            res = operation[1](list_1, list_2)
+            out_dict = occurrence(res)
+            return (out_dict)
 
-    if (action == "INV_INTERSECTION"):
-        # [set] Inverse of intersection of CSV 1 and CSV 2
-        inv_intersection_result = occurrence(inter(list_1, list_2))
-        dict_save = inv_intersection_result
+    print("!!! ERROR: ACTION NOT FOUND !!!")
 
-    if (action == "UNIQUE_SET_CSV_1"):
-        # [set] Unique value from CSV 1 (remove values from CSV 2)
-        unique_set_1_result = occurrence(unique_without_occurrence(list_1, list_2, 1))
-        dict_save = unique_set_1_result
+    sys.exit(-2)
 
-    if (action == "UNIQUE_SET_CSV_2"):
-        # [set] Unique value from CSV 2 (remove values from CSV 1)
-        unique_set_2_result = occurrence(unique_without_occurrence(list_1, list_2, 2))
-        dict_save = unique_set_2_result
+### USAGE PRINTERS ###
 
-    if (action == "UNION_DISJOINT"):
-        # Union, but counts only one time the common elements
-        union_disjoint_result = occurrence(disjoint_union(list_1, list_2))
-        dict_save = union_disjoint_result
+def print_usage(MyPluginsImporter):
+    print_basic_usage()
+    print("")
+    print_set_usage()
+    print("")
+    print_occurrencies_usage()
+    if (MyPluginsImporter.GetNbClasses() > 0):
+        print("")
+        print_plugins_usage(MyPluginsImporter)
 
-    if (action == "UNIQUE_CSV_1"):
-        # Elements unique to CSV 1 (remove the occurrencies of CSV 2)
-        unique_1_result = occurrence(unique(list_1, list_2, 1))
-        dict_save = unique_1_result
-
-    if (action == "UNIQUE_CSV_2"):
-        # Elements unique to CSV 2 (remove the occurrencies of CSV 1)
-        unique_2_result = occurrence(unique(list_1, list_2, 2))
-        dict_save = unique_2_result
-
-    return (dict_save)
-
-def print_usage():
+def print_basic_usage():
     print("Usage: python CLI.py " \
           "<file_path_1> <separator1> <column_of_ID_1> " \
           "<file_path_2> <separator2> <column_of_ID_2> " \
@@ -86,33 +84,72 @@ def print_usage():
     print("or write in the designated file (created if it does not exist)")
     print("")
     print("-- Actions --")
-    print("")
-    print(" [set] : operation working on sets (occurrencies not used)")
-    print("")
     print("CSV_1 : ")
     print("   Print only 1st CSV")
     print("CSV_2 : ")
     print("   Print only 2nd CSV")
-    print("UNION : [set]")
-    print("   Print all of the elements of the two CSV")
-    print("INTERSECTION : [set]")
-    print("   Print only the common elements of the two CSV")
-    print("INV_INTERSECTION : [set]")
-    print("   Print the inverse of the intersection (union - intersection)")
-    print("UNIQUE_SET_CSV_1 : [set]")
-    print("   Print elements unique to 1st CSV")
-    print("UNIQUE_SET_CSV_2 : [set]")
-    print("   Print elements unique to 2nd CSV")
-    print("UNION_DISJOINT :")
-    print("   Print union of the two CSV (add occurrencies)")
-    print("UNIQUE_CSV_1 :")
-    print("   Print elements unique to 1st CSV (delete occurrencies from the 2nd CSV)")
-    print("UNIQUE_CSV_2 :")
-    print("   Print elements unique to 2nd CSV (delete occurrencies from the 1st CSV)")
+
+def print_set_usage():
+    print("-- Actions Set --")
+    print(" [set] : operation working on sets (occurrencies not used)")
+    for cls in ListSetOperators():
+        name_str = str(cls.GetName(cls))
+        help_str = str(cls.GetHelp(cls))
+        print(name_str[0:32] + " : [set]")
+        print("   " + help_str[0:256])
+
+def print_occurrencies_usage():
+    print("-- Actions Occurrencies/Categories --")
+    for cls in ListOccurrenciesOperators():
+        name_str = str(cls.GetName(cls))
+        help_str = str(cls.GetHelp(cls))
+        print(name_str[0:32] + " :")
+        print("   " + help_str[0:256])
+
+def print_plugins_usage(MyPluginsImporter):
+    print("-- Actions Plugins --")
+    for cls in MyPluginsImporter.GetClasses():
+        name_str = str(cls.GetName(cls))
+        help_str = str(cls.GetHelp(cls))
+        print(name_str[0:32] + " :")
+        print("   " + help_str[0:256])
+
+### LOADS ACTIONS FROM DIFFERENT FILES ###
+
+def get_set_actions():
+    set_actions = []
+    for cls in ListSetOperators():
+        name_str = str(cls.GetName(cls))
+        #function = lambda l1, l2 : cls.Logic(cls, l1, l2)
+        set_actions.append([name_str[0:32], lambda l1, l2 : cls.Logic(cls, l1, l2)])
+    return (set_actions)
+
+def get_occurrencies_actions():
+    occ_actions = []
+    for cls in ListOccurrenciesOperators():
+        name_str = str(cls.GetName(cls))
+        #function = lambda l1, l2 : cls.Logic(cls, l1, l2)
+        occ_actions.append([name_str[0:32], lambda l1, l2 : cls.Logic(cls, l1, l2)])
+    return (occ_actions)
+
+def get_plugins_actions(MyPluginsImporter):
+    plugins_actions = []
+    for cls in MyPluginsImporter.GetClasses():
+        name_str = str(cls.GetName(cls))
+        #function = lambda l1, l2 : cls.Logic(cls, l1, l2)
+        plugins_actions.append([name_str[0:32], lambda l1, l2 : cls.Logic(cls, l1, l2)])
+    return (plugins_actions)
+
+### MAIN ###
 
 def main():
+    # Load the plugins
+    MyPluginsImporter = PluginsImporter()
+    nb_plugins_classes = MyPluginsImporter.LoadPlugins()
+
+    # Test if enough parameters were given
     if ((len(sys.argv) < 9) or ((len(sys.argv) > 10))) :
-        print_usage()
+        print_usage(MyPluginsImporter)
         sys.exit(-1)
 
     # Arguments assignation
@@ -132,7 +169,7 @@ def main():
     list_csv_2 = load_csv(file_path_2, sep2, id_col2)
 
     # Executing the asked action
-    output_list = execute_action(list_csv_1, list_csv_2, action)
+    output_list = execute_action(list_csv_1, list_csv_2, action, MyPluginsImporter)
 
     # Write out the results
     if (len(sys.argv) == 10):
