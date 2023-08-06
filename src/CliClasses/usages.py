@@ -6,6 +6,7 @@ from plugins_loader import PluginsImporter
 # Logic operators
 from basic_set_operators import ListSetOperators
 from basic_occurrencies_operators import ListOccurrenciesOperators
+from basic_various_operators import ListVariousOperators
 
 
 ### USAGE PRINTERS ###
@@ -14,6 +15,8 @@ def print_usage(MyPluginsImporter):
     print_basic_usage()
     print("")
     print_set_usage()
+    print("")
+    print_various_usage()
     print("")
     print_occurrencies_usage()
     if (MyPluginsImporter.GetNbClasses() > 0):
@@ -49,6 +52,14 @@ def print_set_usage():
 def print_occurrencies_usage():
     print("-- Actions Occurrencies/Categories --")
     for cls in ListOccurrenciesOperators():
+        name_str = str(cls.GetName(cls))
+        help_str = str(cls.GetHelp(cls))
+        print(name_str[0:32] + " :")
+        print("   " + help_str[0:256])
+
+def print_various_usage():
+    print("-- Actions Various --")
+    for cls in ListVariousOperators():
         name_str = str(cls.GetName(cls))
         help_str = str(cls.GetHelp(cls))
         print(name_str[0:32] + " :")
