@@ -3,7 +3,7 @@ from PluginLogic import PluginLogic
 # You can rename the class, but keep its name exactly like the file one
 class example_logic(PluginLogic):
     # Name for calling this plugin
-    name_str = "NEW_PLUGIN"
+    name_str = "TEST_PLUGIN"
 
     # Text printed when calling the script with wrong parameters
     help_str = "This is an example plugin that copy the 1st element of each " \
