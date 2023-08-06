@@ -21,8 +21,8 @@ from GuiClasses import Globals
 
 def main():
     # Load the plugins
-    MyPluginsImporter = PluginsImporter()
-    nb_plugins_classes = MyPluginsImporter.LoadPlugins()
+    Globals.MyPluginsImporter = PluginsImporter()
+    nb_plugins_classes = Globals.MyPluginsImporter.LoadPlugins()
 
     # Initialize 2 empty CSV (global var)
     # (done by the initial files)
