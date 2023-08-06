@@ -3,6 +3,10 @@ import sys
 # Plugin loader
 from plugins_loader import PluginsImporter
 
+# Logic operators
+from basic_set_operators import ListSetOperators
+from basic_occurrencies_operators import ListOccurrenciesOperators
+
 
 ### USAGE PRINTERS ###
 
