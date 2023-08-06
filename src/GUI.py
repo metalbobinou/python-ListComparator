@@ -59,7 +59,7 @@ def main():
         # else :
         else :
             # Open WindowActions   (300x250+650+50)
-            ActionsWindow = WindowActions.WindowActions("300x350+650+50")
+            ActionsWindow = WindowActions.WindowActions("450x450+650+50")
             ActionsWindow.SetTitle("CSV List Comparator")
 
             #   Open 2 WindowList with their CSV content (global var)
