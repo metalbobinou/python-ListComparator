@@ -11,16 +11,10 @@ from GuiClasses import WindowList
 # Plugin loader
 from plugins_loader import PluginsImporter
 
-# Logic operations
-from logic_processing import union
-from logic_processing import inter
-from logic_processing import unique
-from logic_processing import inv_inter
-from logic_processing import disjoint_union
-from logic_processing import unique_without_occurrence
 # Logic operators
 from basic_set_operators import ListSetOperators
 from basic_occurrencies_operators import ListOccurrenciesOperators
+from basic_various_operators import ListVariousOperators
 
 # Globals required for the GUI
 from GuiClasses import Globals
@@ -135,9 +129,17 @@ class WindowActions:
             self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
 
         self.AddSeparator()
-        self.AddLabel("Sets")
+        self.AddLabel("Sets (no occurrencies)")
 
         for cls in ListSetOperators():
+            button_str = str(cls.GetButton(cls))
+            name_str = str(cls.GetName(cls))
+            self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
+
+        self.AddSeparator()
+        self.AddLabel("Various")
+
+        for cls in ListVariousOperators():
             button_str = str(cls.GetButton(cls))
             name_str = str(cls.GetName(cls))
             self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
@@ -150,20 +152,6 @@ class WindowActions:
             name_str = str(cls.GetName(cls))
             self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
 
-        ### OLD METHOD OF INVOKING METHODS
-        self.AddSeparator()
-        self.AddLabel("OLD")
-
-        self.AddButton("Intersection des 2 csv", inter_window)
-        self.AddButton("Union des 2 csv", union_window)
-        self.AddButton("Union Disjointe des 2 csv", disjoint_union_window)
-
-        self.AddButton("Valeurs propre au premier csv", unique_1_window)
-        self.AddButton("Valeurs propre au deuxième csv", unique_2_window)
-        self.AddButton("Valeurs propre au premier csv (occurrence)", unique_1_occu_window)
-        self.AddButton("Valeurs propre au deuxième csv (occurrence)", unique_2_occu_window)
-
-        self.AddButton("Inverse intersection des 2 csv", inv_inter_window)
 
     ## Add a button in the frame
     def AddButton(self, Text, Command):
@@ -219,7 +207,7 @@ def CallBackAction(action):
     CloseOutWindow()
 
     # Put Occurrencies and Set in the list of operators
-    operators = ListOccurrenciesOperators() + ListSetOperators()
+    operators = ListOccurrenciesOperators() + ListSetOperators() + ListVariousOperators()
     # Add plugins in the list of operators
     operators = operators + Globals.MyPluginsImporter.GetClasses()
 
@@ -257,130 +245,3 @@ def insert_data(data, dictio):
     for valeur, compte in dictio.items():
         texte = f"{valeur} : {compte} occurrence(s)"
         data.insert(0, texte)
-
-
-
-
-
-
-
-
-
-def inter_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = inter(Globals.gui_liste[0],
-                                 Globals.gui_liste[1])
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Intersection des BN_ID des deux CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def union_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = union(Globals.gui_liste[0],
-                                 Globals.gui_liste[1])
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def unique_1_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = unique_without_occurrence(Globals.gui_liste[0],
-                                                     Globals.gui_liste[1], 1)
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def unique_2_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = unique_without_occurrence(Globals.gui_liste[0],
-                                                     Globals.gui_liste[1], 2)
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def unique_1_occu_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = unique(Globals.gui_liste[0],
-                                  Globals.gui_liste[1], 1)
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au premier CSV (occurrence)")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def unique_2_occu_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = unique(Globals.gui_liste[0],
-                                  Globals.gui_liste[1], 2)
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Valeur propre au deuxième CSV (occurrence)")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def inv_inter_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = inv_inter(Globals.gui_liste[0],
-                                     Globals.gui_liste[1])
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Inverse de l'intersection des BN_ID des deux CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def disjoint_union_window():
-    global gui_windows, gui_liste
-
-    CheckWindows3(GlobalWindows.gui_windows[3])
-
-    Globals.gui_liste[2] = disjoint_union(Globals.gui_liste[0],
-                                          Globals.gui_liste[1])
-
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Union Disjointe des BN_ID des deux CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
