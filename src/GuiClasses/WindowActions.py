@@ -48,6 +48,8 @@ class WindowActions:
     Scrollbar_Y = None
     # Buttons for launching actions (set operations)
     Buttons = []
+    # Labels
+    Labels = []
     # Separators
     Separators = []
     # ListBox with the data
@@ -126,9 +128,15 @@ class WindowActions:
         ## [Currently hardcoded]
         ## TODO : loading as much buttons as there are operations in the operations file
 
+        self.AddSeparator()
+        self.AddLabel("Occurrencies/Categories")
+
         self.AddButton("Intersection des 2 csv", inter_window)
         self.AddButton("Union des 2 csv", union_window)
         self.AddButton("Union Disjointe des 2 csv", disjoint_union_window)
+
+        self.AddSeparator()
+        self.AddLabel("Sets")
 
         self.AddButton("Valeurs propre au premier csv", unique_1_window)
         self.AddButton("Valeurs propre au deuxième csv", unique_2_window)
@@ -137,6 +145,11 @@ class WindowActions:
 
         self.AddButton("Inverse intersection des 2 csv", inv_inter_window)
 
+        self.AddSeparator()
+        self.AddLabel("Plugins")
+
+        self.AddButton("Plugin", inv_inter_window)
+
 
     ## Add a button in the frame
     def AddButton(self, Text, Command):
@@ -144,6 +157,12 @@ class WindowActions:
                                       text=Text,
                                       command=Command))
         self.Buttons[-1].pack()
+
+    ## Add a label in the frame
+    def AddLabel(self, Text):
+        self.Labels.append(tk.ttk.Label(self.Frame,
+                                        text=Text))
+        self.Labels[-1].pack(fill=tk.X)
 
     ## Add a separator in the frame
     def AddSeparator(self):

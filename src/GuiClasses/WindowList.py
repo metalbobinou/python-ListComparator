@@ -47,8 +47,8 @@ class WindowList:
     SortState = None
 
     ### GUI
-    # Canvas getting the whole window
-    MainCanvas = None
+    # Main window getting everything
+    Root = None
     # Specifications of the window
     Geometry = "0"
     Title = "List Window"
@@ -72,7 +72,7 @@ class WindowList:
 
     # def WindowListGenerator(self):
     def __init__(self, globallistnum, geometry):
-        self.MainCanvas = tk.Tk()
+        self.Root = tk.Tk()
         self.SetGeometry(geometry)
         self.GlobalListNumber = globallistnum
         self.State = WindowListState.TERMS
@@ -80,7 +80,7 @@ class WindowList:
 
         ### Load / Save
         # Frame for Load and Save
-        self.FrameLoadSave = ttk.Frame(self.MainCanvas)
+        self.FrameLoadSave = ttk.Frame(self.Root)
         self.FrameLoadSave.pack(side=tk.TOP,
                                 fill=tk.X,
                                 expand=tk.YES,
@@ -106,7 +106,7 @@ class WindowList:
 
         ### Format Terms/Occurrencies
         # Frame for two modes
-        self.FrameFormatList = ttk.Frame(self.MainCanvas)
+        self.FrameFormatList = ttk.Frame(self.Root)
         self.FrameFormatList.pack(side=tk.TOP,
                                   fill=tk.X,
                                   expand=tk.YES,
@@ -132,7 +132,7 @@ class WindowList:
 
         ### Sorts buttons
         # Frame for sorting by alphabetical and numerical orders
-        self.FrameSorts = ttk.Frame(self.MainCanvas)
+        self.FrameSorts = ttk.Frame(self.Root)
         self.FrameSorts.pack(side=tk.TOP,
                              fill=tk.X,
                              expand=tk.YES,
@@ -160,7 +160,7 @@ class WindowList:
 
         ### ListBox containing the list of terms
         # Frame for containing the list
-        self.FrameListBox = ttk.Frame(self.MainCanvas)
+        self.FrameListBox = ttk.Frame(self.Root)
         self.FrameListBox.pack(fill=tk.BOTH,
                                expand=True)
         # Scrollbar for the list
@@ -257,11 +257,11 @@ class WindowList:
             # Occurrencies mode
             if (self.SortState != WindowListSortState.SORTED_0to9):
                 # If the list is not sorted numerically...
-                sorted_items = sorted(dico.items(), key=lambda x:x[1], reverse=False)
+                sorted_items = sorted(dico.items(), key=lambda x : x[1], reverse=False)
                 self.SortState = WindowListSortState.SORTED_0to9
             else:
                 # Else, let's revert the sort
-                sorted_items = sorted(dico.items(), key=lambda x:x[1], reverse=True)
+                sorted_items = sorted(dico.items(), key=lambda x : x[1], reverse=True)
                 self.SortState = WindowListSortState.SORTED_9to0
             self.InsertDictInListBox(dict(sorted_items))
         else:
@@ -292,11 +292,11 @@ class WindowList:
 
     def SetTitle(self, title):
         self.Title = title
-        self.MainCanvas.title(title)
+        self.Root.title(title)
 
     def SetGeometry(self, geometry):
         self.Geometry = geometry
-        self.MainCanvas.geometry(geometry)
+        self.Root.geometry(geometry)
 
     def GetGeometry(self):
         return (self.Geometry)
@@ -306,11 +306,11 @@ class WindowList:
 
     # Hide the window
     def CallWithdraw(self):
-        self.MainCanvas.withdraw()
+        self.Root.withdraw()
 
     # Destroy the window
     def CallDestroy(self):
-        self.MainCanvas.destroy()
+        self.Root.destroy()
 
 
 

@@ -19,8 +19,8 @@ from GuiClasses import Globals
 class WindowStart:
     Geometry = "0"
     Title = "List Window"
-    # Canvas getting the whole window
-    MainCanvas = None
+    # Main window getting everything
+    Root = None
     # 1st Frame for CSV 1
     FrameCSV1 = None
     # 2nd Frame for CSV 2
@@ -30,23 +30,23 @@ class WindowStart:
     LaunchButton = None
 
     def __init__(self, geometry):
-        self.MainCanvas = tk.Tk()
+        self.Root = tk.Tk()
         self.SetGeometry(geometry)
 
         # If user close the window, kill everything
-        self.MainCanvas.protocol("WM_DELETE_WINDOW",
-                                 lambda: on_closing(self))
+        self.Root.protocol("WM_DELETE_WINDOW",
+                           lambda: on_closing(self))
 
         # Add the CSV 1 frame
-        self.FrameCSV1 = FrameCSVLoader.FrameCSVLoader(self.MainCanvas)
+        self.FrameCSV1 = FrameCSVLoader.FrameCSVLoader(self.Root)
         self.FrameCSV1.PackLeft()
 
         # Add the CSV 2 frame
-        self.FrameCSV2 = FrameCSVLoader.FrameCSVLoader(self.MainCanvas)
+        self.FrameCSV2 = FrameCSVLoader.FrameCSVLoader(self.Root)
         self.FrameCSV2.PackRight()
 
         # Add the launch button
-        self.FrameButton = tk.Frame(self.MainCanvas)
+        self.FrameButton = tk.Frame(self.Root)
         self.PutLaunchButton()
         self.FrameButton.pack(side=tk.BOTTOM,
                               fill=tk.BOTH)
@@ -61,11 +61,11 @@ class WindowStart:
 
     def SetTitle(self, title):
         self.Title = title
-        self.MainCanvas.title(title)
+        self.Root.title(title)
 
     def SetGeometry(self, geometry):
         self.Geometry = geometry
-        self.MainCanvas.geometry(geometry)
+        self.Root.geometry(geometry)
 
     def GetTitle(self):
         return (self.Title)
@@ -83,19 +83,19 @@ class WindowStart:
             return (None)
 
     def CallMainloop(self):
-        self.MainCanvas.mainloop()
+        self.Root.mainloop()
 
     def CallWithdraw(self):
-        self.MainCanvas.withdraw()
+        self.Root.withdraw()
 
     # Quit the "mainloop" and return
     def CallQuit(self):
-        self.MainCanvas.withdraw()
-        self.MainCanvas.quit()
+        self.Root.withdraw()
+        self.Root.quit()
 
     # Kill the "mainloop" completely/Exit program
     def CallDestroy(self):
-        self.MainCanvas.destroy()
+        self.Root.destroy()
 
 
 def Launch_WindowListActions(TheStartWindow):
