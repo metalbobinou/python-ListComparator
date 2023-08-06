@@ -6,12 +6,6 @@ The window is lost and an error is throw... (in Cygwin)
 
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
 A5) WindowList : Ajouter un module de statistiques graphiques... un menu déroulant avec plusieurs affichages graphiques (camembert, barres, ...) et un bouton qui affiche une nouvelle fenêtre avec le graphique (et les infos desssu) et cette fenêtre permet de sauvegarder le graphique dans un fichier externe au format PNG
-A6) WindowAction : Tester plusieurs propriétés sur les listes (Liste 1 est inclue dans Liste 2, ...)
-A7) Séparer les opérations "catégories" des opérations "ensembles" dans des fichiers distincts
-A7bits) Recoder les opérations ensemblistes avec de vrais __sets__ python
-A8) Transformer les quelques fonctions (unique* ?) avec 3 paramètres en fonctions purement à 2 paramètres (l'ordre des paramètres sera important)
-A9) Ecrire un chargeur "à chaud" de fonctions pour les actions : faire une classe mère qui contiendra un nom de bouton (string), une description pour l'aide (string), et une fonction prenant 2 listes en paramètres et effectuant une opération dessus (liste), [éventuellement un attribut vrai/faux disant si la fonction travaille en mode ensembliste ?]
-A10) Séparer les fonctions ensemblistes des fonctions non ensemblistes pour renvoyer un CSV sans les occurrences ?
 
 * Heavy Features:
 
@@ -28,6 +22,12 @@ T1) Check "Théorie des Catégories"/Category Theory instead of "Théorie des En
 A1) WindowList : trier par ordre alphabétique (et inverse), trier par quantite d'occurrences (et inverse)
 A2) WindowStart : mettre à gauche la FrameCSVLoad de la liste 1, à droite la FrameCSVLoad de la liste 2, et en dessous au centre, un GROS bouton "Launch" immanquable
 A4) WindowAction : un bouton qui n'affiche que la liste d'input 1 en sortie, un bouton qui n'affiche que la liste d'input 2 en sortie
+A6) WindowAction : Tester plusieurs propriétés sur les listes (Liste 1 est inclue dans Liste 2, ...)
+A7) Séparer les opérations "catégories" des opérations "ensembles" dans des fichiers distincts
+A7bits) Recoder les opérations ensemblistes avec de vrais __sets__ python
+A8) Transformer les quelques fonctions (unique* ?) avec 3 paramètres en fonctions purement à 2 paramètres (l'ordre des paramètres sera important)
+A9) Ecrire un chargeur "à chaud" de fonctions pour les actions : faire une classe mère qui contiendra un nom de bouton (string), une description pour l'aide (string), et une fonction prenant 2 listes en paramètres et effectuant une opération dessus (liste), [éventuellement un attribut vrai/faux disant si la fonction travaille en mode ensembliste ?]
+A10) Séparer les fonctions ensemblistes des fonctions non ensemblistes pour renvoyer un CSV sans les occurrences ?
 
 F1) WindowList : si fenêtre d'Input, alors la mettre automatiquement en mode "Liste" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
 F2) WindowList : si fenêtre d'output, alors la mettre automatiquement en mode "occurrences" => implémenter un vrai contexte et pas juste le bon appel de fonction ?
