@@ -1,5 +1,6 @@
 # Tkinter GUI
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 
 # Windows for input lists
@@ -33,30 +34,97 @@ def insert_data(data, dictio):
 class WindowActions:
     Geometry = "0"
     Title = "CSV List Comparator"
-    # Canvas getting the whole window
-    MainCanvas = None
+    # Root Window
+    Root = None
+    # Canvas getting the Frame & Internal Canvas
+    Canvas = None
+    # Frame for putting scrollbars
+    FrameMain = None
+    FrameScrollbar = None
+    # Frame for buttons and others
+    Frame = None
+    # Scrollbars
+    Scrollbar_X = None
+    Scrollbar_Y = None
     # Buttons for launching actions (set operations)
     Buttons = []
     # Separators
     Separators = []
-    # Frame for putting scrollbar and list inside
-    Frame = None
-    # Right scrollbar
-    Scrollbar = None
     # ListBox with the data
-    ListBox = None
+    #ListBox = None
 
     # Output WindowList that can be destroy as wished
     OutWindow = None
 
     def __init__(self, geometry):
-        self.MainCanvas = tk.Tk()
+        self.Root = tk.Tk()
 
+        self.SetTitle("Actions")
         self.SetGeometry(geometry)
 
-        # Loading buttons
-        # [Currently hardcoded]
-        # TODO : loading as much buttons as there are operations in the operations file
+        ## Frame Main [in root]
+        self.FrameMain = ttk.Frame(self.Root)
+        self.FrameMain.pack(fill=tk.BOTH,
+                            expand=True)
+        ## Frame for the scrollbar [in FrameMain]
+        self.FrameScrollbar = ttk.Frame(self.FrameMain)
+        self.FrameScrollbar.pack(side=tk.BOTTOM,
+                                 fill=tk.X)
+        ## Canvas [in FrameMain]
+        self.Canvas = tk.Canvas(self.FrameMain)
+        self.Canvas.pack(side=tk.LEFT,
+                         fill=tk.BOTH,
+                         expand=True)
+
+        ## Scrollbar in the Canvas [in FrameScrollbar and FrameMain]
+        #self.Scrollbar_X = ttk.Scrollbar(self.FrameScrollbar,
+        #                                 orient=tk.HORIZONTAL,
+        #                                 command=self.Canvas.xview)
+        #self.Scrollbar_X.pack(side=tk.BOTTOM,
+        #                      fill=tk.X)
+        self.Scrollbar_Y = ttk.Scrollbar(self.FrameMain,
+                                         orient=tk.VERTICAL,
+                                         command=self.Canvas.yview)
+        self.Scrollbar_Y.pack(side=tk.RIGHT,
+                              fill=tk.Y)
+
+        ## Configure the Canvas
+        #self.Canvas.configure(xscrollcommand=self.Scrollbar_X.set)
+        self.Canvas.configure(yscrollcommand=self.Scrollbar_Y.set)
+        self.Canvas.bind("<Configure>",
+                         lambda e : self.Canvas.config(scrollregion=self.Canvas.bbox(tk.ALL)))
+
+        ## Frame internal (that will contain buttons) [in Canvas]
+        self.Frame = ttk.Frame(self.Canvas)
+        ## add a window to that frame in the canvas
+        self.Canvas.create_window((0,0),
+                                  window=self.Frame,
+                                  anchor="nw")
+
+        ######################################
+        ### Put the separators and buttons ###
+        ######################################
+        self.__PutSeparatorsAndButtons()
+        ######################################
+
+        ## Separator
+        self.AddSeparator()
+
+        ## Exit button
+        self.Buttons.append(tk.Button(self.Frame,
+                                      text="Quit",
+                                      command=lambda: on_closing(self)))
+        self.Buttons[-1].pack()
+        ## Catch the exit signal on the window ('X' in right corner)
+        self.Root.protocol("WM_DELETE_WINDOW",
+                           lambda: on_closing(self))
+
+
+    ## Put the separators and buttons
+    def __PutSeparatorsAndButtons(self):
+        ## Loading buttons [in Frame]
+        ## [Currently hardcoded]
+        ## TODO : loading as much buttons as there are operations in the operations file
 
         self.AddButton("Intersection des 2 csv", inter_window)
         self.AddButton("Union des 2 csv", union_window)
@@ -69,33 +137,28 @@ class WindowActions:
 
         self.AddButton("Inverse intersection des 2 csv", inv_inter_window)
 
-        # Separate
-        self.Separators.append(tk.ttk.Separator(self.MainCanvas,
-                                                orient='horizontal'))
-        self.Separators[-1].pack(fill='x')
 
-        # Add Exit button
-        self.Buttons.append(tk.Button(self.MainCanvas,
-                                      text="Quit",
-                                      command=lambda: on_closing(self)))
-        self.Buttons[-1].pack()
-        # Catch the exit signal on the window ('X' in right corner)
-        self.MainCanvas.protocol("WM_DELETE_WINDOW",
-                                 lambda: on_closing(self))
-
+    ## Add a button in the frame
     def AddButton(self, Text, Command):
-        self.Buttons.append(tk.Button(self.MainCanvas,
+        self.Buttons.append(tk.Button(self.Frame,
                                       text=Text,
                                       command=Command))
         self.Buttons[-1].pack()
 
+    ## Add a separator in the frame
+    def AddSeparator(self):
+        self.Separators.append(tk.ttk.Separator(self.Frame,
+                                                orient=tk.HORIZONTAL))
+        self.Separators[-1].pack(fill=tk.X)
+
+    ## Regular Setters and Getters
     def SetTitle(self, title):
         self.Title = title
-        self.MainCanvas.title(title)
+        self.Root.title(title)
 
     def SetGeometry(self, geometry):
         self.Geometry = geometry
-        self.MainCanvas.geometry(geometry)
+        self.Root.geometry(geometry)
 
     def GetGeometry(self):
         return (self.Geometry)
@@ -103,14 +166,15 @@ class WindowActions:
     def GetTitle(self):
         return (self.Title)
 
+    ## Window loop and destroyers
     def CallMainloop(self):
-        self.MainCanvas.mainloop()
+        self.Root.mainloop()
 
     def CallWithdraw(self):
-        self.MainCanvas.withdraw()
+        self.Root.withdraw()
 
     def CallDestroy(self):
-        self.MainCanvas.destroy()
+        self.Root.destroy()
 
 
 def inter_window():
