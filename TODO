@@ -6,6 +6,7 @@ The window is lost and an error is throw... (in Cygwin)
 
 A3) WindowList : un bouton pour tout passer en majuscules/minuscules afin de fusionner les occurrences (sans modifier les CSV d'origines)
 A5) WindowList : Ajouter un module de statistiques graphiques... un menu déroulant avec plusieurs affichages graphiques (camembert, barres, ...) et un bouton qui affiche une nouvelle fenêtre avec le graphique (et les infos desssu) et cette fenêtre permet de sauvegarder le graphique dans un fichier externe au format PNG
+A11) CLI/GUI : columns in CLI begin at 0... but in GUI columns begin at 1... => standardize the numbers
 
 * Heavy Features:
 
