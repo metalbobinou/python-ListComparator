@@ -3,9 +3,11 @@ from PluginLogic import PluginLogic
 # Vector of classes containing the function and its descriptors/infos
 def ListOccurrenciesOperators():
     OccOperations = []
+
     OccOperations.append(DisjointUnion)
     OccOperations.append(Unique_1_Occ)
     OccOperations.append(Unique_2_Occ)
+
     return (OccOperations)
 
 # -- CATEGORIES / OCCURRENCIES OPERATIONS --
