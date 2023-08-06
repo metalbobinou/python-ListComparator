@@ -6,6 +6,9 @@ from tkinter import messagebox
 # Windows for input lists
 from GuiClasses import WindowList
 
+# Plugin loader
+from plugins_loader import PluginsImporter
+
 # Logic operations
 from logic_processing import union
 from logic_processing import inter
@@ -13,6 +16,11 @@ from logic_processing import unique
 from logic_processing import inv_inter
 from logic_processing import disjoint_union
 from logic_processing import unique_without_occurrence
+# Logic operators
+from basic_set_operators import ListSetOperators
+from basic_occurrencies_operators import ListOccurrenciesOperators
+
+import functools
 
 # Globals required for the GUI
 from GuiClasses import Globals
@@ -131,12 +139,34 @@ class WindowActions:
         self.AddSeparator()
         self.AddLabel("Occurrencies/Categories")
 
-        self.AddButton("Intersection des 2 csv", inter_window)
-        self.AddButton("Union des 2 csv", union_window)
-        self.AddButton("Union Disjointe des 2 csv", disjoint_union_window)
+        for cls in ListOccurrenciesOperators():
+            button_str = str(cls.GetButton(cls))
+            name_str = str(cls.GetName(cls))
+            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
 
         self.AddSeparator()
         self.AddLabel("Sets")
+
+        for cls in ListSetOperators():
+            button_str = str(cls.GetButton(cls))
+            name_str = str(cls.GetName(cls))
+            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
+
+        self.AddSeparator()
+        self.AddLabel("Plugins")
+
+        for cls in Globals.MyPluginsImporter.GetClasses():
+            button_str = str(cls.GetButton(cls))
+            name_str = str(cls.GetName(cls))
+            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
+
+        ### OLD METHOD OF INVOKING METHODS
+        self.AddSeparator()
+        self.AddLabel("OLD")
+
+        self.AddButton("Intersection des 2 csv", inter_window)
+        self.AddButton("Union des 2 csv", union_window)
+        self.AddButton("Union Disjointe des 2 csv", disjoint_union_window)
 
         self.AddButton("Valeurs propre au premier csv", unique_1_window)
         self.AddButton("Valeurs propre au deuxième csv", unique_2_window)
@@ -144,12 +174,6 @@ class WindowActions:
         self.AddButton("Valeurs propre au deuxième csv (occurrence)", unique_2_occu_window)
 
         self.AddButton("Inverse intersection des 2 csv", inv_inter_window)
-
-        self.AddSeparator()
-        self.AddLabel("Plugins")
-
-        self.AddButton("Plugin", inv_inter_window)
-
 
     ## Add a button in the frame
     def AddButton(self, Text, Command):
@@ -195,6 +219,29 @@ class WindowActions:
     def CallDestroy(self):
         self.Root.destroy()
 
+
+## Callback for when an action button is clicked
+def CallBackAction(action):
+    CheckWindows3(GlobalWindows.gui_windows[3])
+
+    # Put Occurrencies and Set in the list of operators
+    operators = ListOccurrenciesOperators() + ListSetOperators()
+    # Add plugins in the list of operators
+    operators = operators + Globals.MyPluginsImporter.GetClasses()
+
+    for cls in operators:
+        verb = str(cls.GetName(cls))
+        if (action == verb):
+            res = cls.Logic(cls, Globals.gui_liste[0], Globals.gui_liste[1])
+            break
+
+    Globals.gui_liste[2] = res
+
+    # Crée un canevas pour afficher les résultats
+    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
+                                                         "300x400+650+375")
+    GlobalWindows.gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
+    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
 
 def inter_window():
     global gui_windows, gui_liste
