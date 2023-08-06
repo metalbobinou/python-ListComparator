@@ -1,3 +1,5 @@
+import sys
+
 # Tkinter GUI
 import tkinter as tk
 from tkinter import ttk
@@ -24,16 +26,6 @@ from basic_occurrencies_operators import ListOccurrenciesOperators
 from GuiClasses import Globals
 # gui_liste :  [0]:Input List 1  [1]:Input List 2  [2]:Output List
 # gui_liste = [None, None, None]
-
-from GuiClasses import GlobalWindows
-# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
-# gui_windows = [None, None, None, None]
-
-# Insert data in a dictionnary
-def insert_data(data, dictio):
-    for valeur, compte in dictio.items():
-        texte = f"{valeur} : {compte} occurrence(s)"
-        data.insert(0, texte)
 
 
 # Class for proposing as much buttons as available operations on sets
@@ -140,7 +132,7 @@ class WindowActions:
         for cls in ListOccurrenciesOperators():
             button_str = str(cls.GetButton(cls))
             name_str = str(cls.GetName(cls))
-            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
+            self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
 
         self.AddSeparator()
         self.AddLabel("Sets")
@@ -148,7 +140,7 @@ class WindowActions:
         for cls in ListSetOperators():
             button_str = str(cls.GetButton(cls))
             name_str = str(cls.GetName(cls))
-            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
+            self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
 
         self.AddSeparator()
         self.AddLabel("Plugins")
@@ -156,7 +148,7 @@ class WindowActions:
         for cls in Globals.MyPluginsImporter.GetClasses():
             button_str = str(cls.GetButton(cls))
             name_str = str(cls.GetName(cls))
-            self.AddButton(button_str[0:32], lambda x=name_str : CallBackAction(x))
+            self.AddButton(button_str[0:32], lambda x=name_str[0:32] : CallBackAction(x))
 
         ### OLD METHOD OF INVOKING METHODS
         self.AddSeparator()
@@ -224,7 +216,7 @@ class WindowActions:
 
 ## Callback for when an action button is clicked
 def CallBackAction(action):
-    CheckWindows3(GlobalWindows.gui_windows[3])
+    CloseOutWindow()
 
     # Put Occurrencies and Set in the list of operators
     operators = ListOccurrenciesOperators() + ListSetOperators()
@@ -233,17 +225,46 @@ def CallBackAction(action):
 
     for cls in operators:
         verb = str(cls.GetName(cls))
-        if (action == verb):
+        if (action == verb[0:32]):
             res = cls.Logic(cls, Globals.gui_liste[0], Globals.gui_liste[1])
             break
 
     Globals.gui_liste[2] = res
 
-    # Crée un canevas pour afficher les résultats
-    GlobalWindows.gui_windows[3] = WindowList.WindowList(2,
-                                                         "300x400+650+375")
-    GlobalWindows.gui_windows[3].SetTitle("Union des BN_ID des deux CSV")
-    GlobalWindows.gui_windows[3].SpecializedAsOutputList()
+    # Open a new Window List specialized as OutputList / FrameCSVSaver
+    Globals.gui_out_window = WindowList.WindowList(2,
+                                                   "300x400+650+375")
+    Globals.gui_out_window.SetTitle(action)
+    Globals.gui_out_window.SpecializedAsOutputList()
+
+
+# Procedure for closing the output window (before reopening it)
+def CloseOutWindow():
+    if (not (Globals.gui_out_window is None)):
+        # Globals.gui_out_window.withdraw()
+        Globals.gui_out_window.CallWithdraw()
+        del Globals.gui_out_window
+        Globals.gui_out_window = None
+
+# Callback called when clicking on closing
+def on_closing(TheWindow):
+    if (messagebox.askokcancel("Quit", "Do you want to quit?")):
+        #TheWindow.CallDestroy()
+        sys.exit(0)
+
+# Insert data in a dictionnary
+def insert_data(data, dictio):
+    for valeur, compte in dictio.items():
+        texte = f"{valeur} : {compte} occurrence(s)"
+        data.insert(0, texte)
+
+
+
+
+
+
+
+
 
 def inter_window():
     global gui_windows, gui_liste
@@ -363,18 +384,3 @@ def disjoint_union_window():
                                                          "300x400+650+375")
     GlobalWindows.gui_windows[3].SetTitle("Union Disjointe des BN_ID des deux CSV")
     GlobalWindows.gui_windows[3].SpecializedAsOutputList()
-
-
-def CheckWindows3(Window):
-    global gui_windows
-
-    if Window is not None:
-        # gui_windows[3].withdraw()
-        Window.CallWithdraw()
-        del Window
-        GlobalWindows.gui_windows.append(None)
-
-def on_closing(TheWindow):
-    if (messagebox.askokcancel("Quit", "Do you want to quit?")):
-        #TheWindow.CallDestroy()
-        exit(0)

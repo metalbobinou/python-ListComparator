@@ -16,10 +16,6 @@ from GuiClasses import Globals
 # gui_liste : Input List 1, Input List 2, Output List
 # gui_liste = [None, None, None]
 
-from GuiClasses import GlobalWindows
-# gui_windows : Opening 2 files, Input List 1, Input List 2, Output List
-# gui_windows = [None, None, None, None]
-
 
 # If the list is printed with only names (list), or with occurrencies (dict)
 class WindowListState(Enum):
