@@ -20,8 +20,6 @@ from logic_processing import unique_without_occurrence
 from basic_set_operators import ListSetOperators
 from basic_occurrencies_operators import ListOccurrenciesOperators
 
-import functools
-
 # Globals required for the GUI
 from GuiClasses import Globals
 # gui_liste :  [0]:Input List 1  [1]:Input List 2  [2]:Output List
@@ -180,19 +178,23 @@ class WindowActions:
         self.Buttons.append(tk.Button(self.Frame,
                                       text=Text,
                                       command=Command))
-        self.Buttons[-1].pack()
+        self.Buttons[-1].pack(side=tk.TOP,
+                              fill=tk.X)
 
     ## Add a label in the frame
     def AddLabel(self, Text):
         self.Labels.append(tk.ttk.Label(self.Frame,
                                         text=Text))
-        self.Labels[-1].pack(fill=tk.X)
+        self.Labels[-1].pack(expand=True,
+                             pady=5)
 
     ## Add a separator in the frame
     def AddSeparator(self):
         self.Separators.append(tk.ttk.Separator(self.Frame,
                                                 orient=tk.HORIZONTAL))
-        self.Separators[-1].pack(fill=tk.X)
+        self.Separators[-1].pack(side=tk.TOP,
+                                 fill=tk.X,
+                                 pady=5)
 
     ## Regular Setters and Getters
     def SetTitle(self, title):
