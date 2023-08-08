@@ -11,8 +11,9 @@ change the values (see in the __Plugins__ section later for details).
 
 # Requirements:
 - Python 3+
-- Pandas (CSV Parser)
-- Tkinter (GUI)
+- csv (CSV Parser)
+- Tkinter (GUI) *-- if using the GUI*
+- *[Pandas (CSV Parser)] -- Very Optional*
 
 # How to use:
 
