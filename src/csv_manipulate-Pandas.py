@@ -1,34 +1,36 @@
 import os
 
-# csv module for CSV parsing
-import csv as csv
+# Pandas module for CSV parsing
+import pandas as pd
+
+# csv for Pandas options
+import csv
 
 
 def load_csv(file_path, separator, column):
-    # Open file
-    with open(file_path, newline='') as  csv_file:
-        # Prepare a reader on the opened file
-        csv_reader = csv.reader(csv_file,
-                                delimiter=separator)
-        # Read each line and get the desired column
-        csv_list = []
-        for line in csv_reader:
-            csv_list.append(str(line[column]))
+    csv_reader = pd.read_csv(file_path,
+                             sep=separator,
+                             header=None,
+                             usecols=[column])
+    csv_list = csv_reader[column].tolist()
     return csv_list
 
 
 def save_csv_to_file(dictio, file_path, separator):
+    # Convert the dictionnary into a DataFrame
+    df = pd.DataFrame.from_dict(dictio,
+                                orient='index')
+
     # Delete the CSV file if it already exists
     if os.path.exists(file_path):
         os.remove(file_path)
 
-    with open(file_path, 'w') as csv_file:
-        writer = csv.writer(csv_file,
-                            delimiter=separator,
-                            quoting=csv.QUOTE_NONNUMERIC,
-                            escapechar='')
-        for key, value in dictio.items():
-            writer.writerow([key, value])
+    # Save the DataFrame as a CSV file
+    df.to_csv(file_path,
+              sep=separator,
+              header=False,
+              index=True,
+              quoting=csv.QUOTE_NONNUMERIC)
 
 ### Quoting :
 # csv.QUOTE_ALL         : quotes every field
